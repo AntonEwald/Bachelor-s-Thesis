@@ -3,9 +3,9 @@ title: "Kandidat Skrivandet"
 author: "Anton Holm"
 date: '2020-02-24'
 output:
-  html_document: default
+  pdf_document: default
   word_document: default
-  git_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
