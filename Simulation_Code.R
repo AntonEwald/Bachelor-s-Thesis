@@ -4,6 +4,9 @@
 # Spring, 2020
 #--------------------------------------Code for Simulation-----------------------------------------------------
 
+library(lmec)
+library(tidyverse)
+
 set.seed(19931031)
 
 kovariat <- rep(0:10-mean(0:10), each = 12) #Creates covariates
@@ -15,7 +18,7 @@ slope = c(log(1.01), log(0.05)) # Value of the slope in log-scale for a 1% and 5
 mean = 0 #Error term are log-normal with mean 0, var = sd^2
 i=1 #Index to use for looping over repetition in a certain simulation
 k=1 #Index for different simulations (i.e different limits)
-repititions = 1 #How many reps of each simulation
+repititions = 100 #Number of reps of each simulation
 
 true_coefs_2 <- matrix(nrow=repititions*simulations, ncol=4) #Creates matrices to save value of variables for each method
 tobit_coefs_2 <- matrix(nrow=repititions*simulations, ncol=4)
