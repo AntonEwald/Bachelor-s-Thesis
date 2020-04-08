@@ -1,0 +1,25 @@
+---
+title: "Testing Things"
+author: "Anton Holm"
+date: '2020-04-08'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+df_slope0.01_res0.05 %>% 
+  group_by(Method) %>% 
+  summarise(mean(Beta))
+
+df_slope0.01_res0.05 %>% 
+  ggplot(aes(x=simulation, y=Beta, color=Method)) +
+  geom_line()
+
+df_slope0.01_res0.05 %>% 
+  group_by(Method, `Limit fraction`) %>% 
+  summarise(mean(Intercept))
+```

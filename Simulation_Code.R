@@ -72,7 +72,7 @@ end_time <- Sys.time()
 time_of_loop <- end_time - start_time
 
 #creates a df of all coefficents
-coefs_slope0.01_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
+coefs_slope0.05_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
   as.data.frame() %>%
   select(V1, V2, V5, V6, V9, V10, V11, V12) %>%
   rename('True Intercept' = V1) %>%
@@ -87,17 +87,21 @@ coefs_slope0.01_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>
   mutate('Slope' = slope[1])
 
 
-intercepts_slope0.01_res0.05 <- coefs_slope0.01_res0.05 %>%
+intercepts_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
   dplyr::select(`True Intercept`, `Tobit Intercept`, `Museum Intercept`, simulation, `Limit fraction`, Std, Slope ) %>%
   gather(key="Method", value="Intercept", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage"), sep=" ") %>%
   dplyr::select(simulation, Method, Intercept,`Limit fraction`, Std, Slope )
 
 
-beta_slope0.01_res0.05 <- coefs_slope0.01_res0.05 %>%
+beta_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
   dplyr::select(`True Beta`, `Tobit Beta`, `Museum Beta`, simulation, `Limit fraction`, Std, Slope ) %>%
   gather(key="Method", value="Beta", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage"), sep=" ") %>%
   dplyr::select(simulation, Method, Beta, `Limit fraction`, Std, Slope)
 
-df_slope0.01_res0.05 <- inner_join(intercepts_slope0.01_res0.05, beta_slope0.01_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
+df_slope0.05_res0.05 <- inner_join(intercepts_slope0.05_res0.05, beta_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
+
+
+#_____________________________ Dataframes saved below!!!!_________________________________
+df_slope0.01_res0.05 #The Dataframe of repetitions for simulations over each LOQ at slope = 1% increase and standard deviation = 0.05
