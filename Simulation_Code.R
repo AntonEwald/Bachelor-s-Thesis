@@ -20,9 +20,9 @@ i=1 #Index to use for looping over repetition in a certain simulation
 k=1 #Index for different simulations (i.e different limits)
 repititions = 100 #Number of reps of each simulation
 
-true_coefs_2 <- matrix(nrow=repititions*simulations, ncol=4) #Creates matrices to save value of variables for each method
-tobit_coefs_2 <- matrix(nrow=repititions*simulations, ncol=4)
-museum_coefs_2 <- matrix(nrow=repititions*simulations, ncol=4)
+true_coefs_2 <- matrix(nrow=repititions*simulations, ncol=6) #Creates matrices to save value of variables for each method
+tobit_coefs_2 <- matrix(nrow=repititions*simulations, ncol=6)
+museum_coefs_2 <- matrix(nrow=repititions*simulations, ncol=6)
 
 
 start_time <- Sys.time()
@@ -34,7 +34,7 @@ while(k<simulations+1){ #Simulations for different LOQ
     epsilon_errors <- rlnorm(N, mean, sd[1]) #Get the error terms for each response variable
     n <- length(epsilon_errors) #Number of error terms noted as n
     LOQ <- sort(epsilon_errors)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
-    predictors <- kovariat*slope[2] + epsilon_errors #Intercept = 0, Slope = first value of slope vector,  this builds our model to simulate from
+    predictors <- exp(kovariat*slope[2]) * epsilon_errors #Intercept = 0, Slope = first value of slope vector,  this builds our model to simulate from
     dataset_censored <- ifelse(predictors<LOQ, -LOQ, predictors) #Censores values under LOQ
     
     #Tar fram tobitmodellen
@@ -46,23 +46,31 @@ while(k<simulations+1){ #Simulations for different LOQ
     fitted <- lmec(yL, cens, X, Z, cluster, maxstep = 20, method = "ML")
     tobit_coefs_2[i,1] <- fitted$beta[1]
     tobit_coefs_2[i,2] <- fitted$beta[2]
-    tobit_coefs_2[i,3] <- i
-    tobit_coefs_2[i,4] <- LOQ_fraction
+    tobit_coefs_2[i,3] <- sqrt(fitted$varFix[1,1])
+    tobit_coefs_2[i,4] <- sqrt(fitted$varFix[2,2])
+    tobit_coefs_2[i,5] <- i
+    tobit_coefs_2[i,6] <- LOQ_fraction
     
     #Den verkliga ocensurerade modellen
     true_model <- lm(log(predictors)~kovariat)
+    model_summary <- summary(true_model)
     true_coefs_2[i,1] <- true_model$coefficients[1]
     true_coefs_2[i,2] <- true_model$coefficients[2]
-    true_coefs_2[i,3] <- i
-    true_coefs_2[i,4] <- LOQ_fraction
+    true_coefs_2[i,3] <- model_summary$coefficients[1,2]
+    true_coefs_2[i,4] <- model_summary$coefficients[2,2]
+    true_coefs_2[i,5] <- i
+    true_coefs_2[i,6] <- LOQ_fraction
     
     #Modellen enligt museet
-    museets_obs <- ifelse(dataset_censored<0, abs(LOQ)/sqrt(2), dataset_censored)
+    museets_obs <- ifelse(dataset_censored<0, log(abs(LOQ)/sqrt(2)), log(abs(dataset_censored)))
     museum_model <- lm(museets_obs~kovariat)
+    museum_summary <- summary(museum_model)
     museum_coefs_2[i,1] <- museum_model$coefficients[1]
     museum_coefs_2[i,2] <- museum_model$coefficients[2]
-    museum_coefs_2[i,3] <- i
-    museum_coefs_2[i,4] <- LOQ_fraction
+    museum_coefs_2[i,3] <- museum_summary$coefficients[1,2]
+    museum_coefs_2[i,4] <- museum_summary$coefficients[2,2]
+    museum_coefs_2[i,5] <- i
+    museum_coefs_2[i,6] <- LOQ_fraction
     
     i = i+1
   }
@@ -74,17 +82,23 @@ time_of_loop <- end_time - start_time
 #creates a df of all coefficents
 coefs_slope0.05_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
   as.data.frame() %>%
-  select(V1, V2, V5, V6, V9, V10, V11, V12) %>%
+  select(V1, V2,V3, V4, V7, V8, V9, V10, V13, V14, V15, V16, V17, V18) %>%
   rename('True Intercept' = V1) %>%
   rename('True Beta' = V2) %>%
-  rename('Tobit Intercept' = V5) %>%
-  rename('Tobit Beta' = V6) %>%
-  rename('Museum Intercept' = V9) %>%
-  rename('Museum Beta' = V10) %>%
-  rename('simulation' = V11) %>%
-  rename('Limit fraction' = V12) %>%
+  rename('True Intercept sd' = V3) %>%
+  rename('True Beta sd' = V4) %>%
+  rename('Tobit Intercept' = V7) %>%
+  rename('Tobit Beta' = V8) %>%
+  rename('Tobit Intercept sd' = V9) %>%
+  rename('Tobit Beta sd' = V10) %>%
+  rename('Museum Intercept' = V13) %>%
+  rename('Museum Beta' = V14) %>%
+  rename('Museum Intercept sd' = V15) %>%
+  rename('Museum Beta sd' = V16) %>%
+  rename('simulation' = V17) %>%
+  rename('Limit fraction' = V18) %>%
   mutate('Std' = sd[1]) %>%
-  mutate('Slope' = slope[1])
+  mutate('Slope' = slope[2])
 
 
 intercepts_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
@@ -100,8 +114,25 @@ beta_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
   separate(Method, c("Method", "Garbage"), sep=" ") %>%
   dplyr::select(simulation, Method, Beta, `Limit fraction`, Std, Slope)
 
+intercepts_SD_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
+  dplyr::select(`True Intercept sd`, `Tobit Intercept sd`, `Museum Intercept sd`, simulation, `Limit fraction`, Std, Slope ) %>%
+  gather(key="Method", value="Intercept sd", -c(simulation, `Limit fraction`, Std, Slope )) %>%
+  separate(Method, c("Method", "Garbage", "Garb2"), sep=" ") %>%
+  dplyr::select(simulation, Method, `Intercept sd`,`Limit fraction`, Std, Slope )
+
+beta_SD_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
+  dplyr::select(`True Beta sd`, `Tobit Beta sd`, `Museum Beta sd`, simulation, `Limit fraction`, Std, Slope ) %>%
+  gather(key="Method", value="Beta sd", -c(simulation, `Limit fraction`, Std, Slope )) %>%
+  separate(Method, c("Method", "Garbage", "Garb2"), sep=" ") %>%
+  dplyr::select(simulation, Method, `Beta sd`,`Limit fraction`, Std, Slope )
+
 df_slope0.05_res0.05 <- inner_join(intercepts_slope0.05_res0.05, beta_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
-
-
+s0.05_r0.05 <- inner_join(df_slope0.05_res0.05, intercepts_SD_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
+slope0.05_res0.05 <- inner_join(s0.05_r0.05, beta_SD_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
+  select(simulation, `Limit fraction`, Slope, Std, Method, Intercept, Beta, `Intercept sd`, `Beta sd`)
+save(slope0.05_res0.05, file="slope0.05_res0.05.Rda")
 #_____________________________ Dataframes saved below!!!!_________________________________
-df_slope0.01_res0.05 #The Dataframe of repetitions for simulations over each LOQ at slope = 1% increase and standard deviation = 0.05
+
+df_slope0.01_res1.4 # Slope 1% increase, res = large
+df_slope0.05_res1.4 # Slope 5%, res = Large
+save(df_slope0.05_res0.05, file="s05_res05.Rda")
