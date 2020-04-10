@@ -14,7 +14,7 @@ N = length(kovariat) #Denotes the number of datapoints per simulation to N
 LOQ_fraction2 = c(0.3, 0.6) #The proportion of data to be censored when intercept and slope equals zero
 simulations = length(LOQ_fraction2) # How many simulations with different input (in this case 2, one per LOQ fraction)
 sd = c(0.05, 1.4) #Lowest and highest std for NI based on locations to be used when simulation error term
-slope = c(log(1.01), log(0.05)) # Value of the slope in log-scale for a 1% and 5% yearly increase in original scale.
+slope = c(log(1.01), log(1.05)) # Value of the slope in log-scale for a 1% and 5% yearly increase in original scale.
 mean = 0 #Error term are log-normal with mean 0, var = sd^2
 i=1 #Index to use for looping over repetition in a certain simulation
 k=1 #Index for different simulations (i.e different limits)
@@ -34,7 +34,7 @@ while(k<simulations+1){ #Simulations for different LOQ
     epsilon_errors <- rlnorm(N, mean, sd[1]) #Get the error terms for each response variable
     n <- length(epsilon_errors) #Number of error terms noted as n
     LOQ <- sort(epsilon_errors)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
-    predictors <- kovariat*slope[1] + epsilon_errors #Intercept = 0, Slope = first value of slope vector,  this builds our model to simulate from
+    predictors <- kovariat*slope[2] + epsilon_errors #Intercept = 0, Slope = first value of slope vector,  this builds our model to simulate from
     dataset_censored <- ifelse(predictors<LOQ, -LOQ, predictors) #Censores values under LOQ
     
     #Tar fram tobitmodellen

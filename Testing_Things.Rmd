@@ -22,4 +22,11 @@ df_slope0.01_res0.05 %>%
 df_slope0.01_res0.05 %>% 
   group_by(Method, `Limit fraction`) %>% 
   summarise(mean(Intercept))
+
+
+
+dataset_censored %>% as.data.frame() %>% 
+  filter(. < 0) %>%  count()
+
+length(dataset_censored)
 ```
