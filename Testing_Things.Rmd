@@ -29,4 +29,118 @@ dataset_censored %>% as.data.frame() %>%
   filter(. < 0) %>%  count()
 
 length(dataset_censored)
+
+
+df_slope0.05_res0.05 %>% 
+  group_by(Method, `Limit fraction`) %>% 
+  summarise(mean(Intercept))
+
+
+df_slope0.05_res0.05 %>% 
+  ggplot(aes(x=simulation, y= Beta, color = Method)) + 
+  geom_line()
+
+
+df_slope0.01_res1.4 %>% 
+  group_by(Method, `Limit fraction`) %>% 
+  summarise(mean(Beta))
+
+df_slope0.05_res1.4 %>% 
+  ggplot(aes(x=simulation, y=Beta, col=Method)) + geom_line()
+
+df_slope0.01_res1.4 %>% 
+  mutate(diff = abs(Beta-Slope)) %>% 
+  group_by(Method, `Limit fraction`) %>% 
+  summarise(min(diff))
+
+load("s05_res05.Rda")
+df_slope0.05_res0.05
+
+https://www.youtube.com/watch?v=AnbiNaVp3eQ
+https://cran.r-project.org/web/packages/lmec/lmec.pdf
+https://babel.hathitrust.org/cgi/pt?id=mdp.39015059153646&view=1up&seq=6
+http://nrm.diva-portal.org/smash/get/diva2:1090746/FULLTEXT01.pdf
+https://tools.kib.ki.se/referensguide/apa/rapporter-rapporterielektroniskformmednamngivenforfattare
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4377318/
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5138145/
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4377318/
+  
+  http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.56.3943&rep=rep1&type=pdf
+
+fitted
+summary(true_model)
+
+df_slope0.05_res0.05 %>% 
+  ggplot(aes(x=simulation, y=Beta, col=Method)) + geom_line()
+
+load("s1.01_r1.4.Rda")
+load("s1.01_r0.05.Rda")
+load("s1.05_r0.05.Rda")
+load("s1.05_r1.4.Rda")
+
+slope0.01_res0.05
+slope0.01_res1.4
+slope0.05_res0.05
+slope0.05_res1.4
+
+
+finished_df <- full_join(slope0.01_res0.05, slope0.01_res1.4) %>% 
+  full_join(slope0.05_res0.05) %>% 
+  full_join(slope0.05_res1.4)
+
+save(finished_df, file = "finished_df.Rda")
+
+finished_df %>% 
+  mutate(diff = abs(Beta - Slope)) %>% 
+  group_by(Method) %>% 
+  summarise(mean(diff))
+
+
+metals <- read_csv("../metals.csv")
+
+metals %>% 
+  group_by(YEAR, LOC) %>% 
+  summarise(std = sd(NI)) %>% 
+  ungroup() %>% 
+  na.omit() %>% 
+  group_by(YEAR) %>% 
+  summarise(max(std))
+  
+min_variances <- metals %>% 
+  group_by(LOC, YEAR) %>% 
+  summarise(std = sd(NI)) %>% 
+  ungroup() %>% 
+  na.omit() %>% 
+  group_by(YEAR) %>% 
+  summarise(min_std = min(std)) %>% 
+  select('min_std')
+
+max_variances <- metals %>% 
+  group_by(LOC, YEAR) %>% 
+  summarise(std = sd(NI)) %>% 
+  ungroup() %>% 
+  na.omit() %>% 
+  group_by(YEAR) %>% 
+  summarise(max_std = max(std)) %>% 
+  select('max_std')
+
+Yearly_variances <- c()
+
+metals %>% filter(YEAR == 2015) %>% group_by(LOC) %>% count()
+
+metals %>% group_by(LOC, YEAR) %>% summarise(sd(NI))
+
+target_locations <- metals %>% group_by(LOC, YEAR) %>% count() %>% filter(n>9) %>% ungroup() %>% select(LOC) %>% filter(LOC != "Utlängan (spring)") %>% filter(LOC !="Ängskärsklubb (spring)") %>% filter(LOC != "Örefjärden")
+
+
+locations_w_many_obs <- metals %>% filter(LOC %in% target_locations[[1]])
+
+min_std_yearly <- locations_w_many_obs %>% group_by(LOC, YEAR) %>%  summarise(std = sd(NI)) %>% na.omit() %>% ungroup() %>% group_by(YEAR) %>% summarise(min_sd = min(std))
+
+max_std_yearly <- locations_w_many_obs %>% group_by(LOC, YEAR) %>%  summarise(std = sd(NI)) %>% na.omit() %>% ungroup() %>% group_by(YEAR) %>% summarise(max_sd = max(std))
+yearly_variances <- cbind(min_std_yearly[,2], max_std_yearly[,2])
+
+
+save(yearly_variances, file="yearly_variances.Rda")
 ```
+

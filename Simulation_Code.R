@@ -6,10 +6,12 @@
 
 library(lmec)
 library(tidyverse)
+load("yearly_variances.Rda")
 
 set.seed(19931031)
 
 kovariat <- rep(0:10-mean(0:10), each = 12) #Creates covariates
+nr_of_covariates <- length(unique(kovariat)) # Number of unique covariates
 N = length(kovariat) #Denotes the number of datapoints per simulation to N
 LOQ_fraction2 = c(0.3, 0.6) #The proportion of data to be censored when intercept and slope equals zero
 simulations = length(LOQ_fraction2) # How many simulations with different input (in this case 2, one per LOQ fraction)
@@ -32,9 +34,21 @@ while(k<simulations+1){ #Simulations for different LOQ
   LOQ_fraction = LOQ_fraction2[k] #Pick the fraction of censored values (k:th value from above vector)
   while(i<reps+1){ #Repeating a simulation the number of times decided by the variable repititions above
     epsilon_errors <- rlnorm(N, mean, sd[1]) #Get the error terms for each response variable
+    year1 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[1,1]) #Simulates between-years errorterms
+    year2 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[2,1])
+    year3 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[3,1])
+    year4 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[4,1])
+    year5 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[5,1])
+    year6 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[6,1])
+    year7 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[7,1])
+    year8 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[8,1])
+    year9 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[9,1])
+    year10 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[10,1])
+    year11 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[11,1])
+    random_effects <- c(year1, year2, year3, year4, year5, year6, year7, year8, year9, year10, year11)
     n <- length(epsilon_errors) #Number of error terms noted as n
-    LOQ <- sort(epsilon_errors)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
-    predictors <- exp(kovariat*slope[2]) * epsilon_errors #Intercept = 0, Slope = first value of slope vector,  this builds our model to simulate from
+    LOQ <- sort(epsilon_errors*random_effects)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
+    predictors <- exp(kovariat*slope[1]) * epsilon_errors*random_effects #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
     dataset_censored <- ifelse(predictors<LOQ, -LOQ, predictors) #Censores values under LOQ
     
     #Tar fram tobitmodellen
@@ -79,8 +93,9 @@ while(k<simulations+1){ #Simulations for different LOQ
 end_time <- Sys.time()
 time_of_loop <- end_time - start_time
 
+#Named as (Slope, errorterms, randomeffects)
 #creates a df of all coefficents
-coefs_slope0.05_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
+coefs <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
   as.data.frame() %>%
   select(V1, V2,V3, V4, V7, V8, V9, V10, V13, V14, V15, V16, V17, V18) %>%
   rename('True Intercept' = V1) %>%
@@ -98,41 +113,39 @@ coefs_slope0.05_res0.05 <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>
   rename('simulation' = V17) %>%
   rename('Limit fraction' = V18) %>%
   mutate('Std' = sd[1]) %>%
-  mutate('Slope' = slope[2])
+  mutate('Slope' = slope[1])
 
 
-intercepts_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
-  dplyr::select(`True Intercept`, `Tobit Intercept`, `Museum Intercept`, simulation, `Limit fraction`, Std, Slope ) %>%
+intercepts <- coefs %>%
+  dplyr::select(`True Intercept`, `Tobit Intercept`, `Museum Intercept`, simulation, `Limit fraction`, Std, Slope) %>%
   gather(key="Method", value="Intercept", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage"), sep=" ") %>%
   dplyr::select(simulation, Method, Intercept,`Limit fraction`, Std, Slope )
 
 
-beta_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
+beta <- coefs %>%
   dplyr::select(`True Beta`, `Tobit Beta`, `Museum Beta`, simulation, `Limit fraction`, Std, Slope ) %>%
   gather(key="Method", value="Beta", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage"), sep=" ") %>%
   dplyr::select(simulation, Method, Beta, `Limit fraction`, Std, Slope)
 
-intercepts_SD_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
+intercepts_sd <- coefs %>%
   dplyr::select(`True Intercept sd`, `Tobit Intercept sd`, `Museum Intercept sd`, simulation, `Limit fraction`, Std, Slope ) %>%
   gather(key="Method", value="Intercept sd", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage", "Garb2"), sep=" ") %>%
   dplyr::select(simulation, Method, `Intercept sd`,`Limit fraction`, Std, Slope )
 
-beta_SD_slope0.05_res0.05 <- coefs_slope0.05_res0.05 %>%
+beta_sd <- coefs %>%
   dplyr::select(`True Beta sd`, `Tobit Beta sd`, `Museum Beta sd`, simulation, `Limit fraction`, Std, Slope ) %>%
   gather(key="Method", value="Beta sd", -c(simulation, `Limit fraction`, Std, Slope )) %>%
   separate(Method, c("Method", "Garbage", "Garb2"), sep=" ") %>%
   dplyr::select(simulation, Method, `Beta sd`,`Limit fraction`, Std, Slope )
 
-df_slope0.05_res0.05 <- inner_join(intercepts_slope0.05_res0.05, beta_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
-s0.05_r0.05 <- inner_join(df_slope0.05_res0.05, intercepts_SD_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
-slope0.05_res0.05 <- inner_join(s0.05_r0.05, beta_SD_slope0.05_res0.05, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
-  select(simulation, `Limit fraction`, Slope, Std, Method, Intercept, Beta, `Intercept sd`, `Beta sd`)
-save(slope0.05_res0.05, file="slope0.05_res0.05.Rda")
-#_____________________________ Dataframes saved below!!!!_________________________________
+intercept_beta <- inner_join(intercepts, beta, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
+s0.05_r0.05 <- inner_join(intercept_beta, intercepts_sd, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
+  mutate('Random Effects' = 'Low') #NEED TO CHANGE
 
-df_slope0.01_res1.4 # Slope 1% increase, res = large
-df_slope0.05_res1.4 # Slope 5%, res = Large
-save(df_slope0.05_res0.05, file="s05_res05.Rda")
+#Named as (Slope, errorterms, randomeffects)
+df_1.01_0.05_LOW <- inner_join(s0.05_r0.05, beta_sd, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
+  select(simulation, `Limit fraction`, Slope, Std, Method, Intercept, Beta, `Intercept sd`, `Beta sd`, `Random Effects`)
+save(df_1.01_0.05_LOW, file="slope1.01_res0.05_randomLOW.Rda")

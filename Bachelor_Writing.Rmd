@@ -6,7 +6,7 @@ output:
   pdf_document: default
   word_document: default
   html_document: default
----
+  ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -184,6 +184,10 @@ $$
 ## Simulation
 
 We want a slope representing a 1% yearly increase. Our model is $Y=e^{\beta_1 X + \epsilon}$ so when $X$ goes to $X+1$ we want $Y$ to go to $Y\cdot 1.01$ hence $Y(x+1)=e^{\beta_1 (X + 1) + \epsilon} = e^{\beta_1 X + \epsilon}e^{\beta_1}=Y\cdot e^{\beta_1}$ hence $e^\beta_1=1.01$ so $\beta_1=log(1.01)$ so in the log scale, our slope is log(log(1.01)) : Probobly wrong
+
+To choose variance for the individual fish error term, group_by each location, calculate standard deviations and pick lowest and highest.
+
+To choose variances for year, do the same as for individual but also group_by YEAR, only pick locations that did analysis on individual specimens, removing those that did analysis on a group of fish since they only have 1-2 observations per year giving a bad estimate of yearly variance. 
 
 ## Result
 
