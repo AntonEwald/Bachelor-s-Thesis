@@ -1,4 +1,4 @@
-#--------------------------------------Code for Simulation-----------------------------------------------------
+1#--------------------------------------Code for Simulation-----------------------------------------------------
 #@author: Anton Holm
 # This is a simulation used for my Bachelor's Thesis in Mathematical Statistics at Stockholm University
 # Spring, 2020
@@ -33,22 +33,22 @@ while(k<simulations+1){ #Simulations for different LOQ
   i = (k-1)*repititions + 1 #Force i to start at a suitable value when changing to another simulation
   LOQ_fraction = LOQ_fraction2[k] #Pick the fraction of censored values (k:th value from above vector)
   while(i<reps+1){ #Repeating a simulation the number of times decided by the variable repititions above
-    epsilon_errors <- rlnorm(N, mean, sd[1]) #Get the error terms for each response variable
-    year1 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[1,1]) #Simulates between-years errorterms
-    year2 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[2,1])
-    year3 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[3,1])
-    year4 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[4,1])
-    year5 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[5,1])
-    year6 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[6,1])
-    year7 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[7,1])
-    year8 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[8,1])
-    year9 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[9,1])
-    year10 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[10,1])
-    year11 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[11,1])
+    epsilon_errors <- rlnorm(N, mean, sd[2]) #Get the error terms for each response variable
+    year1 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[1,2]) #Simulates between-years errorterms
+    year2 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[2,2])
+    year3 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[3,2])
+    year4 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[4,2])
+    year5 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[5,2])
+    year6 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[6,2])
+    year7 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[7,2])
+    year8 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[8,2])
+    year9 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[9,2])
+    year10 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[10,2])
+    year11 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[11,2])
     random_effects <- c(year1, year2, year3, year4, year5, year6, year7, year8, year9, year10, year11)
     n <- length(epsilon_errors) #Number of error terms noted as n
     LOQ <- sort(epsilon_errors*random_effects)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
-    predictors <- exp(kovariat*slope[1]) * epsilon_errors*random_effects #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
+    predictors <- exp(kovariat*slope[2]) * epsilon_errors*random_effects #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
     dataset_censored <- ifelse(predictors<LOQ, -LOQ, predictors) #Censores values under LOQ
     
     #Tar fram tobitmodellen
@@ -112,8 +112,8 @@ coefs <- cbind(true_coefs_2, tobit_coefs_2, museum_coefs_2) %>%
   rename('Museum Beta sd' = V16) %>%
   rename('simulation' = V17) %>%
   rename('Limit fraction' = V18) %>%
-  mutate('Std' = sd[1]) %>%
-  mutate('Slope' = slope[1])
+  mutate('Std' = sd[2]) %>%
+  mutate('Slope' = slope[2])
 
 
 intercepts <- coefs %>%
@@ -143,9 +143,9 @@ beta_sd <- coefs %>%
 
 intercept_beta <- inner_join(intercepts, beta, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope'))
 s0.05_r0.05 <- inner_join(intercept_beta, intercepts_sd, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
-  mutate('Random Effects' = 'Low') #NEED TO CHANGE
+  mutate('Random Effects' = 'High') #NEED TO CHANGE
 
 #Named as (Slope, errorterms, randomeffects)
-df_1.01_0.05_LOW <- inner_join(s0.05_r0.05, beta_sd, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
+df_1.05_1.4_HIGH <- inner_join(s0.05_r0.05, beta_sd, by = c('simulation','Method', 'Limit fraction', 'Std', 'Slope')) %>% 
   select(simulation, `Limit fraction`, Slope, Std, Method, Intercept, Beta, `Intercept sd`, `Beta sd`, `Random Effects`)
-save(df_1.01_0.05_LOW, file="slope1.01_res0.05_randomLOW.Rda")
+save(df_1.05_1.4_HIGH, file="slope1.05_res1.4_randomHIGH.Rda")

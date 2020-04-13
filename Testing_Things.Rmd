@@ -142,5 +142,11 @@ yearly_variances <- cbind(min_std_yearly[,2], max_std_yearly[,2])
 
 
 save(yearly_variances, file="yearly_variances.Rda")
+
+
+
+df_1.01_1.4_HIGH
+
+df_1.05_1.4_HIGH
 ```
 
