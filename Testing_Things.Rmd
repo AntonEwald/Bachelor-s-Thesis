@@ -332,6 +332,7 @@ bias_coverage <- with_bias %>%
   rename('Abs of Bias' = bias)
 
 save(bias_coverage, file = "bias_coverage_df.Rda")
+save(Completed_df, file = "Completed_df.Rda")
 ```
 
 
