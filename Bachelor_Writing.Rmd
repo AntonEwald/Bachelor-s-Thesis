@@ -222,6 +222,8 @@ where we denote the left hand side as $Q(\mathbf{\theta}, \mathbf{\theta}^{(i)})
 2. Maximize $Q(\mathbf{\theta}, \mathbf{\theta}^{(i)})$ with respect to $\mathbf{\theta}$ which yields $\mathbf{\theta}^{(i+1)}$, called the M-step.
 3. Iterate step 1 and 2 by exhanging $\mathbf{\theta}^{(i)}$ with $\mathbf{\theta}^{(i+1)}$ in step 1 untill one of the mentioned reason to stop the algorithm has been reached. 
 
+
+
 ## Simulation
 
 We want a slope representing a 1% yearly increase. Our model is $Y=e^{\beta_1 X + \epsilon}$ so when $X$ goes to $X+1$ we want $Y$ to go to $Y\cdot 1.01$ hence $Y(x+1)=e^{\beta_1 (X + 1) + \epsilon} = e^{\beta_1 X + \epsilon}e^{\beta_1}=Y\cdot e^{\beta_1}$ hence $e^\beta_1=1.01$ so $\beta_1=log(1.01)$ so in the log scale, our slope is log(log(1.01)) : Probobly wrong
@@ -232,10 +234,22 @@ To choose variances for year, do the same as for individual but also group_by YE
 
 The variances are calculated using the R functions from chapter 6 in the environmental book.
 
+
+What do I want to look at?!
+  - Check for outliers?
+  - Max difference
+  - % in CI
+  
+Tips på analyser: https://onlinelibrary.wiley.com/doi/10.1002/sim.8086#sim8086-fig-0005
+
+
 ## Result
 
 ## Conclusion
-EM-algorithm can stop at local maxima or sadle points, at sadle point the LH-fkn grows without bound.
+- EM-algorithm can stop at local maxima or sadle points, at sadle point the LH-fkn grows without bound.
+- Can, and should, try with higher (or no) limit of iterations if not so time heavy. 
+- Test explicit starting values (based on what?)
+
 
 ## References
 1) Helsel, D.R., 2006, Fabricating data: how substituting values for censored observations can ruin results, and what can be done about it. Chemosphere 65, pp. 2434–2439, doi: https://doi.org/10.1016/j.chemosphere.2006.04.051
