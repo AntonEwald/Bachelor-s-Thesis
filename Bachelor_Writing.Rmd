@@ -16,14 +16,14 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-#Läser in simulerings plot från separat RScript (namn: simulation_plot )
-
+load("example_graph.Rda")
 ```
 
 ## Abstrakt
 
 ## Introduction
-
+- Maybe add graph to show how censored data looks like? So 2 graphs, one how it actually is, one how it's reported.
+- Show that the museum data is log-linear
 
 ```{r}
 
@@ -220,11 +220,44 @@ where we denote the left hand side as $Q(\mathbf{\theta}, \mathbf{\theta}^{(i)})
 
 1. Let $i = 0$ and $\mathbf{\theta}^{(i)}$ be the initial guess of the estimate and compute $Q(\mathbf{\theta}, \mathbf{\theta}^{(i)})$ called the E-step.
 2. Maximize $Q(\mathbf{\theta}, \mathbf{\theta}^{(i)})$ with respect to $\mathbf{\theta}$ which yields $\mathbf{\theta}^{(i+1)}$, called the M-step.
-3. Iterate step 1 and 2 by exhanging $\mathbf{\theta}^{(i)}$ with $\mathbf{\theta}^{(i+1)}$ in step 1 untill one of the mentioned reason to stop the algorithm has been reached. 
+3. Iterate step 1 and 2 by exhanging $\mathbf{\theta}^{(i)}$ with $\mathbf{\theta}^{(i+1)}$ in step 1 untill one of the mentioned reason to stop the algorithm has been reached.
 
 
 
 ## Simulation
+The existence of bias for estimates where fabricated data were used have been evaluated by many others, see for example Thompson and Nelson (2003). El-Shaarawi and Esterby (1992) further showed that it's impossible to get unbiased estimates of the mean and standard deviation when using a single value replacing the censored observations while also showing that the bias is independent of sample size, and so what effects the bias is the proportion of censored values and the attributes for the distribution of the data. What is left to investigate is under what conditions one model i better than the other. A simulationstudy was therefore applied, trying to mimic the environmental setting of the museum as well as possible. Thus, a mixed linear model containing one centered covariate $X$ representing years ranging between $-5$ and $5$, and two error terms, $\epsilon$ and $b$, the former representing the noise for each individual specimen, the latter representing noise between-years was used to. The between-years variance are different for each year but othervise independent and the intercept was set to $0$. The sample size was set to $n_i=12$ samples for every year, the same as most of the studies used by the museum. Consequently the model assumed for the simulation was:
+
+$$
+\log(Y_{ij}) = X_{i}\beta + Zb_i + \epsilon, \; i=1,...,11, \; j= 1,...,n_i
+$$
+
+with $i$ being the index denoting the corresponding year and $j$ denoting the individual specimen for that year. Both error terms following a normaldistribution with mean $0$ and different variances for different scenarios. There are countless of scenarios to consider but this simulationstudy takes a closer look on four factors, namely
+
+1. The proportion of censored data varied between $30 \%$ and $60 \%$ with all data being left-censored.
+2. The slope of the regression line alternating between a yearly increase of $1 \%$ and $5 \%$ on the original scale
+3. The two error terms $\epsilon$ changed between large and small
+
+resulting in $8$ different scenarios. The limit of quantification was in other words put at the value representing $30 \%$ and $60 \%$ censored data if both the intercept and slope were to be put to $0$. Hence the proportion of censored data are affected by the slope. The exact values of the error terms were calculated using the methods of Helsel (2005) and the *NADA* packages in *R*, namely the *cenmle* function used on the data retrieved from the Swedish Museum of Natural History to calculate the standard deviations on individual and yearly level. The lowest and highest values were chosen to be included in the simulationstudy. For the noise of each individual specimen this resulted in a standard deviation of $0.05$ and $1.4$. The standard deviation for the noise between years were given by calculating the noise for each year seperately, choosing the lowest and highest value for each year resulting in the standard deviation ranging between $0.0007$ and $0.05417$ on the lower scale and between $1.044$ and $4.069$ for the larger scale.
+
+For each of these scenarios, $100$ simulation were made in which the method of substituting censored observations with a fraction of the limit of quantification (in this case using the entity of LOQ/$\sqrt2$ to continue with mimicing the museum) and the maximum likelihood method were both used. The data-sets were simulated using the model describe above and the R function 'rlnorm'. The results from the model using fabricated data were retrieved using the base R function 'lm' while the results for the maximum likelihood method were calculated using the 'lmec' function from the package with the same name produced by Vaida and Liu (2009). For the EM-algorithm used in the lmec function to estimate effect parameters a cap of $20$ iterations were decided due to the immense time effort needed for the lmec function when using a data-set with high proportion of censored data. An example of one of the simulations can be seen in Figure 1. 
+
+```{r, echo = FALSE}
+example_graph
+```
+
+
+
+
+
+http://faculty.washington.edu/mlt/Thompson%202003b.pdf (Sec 4)
+- Mimiced the environmental setting to be as close to the one for the museum as possible.
+- Considered 1. 2. 3. (List)
+- # of simulations using MLE and substitution
+- Left censored
+- X and Y supposed to represent ....
+
+
+
 
 We want a slope representing a 1% yearly increase. Our model is $Y=e^{\beta_1 X + \epsilon}$ so when $X$ goes to $X+1$ we want $Y$ to go to $Y\cdot 1.01$ hence $Y(x+1)=e^{\beta_1 (X + 1) + \epsilon} = e^{\beta_1 X + \epsilon}e^{\beta_1}=Y\cdot e^{\beta_1}$ hence $e^\beta_1=1.01$ so $\beta_1=log(1.01)$ so in the log scale, our slope is log(log(1.01)) : Probobly wrong
 
@@ -266,7 +299,7 @@ Human Resources Vol.33, pp. 4–38, doi: 10.2307/146313
 
 5) Pinheiro, J.C and Bates, D.M, (2000), Mixed-Effects Models in S and S-PLUS (1. ed.), New York: Springer  
 
-6) Laird, N. M. and Ware, J. H. (1982). Random-effects models for longitudinal data, Biometrics 38: 963–974.
+6) Laird, N. M. and Ware, J. H. (1982). Random-effects models for longitudinal data. *Biometrics*, Vol 38. (No. 4), pp. 963–974., DOI: 10.2307/2529876
 
 7) Bignert, A., Danielsson, S., Faxneld, S., Ek, C., Nyberg, E. (2017). Comments Concerning the National
 Swedish Contaminant Monitoring Programme in Marine Biota, 2017, 4:2017, Swedish Museum of Natural
@@ -276,4 +309,13 @@ History, Stockholm, Sweden, Retrieved from the website of the Museum of Natural 
 
 9) Held, L, Bové, D.S, (2014), Applied Statistical Inference (1. ed.), New York: Springer
 
-10) A. P. Dempster; N. M. Laird; D. B. Rubin (1977), Maximum Likelihood from Incomplete Data via the EM Algorithm, Journal of the Royal Statistical Society. Series B (Methodological), Vol. 39, (No. 1) , pp. 1-38, Retrieved from the website jstor: https://www.jstor.org/stable/2984875?seq=1
+10) Dempster A. P., Laird N. M., Rubin, D. B. (1977), Maximum Likelihood from Incomplete Data via the EM Algorithm. *Journal of the Royal Statistical Society. Series B (Methodological)*, Vol. 39, (No. 1) , pp. 1-38, Retrieved from the website jstor: https://www.jstor.org/stable/2984875?seq=1
+
+11) Thompson, M .L. and Nelson, K. P., (2003), Linear regression with Type I interval- and leftcensored response data. *Environmental and Ecological Statistics* Vol. 10, 221–230. Retrieved from the website of the University of Washington: http://faculty.washington.edu/mlt/Thompson%202003b.pdf
+
+12) El-Shaarawi, A. H., Esterby, S.R.(1992), Replacement of censored observations by a constant: An evaluation. *Water Research*, Vol 26. (No. 6), pp. 835-844, doi: https://doi.org/10.1016/0043-1354(92)90015-V
+
+13) Helsel, D.R., (2005), STATISTICS FOR CENSORED ENVIRONMENTAL DATA USING MINITAB AND R (2. ed.), Hoboken, New Jersey: John Wiley & Sons, pp. 62-69, Inc., ISBN 978-0-470-47988-9(cloth) 
+
+Vaida, F., Liu, L. (2009), Fast Implementation for Normal Mixed Effects Models With Censored Response. *Journal of Computational and Graphical Statistics* 
+Vol 18. (No. 4), 2009 - Issue 4 , doi: https://doi.org/10.1198/jcgs.2009.07130
