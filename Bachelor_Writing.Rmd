@@ -20,7 +20,8 @@ knitr::opts_chunk$set(echo = TRUE)
 load("example_graph.Rda")
 
 load("bias_coverage_df.Rda")
-
+load("LOQ30_Slope1.01_table.Rda")
+LOQ30_Slope1.01_table
 ```
 
 ## Abstrakt
