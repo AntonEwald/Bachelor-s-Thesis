@@ -166,5 +166,38 @@ df_1.05_1.4_HIGH %>% mutate(diff = abs(Beta - Slope)) %>% ggplot(aes(x=diff, y=B
 split_df <- df_1.05_1.4_HIGH %>% dplyr::select(simulation, Method, `Beta`) %>% spread(Method, `Beta`)
 
 split_df %>% ggplot(aes(x=Museum, y=True)) + geom_point()
+
+df_1.05_1.4_HIGH %>% 
+  mutate(diff=abs(Beta-Slope)) %>% 
+  group_by(Method) %>% 
+  summarise(bias = mean(diff))
+
+df_1.05_1.4_HIGH %>% 
+  group_by(Method) %>% 
+  mutate(mean_beta = mean(Beta)) %>% 
+  mutate(bias = mean_beta - Slope)
+
+
+
+
+
+#____________________________________________________
+
 ```
+
+
+```{r}
+load("Simulations/slope1.01_0.05_randomHIGH.Rda")
+```
+
+
+
+
+
+
+
+
+
+
+
 
