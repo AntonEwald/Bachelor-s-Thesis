@@ -15,6 +15,8 @@ library(fitdistrplus)
 library(kableExtra)
 library(reshape2)
 library(htmlTable)
+library(tidyverse)
+
 
 df_slope0.01_res0.05 %>% 
   group_by(Method) %>% 
@@ -253,31 +255,49 @@ example_graph <- example_of_one_simulation %>% ggplot(aes(x=kovariat, y=log(pred
 save(example_graph, file = "example_graph.Rda")
 
 
+with_bias <- Completed_df %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(bias = mean(diff)) %>% 
+  ungroup
+
+with_coverage <- Completed_df %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(coverage = mean(Coverage))
+
+bias_coverage <- with_bias %>% 
+  mutate(Coverage = with_coverage$coverage)
+
+save(bias_coverage, file = "bias_coverage_df.Rda")
+save(Completed_df, file = "Completed_df.Rda")
+
+load("Completed_df.Rda")
+Completed_df
 
 
 
 
+Variances <- Completed_df %>% 
+  filter(Method != "True") %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(Variance = sd(Beta)^2)
 
-st = iris %>% 
-  gather(measure, value, -Species) %>% 
-  separate(measure, into=c("attribute", "dimension")) %>% 
-  group_by(Species, attribute, dimension) %>% 
-  summarise(mean=mean(value)) %>%
-  spread(dimension, mean) 
-
-st = st %>%
-  group_by(Species) %>%
-  mutate(count=1:n()) %>%
-  ungroup %>%
-  mutate(Species = ifelse(count==1, as.character(Species), NA)) %>%
-  dplyr::select(-count)
-
-
-st[,sapply(st,is.numeric)] = sapply(st[,sapply(st,is.numeric)], function(x) sprintf("%1.2f",x))
+bias_coverage
 
 
 
 
+All_Summary_Stats <- bias_coverage %>% 
+  inner_join(Variances, by = c('Limit fraction', 'Slope', 'Std', 'Random Effects', 'Method')) %>% 
+  mutate(MSE = bias + Variance)
+
+save(All_Summary_Stats, file = "All_Summary_Stats.Rda")
+
+
+All_Summary_Stats
 
 table_data <- Completed_df %>% 
   group_by(Method, `Limit fraction`, Std, Slope, `Random Effects`) %>% 
@@ -286,53 +306,35 @@ table_data <- Completed_df %>%
   mutate(Method = ifelse(count==1, as.character(Method), NA)) %>% 
   filter(Method=="True")
 
-
-htmlTable(table_data, rnames=FALSE, align="llrr", align.header="llrr",
-          col.rgroup = rep(c("none", "gray93"), each=2),
-          css.cell = c("padding-left: 0em","padding-left: 1em",rep("padding-left: 2em",12)))
-
-
-LOQ30_Slope1.01 <- Completed_df %>% 
+#It's 30% Censored, Slope 1%
+Summary_LOQ30_Slope1.01 <- All_Summary_Stats %>% 
   filter(`Limit fraction` == 0.3) %>% 
-  filter(Slope <0.01) %>% 
-  mutate(Slope = "1%")
+  filter(Slope < 0.01) %>% 
+  mutate(Slope = '1%') %>%
+  select(-c(`Limit fraction`, Slope)) %>% 
+  group_by(Std) %>% 
+  mutate(count = 1:n()) %>% 
+  ungroup %>% 
+  mutate(Std = ifelse(count == 1, Std, NA)) %>% 
+  group_by(`Random Effects`) %>% 
+  mutate(count = 1:n()) %>% 
+  ungroup %>% 
+  mutate(`Random Effects` = ifelse(count == 1| count == 3, `Random Effects`, NA)) %>% 
+  select(-c(count, MSE )) %>% 
+  mutate(bias = round(bias, digits = 4)) %>% 
+  rename(Bias = bias) %>% 
+  mutate(Variance = round(Variance, digits = 4))
 
 
-with_bias <- Completed_df %>% 
-  filter(Method != "True") %>% 
-  mutate(diff = abs(Beta-Slope)) %>% 
-  group_by(`Limit fraction`, Slope, Std, Method, `Random Effects`) %>% 
-  summarise(bias = mean(diff)) %>% 
-  ungroup
 
-with_bias2 <- Completed_df %>% 
-  filter(Method != "True") %>% 
-  mutate(diff = (Beta-Slope)^2) %>% 
-  group_by(`Limit fraction`, Slope, Std, Method, `Random Effects`) %>% 
-  summarise(bias = mean(diff)) %>% 
-  ungroup
+LOQ30_Slope1.01_table <- htmlTable(Summary_LOQ30_Slope1.01, rnames=FALSE, align="llllll", align.header="cccccc",
+          col.rgroup = rep(c("none", "gray93"), each=2),
+          css.cell = c("padding-left: 0em","padding-left: 1em",rep("padding-left: 2em",5)))
 
-with_bias3 <- Completed_df %>% 
-  filter(Method != "True") %>% 
-  mutate(diff = (Beta-Slope)) %>% 
-  group_by(`Limit fraction`, Slope, Std, Method, `Random Effects`) %>% 
-  summarise(bias = mean(diff)) %>% 
-  ungroup
+save(LOQ30_Slope1.01_table, file = "LOQ30_Slope1.01_table.Rda")
 
-with_coverage <- Completed_df %>% 
-  filter(Method != "True") %>% 
-  mutate(diff = (Beta-Slope)^2) %>% 
-  group_by(`Limit fraction`, Slope, Std, Method, `Random Effects`) %>% 
-  summarise(coverage = mean(Coverage))
 
-bias_coverage <- with_bias %>% 
-  mutate('Bias Squared' = with_bias2$bias) %>% 
-  mutate('Normal Bias' = with_bias3$bias) %>% 
-  mutate(Coverage = with_coverage$coverage) %>% 
-  rename('Abs of Bias' = bias)
 
-save(bias_coverage, file = "bias_coverage_df.Rda")
-save(Completed_df, file = "Completed_df.Rda")
 ```
 
 
