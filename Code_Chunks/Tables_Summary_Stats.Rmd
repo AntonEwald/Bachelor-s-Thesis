@@ -1,0 +1,102 @@
+---
+title: "Tables_md"
+author: "Anton Holm"
+date: '2020-04-16'
+output:
+  pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(kableExtra)
+```
+
+```{r, echo = FALSE}
+load("All_Summary_Stats.Rda")
+
+#LOQ 30, Slope 1% Table
+
+Summary_LOQ30_Slope1.01 <- All_Summary_Stats %>% 
+  filter(`Limit fraction` == 0.3) %>% 
+  filter(Slope < 0.01) %>% 
+  mutate(Slope = '1%') %>%
+  mutate(bias = round(bias, digits = 4)) %>% 
+  mutate(Variance = round(Variance, digits = 4)) %>% 
+  mutate(MSE = round(MSE, digits = 4)) %>% 
+  select(-c(`Limit fraction`, Slope))
+
+Table_LOQ30_Slope1.01 <- kable(Summary_LOQ30_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 1\\% yearly increase.") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+
+save(Table_LOQ30_Slope1.01, file = "Table_LOQ30_Slope1.01.Rda")
+
+Table_LOQ30_Slope1.01
+
+#----------------------------------------------------------------------
+
+#LOQ 30, Slope 5% Table
+Summary_LOQ30_Slope1.05 <- All_Summary_Stats %>% 
+  filter(`Limit fraction` == 0.3) %>% 
+  filter(Slope > 0.01) %>% 
+  mutate(Slope = '5%') %>%
+  mutate(bias = round(bias, digits = 4)) %>% 
+  mutate(Variance = round(Variance, digits = 4)) %>% 
+  mutate(MSE = round(MSE, digits = 4)) %>% 
+  select(-c(`Limit fraction`, Slope))
+
+Table_LOQ30_Slope1.05 <- kable(Summary_LOQ30_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 5\\% yearly increase.") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+              
+
+save(Table_LOQ30_Slope1.05, file = "Table_LOQ30_Slope1.05.Rda")
+
+Table_LOQ30_Slope1.05
+
+
+#----------------------------------------------------------------------
+
+#LOQ 60, Slope 1% Table
+Summary_LOQ60_Slope1.01 <- All_Summary_Stats %>% 
+  filter(`Limit fraction` == 0.6) %>% 
+  filter(Slope < 0.01) %>% 
+  mutate(Slope = '1%') %>%
+  mutate(bias = round(bias, digits = 4)) %>% 
+  mutate(Variance = round(Variance, digits = 4)) %>% 
+  mutate(MSE = round(MSE, digits = 4)) %>% 
+  select(-c(`Limit fraction`, Slope))
+
+Table_LOQ60_Slope1.01 <- kable(Summary_LOQ60_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 1\\% yearly increase.") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+              
+
+save(Table_LOQ60_Slope1.01, file = "Table_LOQ60_Slope1.01.Rda")
+
+Table_LOQ60_Slope1.01
+
+
+#----------------------------------------------------------------------
+
+#LOQ 60, Slope 5% Table
+Summary_LOQ60_Slope1.05 <- All_Summary_Stats %>% 
+  filter(`Limit fraction` == 0.6) %>% 
+  filter(Slope > 0.01) %>% 
+  mutate(Slope = '5%') %>%
+  mutate(bias = round(bias, digits = 4)) %>% 
+  mutate(Variance = round(Variance, digits = 4)) %>% 
+  mutate(MSE = round(MSE, digits = 4)) %>% 
+  select(-c(`Limit fraction`, Slope))
+
+Table_LOQ60_Slope1.05 <- kable(Summary_LOQ60_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 5\\% yearly increase.") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+              
+
+save(Table_LOQ60_Slope1.05, file = "Table_LOQ60_Slope1.05.Rda")
+
+Table_LOQ60_Slope1.05
+```

@@ -2,7 +2,9 @@
 title: "Testing Things"
 author: "Anton Holm"
 date: '2020-04-08'
-output: html_document
+output: pdf_document
+
+
 ---
 
 ```{r setup, include=FALSE}
@@ -11,11 +13,11 @@ options(scipen=999)
 ```
 
 ```{r}
-library(fitdistrplus)
 library(kableExtra)
-library(reshape2)
-library(htmlTable)
+library(knitr)
 library(tidyverse)
+library(tinytex)
+library(directlabels)
 
 
 df_slope0.01_res0.05 %>% 
@@ -224,6 +226,7 @@ Completed_df <- full_join(df_1.01_0.05_LOW,df_1.01_0.05_HIGH) %>%
   mutate(CI_Upper = Beta + `Beta sd`*1.96) %>% 
   mutate(Coverage = ifelse(Slope>CI_Lower & Slope < CI_Upper, 1, 0 ))
 
+save(Completed_df, file = "Completed_df.Rda")
 
 Completed_df %>% 
   mutate(diff = abs(Beta-Slope)) %>% 
@@ -241,20 +244,32 @@ Completed_df %>%
   group_by(Method) %>% 
   summarise(mean(diff2))
 
-example_of_one_simulation <- cbind(kovariat, predictors, cens) %>% as.data.frame() %>% mutate(cens = as.factor(cens))
+example_of_one_simulation <- cbind(kovariat, predictors, cens) %>% as.data.frame() %>% mutate(cens = as.factor(cens)) %>% mutate(cens = ifelse(cens = 0, "Uncensored", "Censored"))
 
 save(example_of_one_simulation, file = "example_of_simulation.Rda")
-example_graph <- example_of_one_simulation %>% ggplot(aes(x=kovariat, y=log(predictors), shape = cens)) + geom_point() +
+example_graph <- example_of_one_simulation %>% 
+  ggplot(aes(x=kovariat, y=log(predictors), shape = cens)) + 
+  geom_point() +
+  geom_hline(yintercept = log(1.723875), linetype = 'dashed') +
   scale_shape_manual(values = c(16,1)) +
+  xlim(-5, 6) +
   theme_minimal() +
-  theme(plot.caption=element_text(hjust = 0.2),
-        panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase.")
+  theme(plot.caption=element_text(hjust = 0.2), legend.position = c(0.9, 0.2), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
+  labs(x='X', y = 'Log(Y)', caption= "Figure 1: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase holding 
+both error terms at a high variance level.") + 
+  geom_text(aes(x = 6, y = 1.1), label = "LOQ", size = 3, show.legend = FALSE, family = "serif")
   
 
 save(example_graph, file = "example_graph.Rda")
 
 
+cor(kovariat, log(predictors))
+```
+
+
+```{r}
 with_bias <- Completed_df %>% 
   filter(Method != "True") %>% 
   mutate(diff = (Beta-Slope)^2) %>% 
@@ -333,8 +348,195 @@ LOQ30_Slope1.01_table <- htmlTable(Summary_LOQ30_Slope1.01, rnames=FALSE, align=
 
 save(LOQ30_Slope1.01_table, file = "LOQ30_Slope1.01_table.Rda")
 
+htmlTable(Summary_LOQ30_Slope1.01, rnames=FALSE, align="llllll", align.header="cccccc",
+          col.rgroup = rep(c("none", "gray93"), each=2),
+          css.cell = c("padding-left: 0em","padding-left: 1em",rep("padding-left: 2em",5)))
 
 
+LOQ30_Slope1.01_table <- htmlTable(Summary_LOQ30_Slope1.01, rnames=FALSE, align="llllll", align.header="cccccc",
+          col.rgroup = rep(c("none", "gray93"), each=2),
+          css.cell = c("padding-left: 0em","padding-left: 1em",rep("padding-left: 2em",5)),
+          caption = "Table 1: Summary statistics having 30% censored observations and a yearly increase of 1% on the original scale.")
+
+png("LOQ30_Slope1.01_table_img.png")
+p<-tableGrob(LOQ30_Slope1.01_table)
+grid.arrange(p)
+dev.off()
+
+
+
+
+Summary_LOQ30_Slope1.01
+
+
+knitr::kable(Summary_LOQ30_Slope1.01, caption = "Group Rows", booktabs = T) %>%
+kable_styling() %>%
+pack_rows("Group 1", 4, 7, latex_gap_space = "2em") %>%
+pack_rows("Group 2", 8, 10)
+
+
+
+
+
+
+
+All_Summary_Stats
+
+
+collapse_rows_dt <- data.frame(C1 = c(rep("a", 10), rep("b", 5)),
+C2 = c(rep("c", 7), rep("d", 3), rep("c", 2), rep("d", 3)),
+C3 = 1:15,
+C4 = sample(c(0,1), 15, replace = TRUE))
+
+ex_table <- kable(collapse_rows_dt, format = "latex", booktabs = T, align = "l") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+
+save(ex_table, file = "ex_table.Rda")
+
+
+kable(iris, format = "latex")
+```
+
+```{r}
+knitr::kable(iris, format = "html")
+
+
+kable(collapse_rows_dt, format = "html", booktabs = T, align = "l") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+
+
+
+
+Summary_LOQ30_Slope1.01 <- All_Summary_Stats %>% 
+  filter(`Limit fraction` == 0.3) %>% 
+  filter(Slope < 0.01) %>% 
+  mutate(Slope = '1%') %>%
+  select(-c(`Limit fraction`, Slope))
+
+test_table <- kable(Summary_LOQ30_Slope1.01, format = "latex", booktabs = T, align = "l") %>%
+column_spec(1, bold=T) %>%
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+
+save(test_table, file = "test_table.Rda")
+
+
+
+
+
+
+epsilon_errors123 <- rlnorm(N, mean, sd[2]) #Get the error terms for each response variable
+    year1 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[1,2]) #Simulates between-years errorterms
+    year2 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[2,2])
+    year3 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[3,2])
+    year4 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[4,2])
+    year5 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[5,2])
+    year6 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[6,2])
+    year7 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[7,2])
+    year8 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[8,2])
+    year9 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[9,2])
+    year10 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[10,2])
+    year11 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[11,2])
+    random_effects123 <- c(year1, year2, year3, year4, year5, year6, year7, year8, year9, year10, year11)
+    n <- length(epsilon_errors123) #Number of error terms noted as n
+    LOQ <- sort(epsilon_errors123*random_effects123)[0.6*n] #Decides the LOQ for the specific repitition
+    predictors123 <- exp(kovariat*slope[2]) * epsilon_errors123*random_effects123 #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
+    dataset_censored123 <- ifelse(predictors123<LOQ, -LOQ, predictors123) #Censores values under LOQ
+    
+    
+dataset_censored123 %>% as.data.frame() %>% filter(. < 0) %>% count()    
+
+80/length(dataset_censored123)
+
+
+betas_LOQ0.3_Slope1.05_LL <- Completed_df %>%
+  filter(`Limit fraction` == 0.3) %>% 
+  filter(Slope > 0.01) %>% 
+  filter(Std == 0.05) %>% 
+  filter(Method != 'True') %>% 
+  filter(`Random Effects` == "Low") %>% 
+  select(simulation, Method, Beta) %>% 
+  spread(Method, Beta)
+
+betas_LOQ0.6_Slope1.05_LL <- Completed_df %>%
+  filter(`Limit fraction` == 0.6) %>% 
+  filter(Slope > 0.01) %>% 
+  filter(Std == 0.05) %>% 
+  filter(Method != 'True') %>% 
+  filter(`Random Effects` == "Low") %>% 
+  select(simulation, Method, Beta) %>% 
+  spread(Method, Beta)
+
+betas_LOQ0.3_Slope1.01_LL <- Completed_df %>%
+  filter(`Limit fraction` == 0.3) %>% 
+  filter(Slope < 0.01) %>% 
+  filter(Std == 0.05) %>% 
+  filter(Method != 'True') %>% 
+  filter(`Random Effects` == "Low") %>% 
+  select(simulation, Method, Beta) %>% 
+  spread(Method, Beta)
+
+betas_LOQ0.6_Slope1.01_LL <- Completed_df %>%
+  filter(`Limit fraction` == 0.6) %>% 
+  filter(Slope < 0.01) %>% 
+  filter(Std == 0.05) %>% 
+  filter(Method != 'True') %>% 
+  filter(`Random Effects` == "Low") %>% 
+  select(simulation, Method, Beta) %>% 
+  spread(Method, Beta)
+
+plot_betas %>% 
+  ggplot(aes(x=Museum, y=Tobit)) +
+  geom_point()
+
+save(Completed_df, file = "Completed_df.Rda")
+Completed_df_fixed <- Completed_df %>% mutate(`Random Effects` = replace(`Random Effects`, `Random Effects` == "HIGH", "High"))
+betas <- Completed_df %>% filter(Method != "True")
+
+
+tobit_betas_low <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05) %>% 
+  filter(`Random Effects` == "Low")
+
+
+museum_betas_low <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05) %>% 
+  filter(`Random Effects` == "Low")
+
+betas_spread_low <- inner_join(tobit_betas_low, museum_betas_low, by = c("simulation", "Limit fraction", "Slope", "Std", "Random Effects"))
+
+
+betas_spread_low %>% ggplot(aes(x=Beta.x, y=Beta.y)) + geom_point() + facet_grid(`Limit fraction` ~ Slope)
+
+
+
+tobit_betas_high <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 1.4) %>% 
+  filter(`Random Effects` == "High") %>% 
+  mutate(Beta = Beta/Slope)
+
+
+museum_betas_high <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 1.4) %>% 
+  filter(`Random Effects` == "High") %>% 
+  mutate(Beta = Beta/Slope)
+
+betas_spread_high <- inner_join(tobit_betas_high, museum_betas_high, by = c("simulation", "Limit fraction", "Slope", "Std", "Random Effects"))
+
+
+betas_spread_high %>% ggplot(aes(x=Beta.x, y=Beta.y)) + geom_point() + facet_grid(`Limit fraction` ~ Slope)
+
+Completed_df %>% 
+  filter(`Random Effects` == "HIGH")
 ```
 
 

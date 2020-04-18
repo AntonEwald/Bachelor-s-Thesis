@@ -1,0 +1,49 @@
+---
+title: "Things_To_Analyse"
+author: "Anton Holm"
+date: '2020-04-18'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tinytex)
+library(tidyverse)
+library(kableExtra)
+```
+
+```{r}
+#Loading Beta plots
+load("Rdata_Files/Plot_low_High_Variance.Rda")
+load("Rdata_Files/Plot_High_Variance.Rda")
+load("Rdata_Files/Plot_Low_Variance.Rda")
+load("Rdata_Files/Plot_High_low_Variance.Rda")
+
+#Loading Summary Tables
+load("Rdata_Files/Table_LOQ30_Slope1.01.Rda")
+load("Rdata_Files/Table_LOQ60_Slope1.01.Rda")
+load("Rdata_Files/Table_LOQ30_Slope1.05.Rda")
+load("Rdata_Files/Table_LOQ60_Slope1.05.Rda")
+```
+
+
+```{r}
+#Beta Plots
+
+#Plot_low_High_Variance
+#Plot_High_low_Variance
+#Plot_High_Variance
+#Plot_low_Variance
+```
+
+
+```{r}
+#Summary Tables
+
+Table_LOQ30_Slope1.01
+Table_LOQ30_Slope1.05
+Table_LOQ60_Slope1.01
+Table_LOQ60_Slope1.05
+```
