@@ -256,7 +256,13 @@ example_graph
 
 Figure 1 shows one of the simulated data-sets when simulating at a censoring level of $60 \%$ with a slope implying a $5 \%$ yearly increase where $X$ is to represent different years and the y-axis serve as an illustration of the logarithmic value of concentration of an arbritary metal found in a specimen. Seing next to no correlation between the covariate and the response is to be expected in an environment where changes happens slowly. However, small changes over a longer period of time might still have a huge impact as illuminated by Bignert et. al. (2017, pp. 46). 
 
-Tables 1-4 shows a summary of the simulation grouped by proportion of censored values and the true value of the slope. The first thing that stands out, which might come as a surprice is the fact that whenever at least one of the errorterms are set to a high value, the Tobit model produce more biased estimates than in the case of using substitution. However, when the errorterms have less influence, the Tobit model produced unbiased estimates while the substitution method, as shown by El-Shaarawi and Esterby (1992), still fails to produce unbiased estimates.  
+Tables 1-4 shows a summary of the simulation grouped by proportion of censored values and the true value of the slope. The first thing that stands out, which might come as a surprice is the fact that whenever at least one of the errorterms are set to a high value, the Tobit model produce more biased estimates than in the case of using substitution. However, when the errorterms have less influence, the Tobit model produced unbiased estimates while the substitution method, as shown by El-Shaarawi and Esterby (1992), still fails to produce unbiased estimates. Another interesting conclusion is in that when using substitution, the bias increase as the slope increase while the reverse seems to be true for the Tobit model except for the special case of holding both error terms at a high level (see Table 2 & 4). When alterning the proportion of censoring the Tobit model gives more biased estimates at higher proportions as to be expected while the substitution method does the same for the larger slope value and at the same time the reverse for a lower value of the slope. The Tobit model does however still give unbiased estimates at small noise no matter the proportion of censoring. 
+
+**Förklara Vilket konfidensintervall!!**
+
+When taking a closer look at the coverage of both methods the Tobit model clearly has a coverage over $95 \%$ in all cases but one (see Table 4). On the other hand, even though using substitution might have produces less bias in most cases, the coverage is not even close to the promised $95 \%$. Anytime the errorterms are held at a low level, the coverage is close to zero. There are at the same time no clear patterns for any of the factors affecting the coverage of the Tobit model except for a slight decrease in coverage when the between-year errors are set to low over high. 
+
+The variance of the estimator for the model of the museum is to no surprise much lower than that of the Tobit model. The variance of the estimators are obviously affected by the level of the errorterms. However, the effect is much clearer for the Tobit model. The inclination of the slope seems to have no major effect on the variance except for once again one special case for the Tobit model, when all factors are set to a high level (see Table 4). What might be of more interest is the effect censoring has on the estimator. For the Tobit model, there is a clear increase in variance whenever the proportion of censoring is larger while the reverse, to no surprise, holds true when substituting values. 
 
 ```{r}
 Table_LOQ30_Slope1.01
@@ -279,11 +285,6 @@ http://faculty.washington.edu/mlt/Thompson%202003b.pdf (Sec 4)
 
 
 
-We want a slope representing a 1% yearly increase. Our model is $Y=e^{\beta_1 X + \epsilon}$ so when $X$ goes to $X+1$ we want $Y$ to go to $Y\cdot 1.01$ hence $Y(x+1)=e^{\beta_1 (X + 1) + \epsilon} = e^{\beta_1 X + \epsilon}e^{\beta_1}=Y\cdot e^{\beta_1}$ hence $e^\beta_1=1.01$ so $\beta_1=log(1.01)$ so in the log scale, our slope is log(log(1.01)) : Probobly wrong
-
-To choose variance for the individual fish error term, group_by each location, calculate standard deviations and pick lowest and highest.
-
-To choose variances for year, do the same as for individual but also group_by YEAR, only pick locations that did analysis on individual specimens, removing those that did analysis on a group of fish since they only have 1-2 observations per year giving a bad estimate of yearly variance. 
 
 The variances are calculated using the R functions from chapter 6 in the environmental book.
 
