@@ -2,7 +2,9 @@
 title: "Plotting_Betas"
 author: "Anton Holm"
 date: '2020-04-16'
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,9 +14,10 @@ library(tidyverse)
 ```
 
 ```{r}
+load("../Rdata_Files/Completed_df.Rda")
 Completed_df <- Completed_df %>% mutate(`Random Effects` = replace(`Random Effects`, `Random Effects` == "HIGH", "High"))
 save(Completed_df, file = "Completed_df.Rda")
-load("Completed_df.Rda")
+
 
 betas <- Completed_df %>% filter(Method != "True") %>% mutate(Slope_Perc = ifelse(Slope < 0.01, "1%", "5%"))
 
@@ -82,4 +85,66 @@ save(Plot_low_Variance, file = "Plot_low_Variance.Rda")
 Plot_low_Variance
 Plot_High_Variance
 
+```
+
+```{r}
+tobit_betas_individual_high <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 1.4)
+
+
+museum_betas_individual_high <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 1.4)
+
+betas_spread_individual_high <- tobit_betas_individual_high %>% 
+  mutate(Museum_Beta = museum_betas_individual_high$Beta)
+
+
+Plot_High_Individual_Variance <- betas_spread_individual_high %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`)) +
+  facet_grid(Slope_Perc ~ `Limit fraction`) +
+  geom_point(alpha = 0.6) + 
+   geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
+  geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
+   geom_vline(data = data.frame(Slope_Perc="5%", x=log(1.05)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 3: Plotting the estimated slopes for the Museum model
+  and Tobit model against eachother having the variance of individual specimens set to high.
+  The vertical and horizontal lines correspond to the true value of the slope.")
+
+save(Plot_High_Individual_Variance, file = "../Rdata_Files/Plot_High_Individual_Variance.Rda")
+
+
+
+
+
+tobit_betas_individual_low <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05)
+
+
+museum_betas_individual_low <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05)
+
+betas_spread_individual_low <- tobit_betas_individual_low %>% 
+  mutate(Museum_Beta = museum_betas_individual_low$Beta)
+
+
+Plot_Low_Individual_Variance <- betas_spread_individual_low %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`)) +
+  facet_grid(Slope_Perc ~ `Limit fraction`) +
+  geom_point(alpha = 0.6) + 
+   geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
+  geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
+   geom_vline(data = data.frame(Slope_Perc="5%", x=log(1.05)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 2: Plotting the estimated slopes for the Museum model
+  and Tobit model against eachother having the variance of individual specimens set to low.
+  The vertical and horizontal lines correspond to the true value of the slope.")
+
+save(Plot_Low_Individual_Variance, file = "../Rdata_Files/Plot_Low_Individual_Variance.Rda")
 ```

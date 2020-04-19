@@ -257,8 +257,8 @@ example_graph <- example_of_one_simulation %>%
   theme(plot.caption=element_text(hjust = 0.2), legend.position = c(0.9, 0.2), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase holding 
-both error terms at a high variance level.") + 
+  labs(x='X', y = 'Log(Y)', caption= "Figure 1: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase
+holding both error terms at a high variance level.") + 
   geom_text(aes(x = 6, y = 1.1), label = "LOQ", size = 3, show.legend = FALSE, family = "serif")
   
 
@@ -266,6 +266,8 @@ save(example_graph, file = "example_graph.Rda")
 
 
 cor(kovariat, log(predictors))
+
+metals
 ```
 
 
@@ -537,6 +539,94 @@ betas_spread_high %>% ggplot(aes(x=Beta.x, y=Beta.y)) + geom_point() + facet_gri
 
 Completed_df %>% 
   filter(`Random Effects` == "HIGH")
+
+
+
+Completed_df %>% 
+  group_by(`Limit fraction`, Slope, Std, Method, `Random Effects`) %>% 
+  mutate(diff = abs(Beta-Slope)) %>% 
+  summarise(diff = max(diff)) %>% 
+  filter(Method != "True") %>% 
+  arrange(desc(diff))
+
+
+
+
+low_slope_df <- Completed_df %>% 
+  filter(Method != "True") %>% 
+  filter(Slope < 0.01) %>% 
+  mutate(simulation = ifelse(`Limit fraction` == 0.6, simulation-100, simulation))
+
+
+tobit_betas <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method))
+
+museum_betas <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) 
+
+spread_betas <- tobit_betas %>% 
+  mutate(museum_beta = museum_betas$Beta)
+
+
+spread_betas  %>% 
+  ggplot(aes(x=Beta, y=museum_beta)) +
+  facet_grid(Slope_Perc ~ `Limit fraction`) +
+  geom_point() + 
+   geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
+  geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
+   geom_vline(data = data.frame(Slope_Perc="5%", x=log(1.05)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 2: Plotting the estimated slopes for the Museum model and Tobit model against eachother
+having the variance of both error terms set to high.")
+
+
+
+
+betas_spread_individual_low %>% 
+  group_by(Slope, Std, `Limit fraction`, `Random Effects`) %>% 
+  summarise(correlation = cor(Beta,Museum_Beta))
+
+
+tobit_betas_low <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method))
+
+
+museum_betas_low <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method))
+
+betas_spread <- tobit_betas_low %>% 
+  mutate(Museum_Beta = museum_betas_low$Beta)
+
+
+Three_metals <- metals %>% 
+  select(YEAR, SPECIES, LOC, NI, CR, PB)
+
+Fladen_Herring <- Three_metals %>% filter(LOC == "Fladen") %>% mutate(PB = ifelse(PB < 0, log(abs(PB/sqrt(2))), log(abs(PB)))) %>% filter(SPECIES == "Herring")
+lm(PB~YEAR, data=Fladen_Herring)
+
+
+Fladen_Metals <- Three_metals %>% 
+  filter(LOC == "Fladen") %>% 
+  filter(SPECIES == "Herring")
+
+
+
+
+Vector_values <- Fladen_Metals
+N = length(Vector_values$PB)
+
+Y_varden <- log(abs(Vector_values$PB))
+censor_indikator <- Vector_values$PB < 0
+X <- cbind(rep_len(1,N), Vector_values$YEAR)
+Z <- matrix(rep_len(1,N), ncol=1)
+cluster <- as.numeric(factor(Vector_values$YEAR))
+fitted <- lmec(Y_varden, censor_indikator, X, Z, cluster, maxstep = 20, method = "ML")
+
+fitted
 ```
 
 

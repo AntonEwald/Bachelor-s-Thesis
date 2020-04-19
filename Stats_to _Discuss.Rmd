@@ -21,6 +21,9 @@ load("Rdata_Files/Plot_High_Variance.Rda")
 load("Rdata_Files/Plot_Low_Variance.Rda")
 load("Rdata_Files/Plot_High_low_Variance.Rda")
 
+load("Rdata_Files/Plot_Low_Individual_Variance.Rda")
+load("Rdata_Files/Plot_High_Individual_Variance.Rda")
+
 #Loading Summary Tables
 load("Rdata_Files/Table_LOQ30_Slope1.01.Rda")
 load("Rdata_Files/Table_LOQ60_Slope1.01.Rda")
@@ -31,11 +34,15 @@ load("Rdata_Files/Table_LOQ60_Slope1.05.Rda")
 
 ```{r}
 #Beta Plots
+#par(mfrow=c(2,2))
+#Plot_low_High_Variance
+#Plot_High_low_Variance
+#Plot_High_Variance
+#Plot_low_Variance
 
-Plot_low_High_Variance
-Plot_High_low_Variance
-Plot_High_Variance
-Plot_low_Variance
+par(mfrow=c(1,2))
+Plot_Low_Individual_Variance
+Plot_High_Individual_Variance
 ```
 
 
