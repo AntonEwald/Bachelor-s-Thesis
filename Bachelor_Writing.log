@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  20 APR 2020 09:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  20 APR 2020 09:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -832,7 +832,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 981.
 Here is how much of TeX's memory you used:
  12109 strings out of 482530
  175689 string characters out of 5949330
- 439267 words of memory out of 5000000
+ 439279 words of memory out of 5000000
  27437 multiletter control sequences out of 15000+600000
  589377 words of font info for 56 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -863,7 +863,7 @@ b><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy
 /lmsy5.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
 c/lm/lmsy7.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/p
 ublic/amsfonts/symbols/msbm10.pfb>
-Output written on Bachelor_Writing.pdf (13 pages, 431570 bytes).
+Output written on Bachelor_Writing.pdf (13 pages, 431590 bytes).
 PDF statistics:
  315 PDF objects out of 1000 (max. 8388607)
  273 compressed objects within 3 object streams

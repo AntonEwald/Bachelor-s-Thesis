@@ -302,9 +302,9 @@ Plot_High_Individual_Variance
 **Testa bara Herring? ty ingen annan har många observationer**
 
 ```{r}
-kable(df_PB_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring")
-kable(df_NI_Herring, format = "latex",caption = "Result for Tobit model on data for NI in Herring")
-kable(df_CR_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring")
+kable(df_PB_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring (Log-Scale)")
+kable(df_NI_Herring, format = "latex",caption = "Result for Tobit model on data for NI in Herring (Log-Scale)")
+kable(df_CR_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring (Log-Scale)")
 ```
 
 ## Result
