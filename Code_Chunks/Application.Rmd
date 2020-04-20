@@ -36,7 +36,7 @@ List_each_LOC <- split(metals_many_obs_herring, f = metals_many_obs_herring$LOC)
 Betas_NI_Herring <- matrix(nrow = length(List_each_LOC), ncol = 7)
 
 i = 1
-Metal = 'NI'
+Metal = 'CR'
 
 #Loopar över varje plats och tar fram skattad lutning, antal år, antal observationer, andel censurerat och varians
 while(i<length(List_each_LOC)+1) {
@@ -73,4 +73,9 @@ df_PB_Herring <- Betas_PB_Herring %>%
   mutate(`%Censored` = (as.numeric(as.character(`%Censored`)))*100)
 
 save(df_PB_Herring, file = "df_PB_Herring.Rda")
-```
+
+
+df_PB_Herring %>% mutate(Beta = exp(Beta))
+
+
+List_each_LOC[[2]] %>% select(PB)

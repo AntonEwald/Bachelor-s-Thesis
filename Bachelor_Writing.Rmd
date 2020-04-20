@@ -31,6 +31,11 @@ load("Rdata_Files/Table_LOQ60_Slope1.01.Rda")
 load("Rdata_Files/Table_LOQ30_Slope1.05.Rda")
 load("Rdata_Files/Table_LOQ60_Slope1.05.Rda")
 
+#Loading Application Tables
+load("Rdata_Files/df_PB_Herring.Rda")
+load("Rdata_Files/df_NI_Herring.Rda")
+load("Rdata_Files/df_CR_Herring.Rda")
+
 ```
 
 ## Abstrakt
@@ -294,9 +299,13 @@ Plot_High_Individual_Variance
 
 ## Application
 **Ta fram variansen för specifika platser när du testar**
-**Herring för PB ty ingen annan har många observationer**
+**Testa bara Herring? ty ingen annan har många observationer**
 
-
+```{r}
+kable(df_PB_Herring, format = "latex")
+kable(df_NI_Herring, format = "latex")
+kable(df_CR_Herring, format = "latex")
+```
 
 ## Result
 
