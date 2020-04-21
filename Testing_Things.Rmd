@@ -627,6 +627,217 @@ cluster <- as.numeric(factor(Vector_values$YEAR))
 fitted <- lmec(Y_varden, censor_indikator, X, Z, cluster, maxstep = 20, method = "ML")
 
 fitted
+
+
+
+library(NADA)
+
+
+PB_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Fladen <- cenros(PB_Fladen[['PB']], PB_Fladen[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Fladen_Plot <- plot(PB_ros_Fladen)
+
+
+PB_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Harufjarden <- cenros(PB_Harufjarden[['PB']], PB_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Harufjarden_Plot <- plot(PB_ros_Harufjarden)
+
+
+PB_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Landsort <- cenros(PB_Landsort[['PB']], PB_Landsort[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Landsort_Plot <- plot(PB_ros_Landsort)
+
+
+PB_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Utlangan <- cenros(PB_Utlangan[['PB']], PB_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Utlangan_Plot <- plot(PB_ros_Utlangan)
+
+
+PB_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Vaderoarna <- cenros(PB_Vaderoarna[['PB']], PB_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Vaderoarna_Plot <- plot(PB_ros_Vaderoarna)
+
+
+PB_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+
+PB_ros_Angkarsklubb <- cenros(PB_Angkarsklubb[['PB']], PB_Angkarsklubb[['cens']], forwardT="log", reverseT = NULL)
+
+PB_Angkarsklubb_Plot <- plot(PB_ros_Angkarsklubb)
+
+
+
+
+
+
+par(mfrow = c(2,3))
+plot(PB_ros_Fladen)
+plot(PB_ros_Harufjarden)
+plot(PB_ros_Landsort)
+plot(PB_ros_Utlangan)
+plot(PB_ros_Vaderoarna)
+plot(PB_ros_Angkarsklubb)
+mtext("Title for Two Plots", outer = TRUE, cex = 1.5)
+
+
+
+
+
+
+
+
+
+
+NI_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Fladen <- cenros(NI_Fladen[['NI']], NI_Fladen[['cens']], forwardT="log", reverseT = NULL)
+
+NI_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Harufjarden <- cenros(NI_Harufjarden[['NI']], NI_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+
+NI_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Landsort <- cenros(NI_Landsort[['NI']], NI_Landsort[['cens']], forwardT="log", reverseT = NULL)
+
+
+NI_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Utlangan <- cenros(NI_Utlangan[['NI']], NI_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+
+
+NI_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Vaderoarna <- cenros(NI_Vaderoarna[['NI']], NI_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+
+
+NI_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
+NI_ros_Angkarsklubb <- cenros(NI_Angkarsklubb[['NI']], NI_Angkarsklubb[['cens']], forwardT="log", reverseT = NULL)
+
+
+
+pdf("NI_ros_plots.pdf")
+par(mfrow = c(2,3),  mai = c(1.2, 0.4, 0.1, 0.1))
+plot(NI_ros_Fladen)
+plot(NI_ros_Harufjarden)
+plot(NI_ros_Landsort)
+plot(NI_ros_Utlangan)
+plot(NI_ros_Vaderoarna)
+plot(NI_ros_Angkarsklubb)
+dev.off()
+
+
+
+
+CR_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+CR_ros_Fladen <- cenros(CR_Fladen[['CR']], CR_Fladen[['cens']], forwardT="log", reverseT = NULL)
+
+CR_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+CR_ros_Harufjarden <- cenros(CR_Harufjarden[['CR']], CR_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+
+CR_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+CR_ros_Landsort <- cenros(CR_Landsort[['CR']], CR_Landsort[['cens']], forwardT="log", reverseT = NULL)
+
+
+CR_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+CR_ros_Utlangan <- cenros(CR_Utlangan[['CR']], CR_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+
+
+CR_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+CR_ros_Vaderoarna <- cenros(CR_Vaderoarna[['CR']], CR_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+
+
+CR_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
+  CR_ros_Angkarsklubb <- cenros(CR_Angkarsklubb[['CR']], CR_Angkarsklubb[['cens']], reverseT=NULL)
+
+  plot(cenros(CR_Angkarsklubb[['CR']], CR_Angkarsklubb[['cens']], reverseT=NULL))
+  
+  
+List_each_LOC[[1]] %>% 
+  filter(SPECIES == "Herring") %>% 
+  select(YEAR, PB) %>% 
+  mutate(PB = log(abs(PB))) %>% 
+  group_by(YEAR) %>% 
+  summarise(Variance = sd(PB))
+
+
+
+List_each_LOC[[1]] %>% count(YEAR) %>% nrow()  
+
+
+
+std_matrix_all <- matrix(ncol = 30,  nrow = 12)
+
+i = 1
+k = 1
+while(k<13){
+  i=1
+  while(i<30){
+  data <- List_all_LOC[[i]] %>%
+    filter(SPECIES == "Herring") %>%
+    select(YEAR, CR) %>% 
+    mutate(cens = CR < 0) %>% 
+    filter(YEAR == 2006 + k) %>% 
+    mutate(CR = abs(CR))  
+    stats <- cenmle(data$CR, data$cens, dist = "lognormal") 
+    std_matrix_all[k,i] <- sd(stats)^2 
+    i = i + 1
+  }
+  k = k+1
+}
+
+
+List_each_LOC[[6]]
+
+
+List_all_LOC <- split(metals, f = metals$LOC)
+
+std_PB_yearly <- as.data.frame(std_matrix) %>% 
+  rename(Fladen = V1)%>% 
+  rename(Harufjärden = V2)%>% 
+  rename(Landsort = V3)%>% 
+  rename(Utlängan = V4)%>% 
+  rename(Väderöarna = V5)%>% 
+  rename(Ängskärsklubb = V6)
+std_NI_yearly <- as.data.frame(std_matrix_NI)%>% 
+  rename(Fladen = V1)%>% 
+  rename(Harufjärden = V2)%>% 
+  rename(Landsort = V3)%>% 
+  rename(Utlängan = V4)%>% 
+  rename(Väderöarna = V5)%>% 
+  rename(Ängskärsklubb = V6)
+
+std_CR_yearly <- as.data.frame(std_matrix_CR) %>% 
+  rename(Fladen = V1)%>% 
+  rename(Harufjärden = V2)%>% 
+  rename(Landsort = V3)%>% 
+  rename(Utlängan = V4)%>% 
+  rename(Väderöarna = V5)%>% 
+  rename(Ängskärsklubb = V6)
+
+
+
+
+CR_utlangan_eight <- List_each_LOC[[4]] %>% filter(YEAR == 2008) %>% select(CR) %>% mutate(cens = CR < 0) %>% mutate(CR = abs(CR))
+
+
+cenmle(CR_utlangan_eight$CR, CR_utlangan_eight$cens)
+
+
+std_matrix_all %>% as.data.frame()
+
+
+metals_many_obs_herring %>% 
+  mutate(CR = ifelse(CR < 0, log(abs(CR)/sqrt(2)), log(abs(CR)))) %>% 
+  group_by(YEAR, LOC) %>%
+  summarise(variance = sd(CR)^2)
+
+
+as.data.frame(std_matrix_all)
 ```
 
 

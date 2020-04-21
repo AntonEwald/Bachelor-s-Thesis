@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  20 APR 2020 09:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  21 APR 2020 20:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -584,10 +584,10 @@ LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
 LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
 
 
-LaTeX Warning: Label `tab:unnamed-chunk-5' multiply defined.
+LaTeX Warning: Label `tab:unnamed-chunk-6' multiply defined.
 
 
-LaTeX Warning: Label `tab:unnamed-chunk-5' multiply defined.
+LaTeX Warning: Label `tab:unnamed-chunk-6' multiply defined.
 
 )
 \openout1 = `Bachelor_Writing.aux'.
@@ -724,13 +724,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 217
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [2] [3] [4] [5] [6]
-<Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf, id=135, 469.755pt x
+<Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf, id=143, 469.755pt x
  325.215pt>
 File: Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (t
 ype pdf)
 <use Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.
-pdf  used on input line 617.
+pdf  used on input line 620.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [7 <./Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf>] [8pdfTeX warn
 ing (ext4): destination with the same identifier (name{table.1}) has been alrea
@@ -738,32 +738,33 @@ dy used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.805 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.2
-}) has been already used, duplicate ignored
+l.804 Y
+       et another sriking result is the fact that the proportion of censoringpd
+fTeX warning (ext4): destination with the same identifier (name{table.2}) has b
+een already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.805 
-      ]
-<Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf, id=153, 469.755pt x
+l.804 Y
+       et another sriking result is the fact that the proportion of censoring]
+<Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf, id=162, 469.755pt x
  325.215pt>
 File: Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (t
 ype pdf)
 <use Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.
-pdf  used on input line 806.
+pdf  used on input line 809.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf, id=154, 469.755pt x
+<Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf, id=163, 469.755pt x
  325.215pt>
 File: Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf Graphic file (t
 ype pdf)
 <use Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf>
 Package pdftex.def Info: Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.
-pdf  used on input line 807.
+pdf  used on input line 810.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 806--808
+Underfull \hbox (badness 10000) in paragraph at lines 809--811
 [][]
  []
 
@@ -772,68 +773,87 @@ as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.808 
+l.811 
       pdfTeX warning (ext4): destination with the same identifier (name{table.4
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.808 
-      ] [10 <./Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf>]
-Overfull \hbox (93.19998pt too wide) in paragraph at lines 819--836
+l.811 
+      ] [10 <./Bachelor_Writing_files/figure-latex/unnamed-chunk-4-1.pdf>] [11 
+<./Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf>]
+<Code_Chunks/PB_ros_plots.pdf, id=198, 505.89pt x 505.89pt>
+File: Code_Chunks/PB_ros_plots.pdf Graphic file (type pdf)
+<use Code_Chunks/PB_ros_plots.pdf>
+Package pdftex.def Info: Code_Chunks/PB_ros_plots.pdf  used on input line 929.
+(pdftex.def)             Requested size: 469.76265pt x 469.76265pt.
+<Code_Chunks/NI_ros_plots.pdf, id=199, 505.89pt x 505.89pt>
+File: Code_Chunks/NI_ros_plots.pdf Graphic file (type pdf)
+<use Code_Chunks/NI_ros_plots.pdf>
+Package pdftex.def Info: Code_Chunks/NI_ros_plots.pdf  used on input line 930.
+(pdftex.def)             Requested size: 469.76265pt x 469.76265pt.
+<Code_Chunks/CR_ros_plots.pdf, id=200, 505.89pt x 505.89pt>
+File: Code_Chunks/CR_ros_plots.pdf Graphic file (type pdf)
+<use Code_Chunks/CR_ros_plots.pdf>
+Package pdftex.def Info: Code_Chunks/CR_ros_plots.pdf  used on input line 931.
+(pdftex.def)             Requested size: 469.76265pt x 469.76265pt.
+[12] [13 <./Code_Chunks/PB_ros_plots.pdf>] [14 <./Code_Chunks/NI_ros_plots.pdf>
+]
+Overfull \hbox (68.33893pt too wide) in paragraph at lines 940--957
  [][] 
  []
 
 
-Overfull \hbox (91.14452pt too wide) in paragraph at lines 842--859
+Overfull \hbox (68.33893pt too wide) in paragraph at lines 963--980
  [][] 
  []
 
 
-Overfull \hbox (86.14452pt too wide) in paragraph at lines 865--882
+Overfull \hbox (63.33893pt too wide) in paragraph at lines 986--1003
  [][] 
  []
 
-[11pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
+[15pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.903   T
-         obit model seems more consistent in what factors affects estimates in 
-<./Bachelor_Writing_files/figure-latex/unnamed-chunk-4-2.pdf>] [12pdfTeX warnin
-g (ext4): destination with the same identifier (name{table.6}) has been already
- used, duplicate ignored
+l.1017   C
+          an, and should, try with higher (or no) limit of iterations if not so
+ <./Code_Chunks/CR_ros_plots.pdf>] [16pdfTeX warning (ext4): destination with t
+he same identifier (name{table.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.959   T
-         hompson, M .L. and Nelson, K. P., (2003), Linear regression with Typep
-dfTeX warning (ext4): destination with the same identifier (name{table.7}) has 
-been already used, duplicate ignored
+l.1068   E
+          aton, M. L. (1983). Multivariate Statistics: a Vector Space Approach.
+pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has
+ been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.959   T
-         hompson, M .L. and Nelson, K. P., (2003), Linear regression with Type]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 981.
-[13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 981.
+l.1068   E
+          aton, M. L. (1983). Multivariate Statistics: a Vector Space Approach.
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1106.
+[17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1106.
 (./Bachelor_Writing.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 981.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 981.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1106.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1106.
+
 Package rerunfilecheck Info: File `Bachelor_Writing.out' has not changed.
-(rerunfilecheck)             Checksum: 510E527F0FD4301DF0FE6D1C62679741;2127.
+(rerunfilecheck)             Checksum: 2448626888ABD5DBADD52B6355E43594;2584.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 981.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1106.
  ) 
 Here is how much of TeX's memory you used:
- 12109 strings out of 482530
- 175689 string characters out of 5949330
- 439279 words of memory out of 5000000
- 27437 multiletter control sequences out of 15000+600000
+ 12141 strings out of 482530
+ 176515 string characters out of 5949330
+ 438394 words of memory out of 5000000
+ 27456 multiletter control sequences out of 15000+600000
  589377 words of font info for 56 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  34i,12n,37p,395b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -863,10 +883,10 @@ b><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy
 /lmsy5.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
 c/lm/lmsy7.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/p
 ublic/amsfonts/symbols/msbm10.pfb>
-Output written on Bachelor_Writing.pdf (13 pages, 431590 bytes).
+Output written on Bachelor_Writing.pdf (17 pages, 465487 bytes).
 PDF statistics:
- 315 PDF objects out of 1000 (max. 8388607)
- 273 compressed objects within 3 object streams
- 75 named destinations out of 1000 (max. 500000)
- 144 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 366 PDF objects out of 1000 (max. 8388607)
+ 313 compressed objects within 4 object streams
+ 84 named destinations out of 1000 (max. 500000)
+ 175 words of extra memory for PDF output out of 10000 (max. 10000000)
 
