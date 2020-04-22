@@ -18,25 +18,23 @@ library(kableExtra)
 load("Rdata_Files/example_graph.Rda")
 
 #Loading Beta plots
-load("Rdata_Files/Plot_low_High_Variance.Rda")
-load("Rdata_Files/Plot_High_Variance.Rda")
-load("Rdata_Files/Plot_Low_Variance.Rda")
-load("Rdata_Files/Plot_High_low_Variance.Rda")
-
 load("Rdata_Files/Plot_Low_Individual_Variance.Rda")
+load("Rdata_Files/Plot_Medium_Individual_Variance.Rda")
 load("Rdata_Files/Plot_High_Individual_Variance.Rda")
 
 #Loading Summary Tables
-load("Rdata_Files/Table_LOQ30_Slope1.01.Rda")
-load("Rdata_Files/Table_LOQ60_Slope1.01.Rda")
-load("Rdata_Files/Table_LOQ30_Slope1.05.Rda")
-load("Rdata_Files/Table_LOQ60_Slope1.05.Rda")
+load("Code_Chunks/Table_LOQ30_Slope1.01.Rda")
+load("Code_Chunks/Table_LOQ60_Slope1.01.Rda")
+load("Code_Chunks/Table_LOQ30_Slope1.05.Rda")
+load("Code_Chunks/Table_LOQ60_Slope1.05.Rda")
 
 #Loading Application Tables
 load("Code_Chunks/df_PB_Herring.Rda")
 load("Code_Chunks/df_NI_Herring.Rda")
 load("Code_Chunks/df_CR_Herring.Rda")
 
+
+load("Rdata_Files/substitution_df_application.Rda")
 ```
 
 ## Abstrakt
@@ -256,9 +254,9 @@ with $i$ being the index denoting the corresponding year and $j$ denoting the in
 
 1. The proportion of censored data varied between $30 \%$ and $60 \%$ with all data being left-censored.
 2. The slope of the regression line alternating between a yearly increase of $1 \%$ and $5 \%$ on the original scale
-3. The two error terms $\epsilon$ and $b$ changed between large and small
+3. The two error terms $\epsilon$ and $b$ changed between small, medium and large for the noise of the individual specimen and betweel small and large for the between-year noise.
 
-resulting in $16$ different scenarios. The limit of quantification was in other words put at the value representing $30 \%$ and $60 \%$ censored data if both the intercept and slope were to be put to $0$. Hence the proportion of censored data are affected by the slope. The proportions chosen are directly taken from the proportion of censored data of the two metals with the most censoring of those examined by the museum. The exact values of the error terms were calculated using the methods of Helsel (2005) and the *NADA* packages in *R*, namely the *cenmle* function used on the data retrieved from the Swedish Museum of Natural History to calculate the standard deviations on individual and yearly level. One of the lowest and highest values were chosen to be included in the simulationstudy. For the noise of each individual specimen this resulted in a standard deviation of $0.05$ and $1.4$. The standard deviation for the noise between years were given by calculating the noise for each year seperately, choosing some of the lowest and highest value for each year resulting in the standard deviation ranging between $0.0007$ and $0.05417$ on the lower scale and between $1.044$ and $4.069$ for the larger scale. For most cases, the between-year variances were around the lower scale, however, considering some of the cases had higher variances, using a larger scale is also of interest.
+resulting in $24$ different scenarios. The limit of quantification was in other words put at the value representing $30 \%$ and $60 \%$ censored data if both the intercept and slope were to be put to $0$. Hence the proportion of censored data are affected by the slope. The exact values of the error terms were calculated using the methods of Helsel (2005) and the *NADA* packages in *R*, namely the *cenmle* function used on the data retrieved from the Swedish Museum of Natural History to calculate the standard deviations on individual and yearly level. One of the lower and higher noise of the individual specimen for a location was chosen aswell as the standard deviation between these two were chosen to be included in the simulationstudy. For the between-years noise, the lower value represent where most of the noise lied while the larger value represent some of the more extreme cases. For the noise of each individual specimen this resulted in a standard deviation of $0.05$, $0.5$ and $1.4$. Most of the locations in the data had standard deviations on individual level at somewhere between $0.05$ and $0.5$. The standard deviation for the noise between years were given by calculating the noise for each year seperately, choosing some of the lowest and highest value for each year resulting in the standard deviation ranging between $0.0007$ and $0.05417$ on the lower scale and between $1.044$ and $4.069$ for the larger scale. For most cases, the between-year variances were around the lower scale, however, considering some of the cases had higher variances, using a larger scale is also of interest.
 
 For each of these scenarios, $100$ simulation were made in which the method of substituting censored observations with a fraction of the limit of quantification (in this case using the entity of LOQ/$\sqrt2$ to continue mimicing the museum) and the maximum likelihood method were both used. The data-sets were simulated using the model describe above and the R function 'rlnorm' to simulate the error terms. The results from the model using fabricated data were retrieved using the base R function *lm* while the results for the maximum likelihood method were calculated using the *lmec* function from the package with the same name produced by Vaida and Liu (2009). For the EM-algorithm used in the lmec function to estimate effect parameters a cap of $20$ iterations were decided due to the immense time effort needed for the lmec function when using a data-set with high proportion of censored data. An example of the data obtained from one of the simulations can be seen in Figure 1. 
 
@@ -268,14 +266,14 @@ example_graph
 
 Figure 1 shows one of the simulated data-sets when computing at a censoring level of $60 \%$ with a slope implying a $5 \%$ yearly increase, where $X$ is to represent different years and the y-axis serve as an illustration of the logarithmic value of concentration of an arbritary metal found in a specimen. Seing next to no correlation between the covariate and the response is to be expected in an environment where changes happens slowly. However, small changes over a longer period of time might still have a huge impact as illuminated by Bignert et. al. (2017, pp. 46). 
 
-Tables 1-4 shows a summary of the simulation grouped by proportion of censored values and the true value of the slope. The first thing that stands out, which might come as a surprice is the fact that whenever at least one of the errorterms are set to a high value, the Tobit model produce more biased estimates than in the case of using substitution. However, when the errorterms have less influence, the Tobit model produced unbiased estimates while the substitution method, as shown by El-Shaarawi and Esterby (1992), still fails to produce unbiased estimates. Another interesting conclusion is in that when using substitution, the bias increase as the slope increase while the reverse seems to be true for the Tobit model except for the special case of holding both error terms at a high level (see Table 2 & 4). When alterning the proportion of censoring the Tobit model gives more biased estimates at higher proportions as to be expected while the substitution method does the same for the larger slope value and at the same time the reverse for a lower value of the slope. The Tobit model does however still give unbiased estimates at small noise at both of the proportion of censoring. 
+Tables 1-4 shows a summary of the simulation grouped by proportion of censored values and the true value of the slope. The first thing that stands out, which might come as a surprice is the fact that whenever at least one of the errorterms are not set to a lower value, the Tobit model produce more or close to equally biased estimates than in the case of using substitution. However, when the errorterms have less influence, the Tobit model produced unbiased estimates while the substitution method, as shown by El-Shaarawi and Esterby (1992), still fails to produce unbiased estimates. Another interesting conclusion is in that when using substitution, the bias increase as the slope increase while the reverse seems to be true for the Tobit model except for the special case of holding both error terms and the proportion of censored values at a high level (compare Table 3 & 4). When alterning the proportion of censoring the Tobit model gives more biased estimates at higher proportions as to be expected considering there are less information while the substitution method does the same for the larger slope value and at the same time the reverse for a lower value of the slope. The Tobit model does however still give unbiased estimates at small noise at both of the proportion of censoring. 
 
 **Förklara Vilket konfidensintervall!!**
 **Wald-CI: se(beta)^2 = (squared bias)/(simulations-1) **
 
-When taking a closer look at the coverage of both methods the Tobit model clearly has a coverage over $95 \%$ in all cases but one (see Table 4). On the other hand, even though using substitution might have produced less bias in most cases, the coverage is not even close to the promised $95 \%$. Anytime the errorterms are held at a low level, the coverage is close to zero. There are at the same time no clear patterns for any of the factors affecting the coverage of the Tobit model except for a slight decrease in coverage when the between-year errors are set to low over high. 
+When taking a closer look at the coverage of both methods the Tobit model clearly has a coverage around $95 \%$ in all cases. On the other hand, even though using substitution might have produced less bias in most cases, the coverage is not even close to the promised $95 \%$ for all scenarios. Anytime the errorterms are held at a low level, the coverage is close to zero. There are at the same time no clear patterns for any of the factors affecting the coverage of the Tobit model except for a slight decrease in coverage when the between-year errors are set to low over high. 
 
-The variance of the estimator for the model of the museum is to no surprise much lower than that of the Tobit model considering the method of substitution. The variance of the estimators are obviously affected by the level of the errorterms. However, the effect is much clearer for the Tobit model than it is for the method of substitution. The inclination of the slope seems to have no major effect on the variance except for once again one special case for the Tobit model, when all factors are set to a high level (see Table 4). What might be of more interest is the effect censoring has on the estimator. For the Tobit model, there is a clear increase in variance whenever the proportion of censoring is larger while the reverse, to no surprise, holds true when substituting values. Whenever the error terms are set to low, or the censoring level in combination with the slope both being high, the variance for the method of the museum is too low, resulting in too small confidence intervals. 
+The variance of the estimator for the model of the museum is to no surprise much lower than that of the Tobit model considering the method of substitution. The variance of the estimators are obviously affected by the level of the errorterms. However, the effect is much clearer for the Tobit model than it is for the method of substitution. The inclination of the slope seems to have no major effect on the variance except for once again one special case for the Tobit model, when all factors are set to a high level (compare Table 3 & 4). What might be of more interest is the effect censoring has on the estimator. For the Tobit model, there is a clear increase in variance whenever the proportion of censoring is larger while the reverse, to no surprise, holds true when substituting values. Whenever the error terms are set to low, or the censoring level in combination with the slope both being high, the variance for the method of the museum is too low, resulting in too small confidence intervals. 
 
 ```{r}
 Table_LOQ30_Slope1.01
@@ -284,15 +282,16 @@ Table_LOQ60_Slope1.01
 Table_LOQ60_Slope1.05
 ```
 
-Figure 2 & 3 shows each simulated estimate of the slope for both methods plotted against eachother with Figure 2 treating each scenario when the individual noise is set to low and Figure 3 when it is set to high. The most interesting part is how big of an influence both errorterms have separately since altering just one of them from low to high instantly results in much more biased estimates for both models. 
+Figure **Skriv plot nummer** shows each simulated estimate of the slope for both methods plotted against eachother with Figure **Plot Nummer** treating each scenario when the individual noise is set to low, Figure **Plot Nummer** the case of a medium noise and Figure **Plot Nummer** when it is set to high. The first thing that jumps out is how big of an influence both errorterms have separately since altering just one of them from low to a higher value instantly results in much more biased estimates for both models. 
 
-Another interesting fact is that for each and every scenario, the estimates of the Tobit model seem to center around the true value of the slope, however the same can not be said for the substitution model. Especially when the inclination of the slope is larger it seems that the substitution method results in very few unbiased estimation. When combining this with having a larger proportion of censored data, this method actually fails to produce a single unbiased estimation which is in line with the results found by El-Shaarawi and Esterby (1992). 
+Another interesting fact is that for each and every scenario, the estimates of the Tobit model seem to center around the true value of the slope, having around the same proportion of estimates under the true value as over. H§owever the same can not be said for the substitution model. Explicitly when the error terms have low effect and the slope is higher, not a single unbiased estimate is produced. It's also easy to see that when at least one of the error terms is set to higher than low in combination with a larger proportion of censoring, the majority of the estimation for the substitution method actually under estimate the slope, giving a result showing less yearly impact than is true. 
 
-Yet another sriking result is the fact that the proportion of censoring seems to have a big impact on the correlation between the estimates of the two models. More specific, whenever the proportion of censoring increase, the reverse goes for the correlation between the estimates. 
+Yet another sriking result is the fact that the proportion of censoring seems to have a big impact on the correlation between the estimates of the two models. More specific, whenever the proportion of censoring increase, the reverse goes for the correlation between the estimates. This is most likely an effect from the fact that the Tobit model keeps centering around the true slope value when the substitution model skews towards lower estimates. 
 
 
 ```{r}
 Plot_Low_Individual_Variance
+Plot_Medium_Individual_Variance
 Plot_High_Individual_Variance
 ```
 
@@ -311,9 +310,12 @@ When the percentiles are calculated, they are fitted against the quantiles of a 
 
 
 ### Applying Tobit model
-The logaritmic values of the reported concentrations, in combination with the coherent year and a vector of censoring indicators, indicating whether or not the observations is censored or not is used with the *lmec* function of the *NADA* package. The proportion of censored values and the standard deviation of the estimated slope is also calculated as well as the standard deviation between-years and the standard deviation for individuals at each location. The standard deviation between-years was calculated using the same method as before with the *cenmle* function from the *NADA* packages. For lead, the standard deviation of each location, each year, had a standard deviation under $0.1$ except for in 2017 at Ängkärsklubben where the standard deviation was around $1.2$. For nickel, the yearly standard deviation was around $0.05-0.2$ through out except for a couple of instances, Harufjärden having a year with standard deviation around $1.4$ and Ängkärsklubben having one year with a standard deviation at around $0.7$. For chromium, the censoring proportion is too high to get a sensible estimation of the standard deviation, however, still using the same method, the standard deviation for each year lied around $0.05-0.15$ for the most part, having a couple of year and location combinations with a small increase in standard deviation. One that stood out was the standard deviation at Utlängan in 2008 had a standard deviation over $5$
+**Förklara data. Vartifrån/Hur/Inte samma som i rapporten (Varför?)**
 
-Considering the simulation study showing that the method of substitution being the most unreliable when having low noise for both between-years and for individual specimens and the Tobit model at the same time being the most precise in the very same scenario, studying the scenarios when having low standard deviation also seems the most interesting when comparing the new method with an already used one. 
+The logaritmic values of the reported concentrations, in combination with the coherent year and a vector of censoring indicators, indicating whether or not the observations is censored or not is used with the *lmec* function of the *NADA* package. The proportion of censored values and the standard deviation of the estimated slope is also calculated as well as the standard deviation between-years and the standard deviation for individuals at each location. The standard deviation between-years was calculated using the same method as before with the *cenmle* function from the *NADA* packages. For lead, the standard deviation of each location, each year, had a standard deviation under $0.1$ except for in 2017 at Ängkärsklubben where the standard deviation was around $1.2$. For nickel, the yearly standard deviation was around $0.05-0.2$ through out except for a couple of instances, Harufjärden having a year with standard deviation around $1.4$ and Ängkärsklubben having one year with a standard deviation at around $0.7$. For chromium, the censoring proportion is too high to get a sensible estimation of the standard deviation, however, still using the same method, the standard deviation for each year lied around $0.05-0.15$ for the most part, having a couple of year and location combinations with a small increase in standard deviation. One that stood out was the standard deviation at Utlängan in 2008 had a standard deviation over $5$. The standard deviation of the individual specimens for each locations can be seen in Table 5-7.
+
+
+Due to the fact that the data as used in Bignert. et. al. (2017) and the data for this thesis differs, an analysis is also made using the exact method as would have been used in the report would this data-set have been used, namely the substitution method with a substitution value of $1/\sqrt(2)$ the limit of quantification for the censored value. The results for both methods, including the proportion of censoring and the standard deviation of the location can be seen in Tables **Skriv ut nummer**. 
 
 ```{r}
 knitr::include_graphics("Code_Chunks/PB_ros_plots.pdf")
@@ -326,11 +328,13 @@ knitr::include_graphics("Code_Chunks/CR_ros_plots.pdf")
 **Ta fram variansen för specifika platser när du testar**
 **Testa bara Herring? ty ingen annan har många observationer**
 
+
 ```{r}
-kable(df_PB_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring (Log-Scale)")
-kable(df_NI_Herring, format = "latex",caption = "Result for Tobit model on data for NI in Herring (Log-Scale)")
-kable(df_CR_Herring, format = "latex", caption = "Result for Tobit model on data for PB in Herring (Log-Scale)")
+kable(for_thesis_PB_df, format = "latex", caption = "Result for both models on data for PB in Herring (Log-Scale)")
+kable(for_thesis_NI_df, format = "latex",caption = "Result for both models on data for NI in Herring (Log-Scale)")
+kable(for_thesis_CR_df, format = "latex", caption = "Result for both models on data for CR in Herring (Log-Scale)")
 ```
+
 
 ## Result
 

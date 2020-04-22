@@ -11,6 +11,8 @@ library(NADA)
 ```
 
 ```{r}
+### Delar upp LOCATIONS
+
 metals <- read_csv("../metals.csv")
 
 #Tar fram platser med många observationer för Herring
@@ -27,10 +29,11 @@ metals_many_obs_herring <- metals %>%
 
 #Delar upp datasettet i ett dataset per plats
 List_each_LOC <- split(metals_many_obs_herring, f = metals_many_obs_herring$LOC)
+```
 
 
-
-
+```{r}
+#Utför analys med Tobit Modellen
 
 #Skapar tom matris för att tillsätta resultat från nedan
 Betas_NI_Herring <- matrix(nrow = length(List_each_LOC), ncol = 7)
@@ -68,9 +71,10 @@ df_PB_Herring <- Betas_PB_Herring %>%
   rename("%Censored" = V4) %>% 
   rename("# of Years" = V5) %>% 
   rename("# of Observations" = V6) %>% 
-  rename("Variance of Location" = V7) %>% 
+  rename("Std of Location" = V7) %>% 
   mutate(Beta = (as.numeric(as.character(Beta)))) %>% 
-  mutate(`%Censored` = (as.numeric(as.character(`%Censored`)))*100)
+  mutate(`%Censored` = (as.numeric(as.character(`%Censored`)))*100) %>% 
+  mutate(`Std of Location` = sqrt(as.numeric(as.character(`Std of Location`))))
 
 save(df_PB_Herring, file = "df_PB_Herring.Rda")
 
@@ -79,3 +83,140 @@ df_PB_Herring %>% mutate(Beta = exp(Beta))
 
 
 List_each_LOC[[2]] %>% select(PB)
+
+
+
+df_PB_Herring <- df_PB_Herring %>% mutate(`Variance of Location` = sqrt(as.numeric(as.character(`Variance of Location`)))) %>% rename("Std of Location" = "Variance of Location")
+
+df_PB_Herring
+df_NI_Herring
+df_CR_Herring
+
+```
+
+
+```{r}
+#Skapar plottar för log-normal antagande
+
+
+  pdf("PB_ros_plots.pdf")
+  par(mfrow = c(2,3),  mai = c(0.7, 0.4, 0.7, 0.1))
+  plot(PB_ros_Fladen, sub = "Fladen: PB")
+  plot(PB_ros_Harufjarden, sub = "Harufjärden: PB")
+  plot(PB_ros_Landsort, sub = "Landsort: PB")
+  plot(PB_ros_Utlangan, sub = "Utlängan: PB")
+  plot(PB_ros_Vaderoarna, sub = "Värderöarna: PB")
+  plot(PB_ros_Angkarsklubb, sub = "Ängkärsklub: PB")
+  dev.off()
+  
+  
+pdf("NI_ros_plots.pdf")
+par(mfrow = c(2,3),  mai = c(0.7, 0.4, 0.7, 0.1))
+plot(NI_ros_Fladen, sub = "Fladen: NI")
+plot(NI_ros_Harufjarden, sub = "Harufjärden: NI")
+plot(NI_ros_Landsort, sub = "Landsort: NI")
+plot(NI_ros_Utlangan, sub = "Utlängan: NI")
+plot(NI_ros_Vaderoarna, sub = "Värderöarna: NI")
+plot(NI_ros_Angkarsklubb, sub = "Ängkärsklub: NI")
+dev.off()
+
+
+
+pdf("CR_ros_plots.pdf")
+par(mfrow = c(2,3),  mai = c(0.7, 0.4, 0.7, 0.1))
+plot(CR_ros_Fladen, sub = "Fladen: CR")
+plot(CR_ros_Harufjarden, sub = "Harufjärden: CR")
+plot(CR_ros_Landsort, sub = "Landsort: CR")
+plot(CR_ros_Utlangan, sub = "Utlängan: CR")
+plot(CR_ros_Vaderoarna, sub = "Värderöarna: CR")
+plot(CR_ros_Angkarsklubb, sub = "Ängkärsklub: CR")
+dev.off()
+
+
+
+
+  par(mfrow = c(2,3),  mai = c(0.7, 0.4, 0.7, 0.1))
+  plot(PB_ros_Fladen, sub = "Fladen")
+  plot(PB_ros_Harufjarden, sub = "Harufjärden")
+  plot(PB_ros_Landsort, sub = "Landsort")
+  plot(PB_ros_Utlangan, sub = "Utlängan")
+  plot(PB_ros_Vaderoarna, sub = "Värderöarna")
+  plot(PB_ros_Angkarsklubb, sub = "Ängkärsklub")
+```
+
+
+```{r}
+#Utför analys med substitution
+
+Betas_CR_Herring_Museum <- matrix(nrow = length(List_each_LOC), ncol = 2)
+
+i = 1
+Metal = 'CR'
+
+
+while(i<length(List_each_LOC)+1) {
+  df <- List_each_LOC[[i]] %>% drop_na(Metal) %>% 
+    filter(SPECIES == "Herring") %>% 
+    select(YEAR, CR) %>% 
+    mutate(CR = ifelse(CR < 0, log(abs(CR)/sqrt(2)), log(abs(CR))))
+    stats <- summary(lm(CR ~ YEAR, data = df))
+    Betas_CR_Herring_Museum[i,1] <- stats$coefficients[2,1]
+    Betas_CR_Herring_Museum[i,2] <- stats$coefficients[2,2]
+    i = i + 1
+  
+}
+
+PB_Museum_df <- Betas_PB_Herring_Museum %>% 
+  as.data.frame() %>% 
+  rename(Museum_Beta = V1) %>% 
+  rename(Museum_Beta_Std = V2)
+
+
+NI_Museum_df <- Betas_NI_Herring_Museum %>% 
+  as.data.frame() %>% 
+  rename(Museum_Beta = V1) %>% 
+  rename(Museum_Beta_Std = V2)
+
+
+CR_Museum_df <- Betas_CR_Herring_Museum %>% 
+  as.data.frame() %>% 
+  rename(Museum_Beta = V1) %>% 
+  rename(Museum_Beta_Std = V2)
+
+full_PB_df <- df_PB_Herring %>% 
+  mutate(Museum_Beta = PB_Museum_df[[1]]) %>% 
+  mutate(Museum_Beta_STD = PB_Museum_df[[2]])
+
+full_NI_df <- df_NI_Herring %>% 
+  mutate(Museum_Beta = NI_Museum_df[[1]]) %>% 
+  mutate(Museum_Beta_STD = NI_Museum_df[[2]])
+
+full_CR_df <- df_CR_Herring %>% 
+  mutate(Museum_Beta = CR_Museum_df[[1]]) %>% 
+  mutate(Museum_Beta_STD = CR_Museum_df[[2]])
+
+
+for_thesis_PB_df <- full_PB_df %>% 
+  select(Location, Beta, `Var(Beta)`, Museum_Beta, Museum_Beta_STD, `%Censored`, `Std of Location`) %>% 
+  mutate(`Var(Beta)` = as.numeric(as.character(`Var(Beta)`))) %>% 
+  mutate(`Var(Beta)` = sqrt(`Var(Beta)`)) %>% 
+  rename("Tobit Beta Std" = `Var(Beta)`) %>% 
+  mutate_if(is.numeric, round, digits = 4) 
+
+for_thesis_NI_df <- full_NI_df %>% 
+  select(Location, Beta, `Var(Beta)`, Museum_Beta, Museum_Beta_STD, `%Censored`, `Std of Location`) %>% 
+  mutate(`Var(Beta)` = as.numeric(as.character(`Var(Beta)`))) %>% 
+  mutate(`Var(Beta)` = sqrt(`Var(Beta)`)) %>% 
+  rename("Tobit Beta Std" = `Var(Beta)`) %>% 
+  mutate_if(is.numeric, round, digits = 4)
+
+for_thesis_CR_df <- full_CR_df %>% 
+  select(Location, Beta, `Var(Beta)`, Museum_Beta, Museum_Beta_STD, `%Censored`, `Std of Location`) %>% 
+  mutate(`Var(Beta)` = as.numeric(as.character(`Var(Beta)`))) %>% 
+  mutate(`Var(Beta)` = sqrt(`Var(Beta)`)) %>% 
+  rename("Tobit Beta Std" = `Var(Beta)`) %>% 
+  mutate_if(is.numeric, round, digits = 4)
+
+
+save(for_thesis_PB_df, for_thesis_NI_df, for_thesis_CR_df, file = "../Rdata_Files/substitution_df_application.Rda")
+```

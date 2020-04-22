@@ -427,31 +427,6 @@ save(test_table, file = "test_table.Rda")
 
 
 
-
-epsilon_errors123 <- rlnorm(N, mean, sd[2]) #Get the error terms for each response variable
-    year1 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[1,2]) #Simulates between-years errorterms
-    year2 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[2,2])
-    year3 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[3,2])
-    year4 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[4,2])
-    year5 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[5,2])
-    year6 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[6,2])
-    year7 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[7,2])
-    year8 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[8,2])
-    year9 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[9,2])
-    year10 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[10,2])
-    year11 <- rlnorm(N/nr_of_covariates, mean, yearly_variances[11,2])
-    random_effects123 <- c(year1, year2, year3, year4, year5, year6, year7, year8, year9, year10, year11)
-    n <- length(epsilon_errors123) #Number of error terms noted as n
-    LOQ <- sort(epsilon_errors123*random_effects123)[0.6*n] #Decides the LOQ for the specific repitition
-    predictors123 <- exp(kovariat*slope[2]) * epsilon_errors123*random_effects123 #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
-    dataset_censored123 <- ifelse(predictors123<LOQ, -LOQ, predictors123) #Censores values under LOQ
-    
-    
-dataset_censored123 %>% as.data.frame() %>% filter(. < 0) %>% count()    
-
-80/length(dataset_censored123)
-
-
 betas_LOQ0.3_Slope1.05_LL <- Completed_df %>%
   filter(`Limit fraction` == 0.3) %>% 
   filter(Slope > 0.01) %>% 
@@ -819,7 +794,10 @@ std_CR_yearly <- as.data.frame(std_matrix_CR) %>%
   rename(Väderöarna = V5)%>% 
   rename(Ängskärsklubb = V6)
 
+sqrt(std_PB_yearly)
 
+
+sqrt(std_CR_yearly)
 
 
 CR_utlangan_eight <- List_each_LOC[[4]] %>% filter(YEAR == 2008) %>% select(CR) %>% mutate(cens = CR < 0) %>% mutate(CR = abs(CR))
@@ -846,7 +824,60 @@ as.data.frame(std_matrix_all)
 
 
 
+```{r}
 
+load("Simulations/slope1.01_res0.5_randomLOW.Rda")
+load("Simulations/slope1.01_res0.5_randomHIGH.Rda")
+load("Simulations/slope1.05_res0.5_randomLOW.Rda")
+load("Simulations/slope1.05_res0.5_randomHIGH.Rda")
+
+Completed_df_2 <- full_join(df_1.01_0.5_LOW,df_1.01_0.5_HIGH) %>%
+  full_join(df_1.05_0.5_LOW) %>% 
+  full_join(df_1.05_0.5_HIGH)  %>% 
+  mutate(CI_Lower = Beta - `Beta sd`*1.96) %>% 
+  mutate(CI_Upper = Beta + `Beta sd`*1.96) %>% 
+  mutate(Coverage = ifelse(Slope>CI_Lower & Slope < CI_Upper, 1, 0 ))
+
+save(Completed_df_2, file = "Completed_df_2.Rda")
+  
+
+
+with_bias_2 <- Completed_df_2 %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(bias = mean(diff)) %>% 
+  ungroup
+
+with_coverage <- Completed_df_2 %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(coverage = mean(Coverage))
+
+bias_coverage <- with_bias %>% 
+  mutate(Coverage = with_coverage$coverage)
+
+
+
+
+
+Variances <- Completed_df_2 %>% 
+  filter(Method != "True") %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise(Variance = sd(Beta)^2)
+
+bias_coverage
+
+
+
+
+All_Summary_Stats_2 <- bias_coverage %>% 
+  inner_join(Variances, by = c('Limit fraction', 'Slope', 'Std', 'Random Effects', 'Method')) %>% 
+  mutate(MSE = bias + Variance)
+
+save(All_Summary_Stats_2, file = "Rdata_Files/All_Summary_Stats_2.Rda")
+```
 
 
 
