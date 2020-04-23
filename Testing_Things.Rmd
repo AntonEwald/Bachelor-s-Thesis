@@ -610,7 +610,7 @@ library(NADA)
 
 PB_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Fladen <- cenros(PB_Fladen[['PB']], PB_Fladen[['cens']], forwardT="log", reverseT = NULL)
+PB_ros_Fladen <- cenros(PB_Fladen[['PB']], PB_Fladen[['cens']], forwardT="log", reverseT = "exp")
 
 PB_Fladen_Plot <- plot(PB_ros_Fladen)
 

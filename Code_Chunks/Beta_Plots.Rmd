@@ -106,7 +106,7 @@ betas_spread_individual_high <- tobit_betas_individual_high %>%
 
 Plot_High_Individual_Variance <- betas_spread_individual_high %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.6) + 
+  geom_point(alpha = 0.35) + 
    geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
    geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
@@ -138,7 +138,7 @@ betas_spread_individual_low <- tobit_betas_individual_low %>%
 
 Plot_Low_Individual_Variance <- betas_spread_individual_low %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.6) + 
+  geom_point(alpha = 0.35) + 
    geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
    geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
@@ -169,7 +169,7 @@ betas_spread_individual_medium <- tobit_betas_individual_medium %>%
 
 Plot_Medium_Individual_Variance <- betas_spread_individual_medium %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.6) + 
+  geom_point(alpha = 0.35) + 
    geom_hline(data = data.frame(Slope_Perc="1%", y=log(1.01)), mapping=aes(yintercept=y)) +
    geom_vline(data = data.frame(Slope_Perc="1%", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5%", y=log(1.05)), mapping=aes(yintercept=y))+
