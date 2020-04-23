@@ -30,7 +30,8 @@ Summary_LOQ30_Slope1.01 <- Full_Summary_Stats %>%
   mutate(Variance = round(Variance, digits = 4)) %>% 
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
-  arrange(Std)
+  arrange(Std) %>% 
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
 
 Table_LOQ30_Slope1.01 <- kable(Summary_LOQ30_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 1\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
@@ -51,7 +52,9 @@ Summary_LOQ30_Slope1.05 <- Full_Summary_Stats %>%
   mutate(Variance = round(Variance, digits = 4)) %>% 
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
-  arrange(Std)
+  arrange(Std) %>% 
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+
 
 Table_LOQ30_Slope1.05 <- kable(Summary_LOQ30_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 5\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
@@ -74,7 +77,9 @@ Summary_LOQ60_Slope1.01 <- Full_Summary_Stats %>%
   mutate(Variance = round(Variance, digits = 4)) %>% 
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
-  arrange(Std)
+  arrange(Std) %>% 
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+
 
 Table_LOQ60_Slope1.01 <- kable(Summary_LOQ60_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 1\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
@@ -97,7 +102,9 @@ Summary_LOQ60_Slope1.05 <- Full_Summary_Stats %>%
   mutate(Variance = round(Variance, digits = 4)) %>% 
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
-  arrange(Std)
+  arrange(Std) %>% 
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+
 
 Table_LOQ60_Slope1.05 <- kable(Summary_LOQ60_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 5\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%

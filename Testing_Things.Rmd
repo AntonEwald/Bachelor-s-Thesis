@@ -268,6 +268,8 @@ save(example_graph, file = "example_graph.Rda")
 cor(kovariat, log(predictors))
 
 metals
+
+with_standard_error
 ```
 
 
@@ -277,6 +279,13 @@ with_bias <- Completed_df %>%
   mutate(diff = (Beta-Slope)^2) %>% 
   group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
   summarise(bias = mean(diff)) %>% 
+  ungroup
+
+with_standard_error <- Completed_df %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise("Standard Error" = sd(diff)/10) %>% 
   ungroup
 
 with_coverage <- Completed_df %>% 
@@ -309,13 +318,18 @@ bias_coverage
 
 All_Summary_Stats <- bias_coverage %>% 
   inner_join(Variances, by = c('Limit fraction', 'Slope', 'Std', 'Random Effects', 'Method')) %>% 
-  mutate(MSE = bias + Variance)
+  mutate(MSE = bias + Variance) %>% 
+  mutate("Standard Error" = with_standard_error$`Standard Error`)
 
-save(All_Summary_Stats, file = "All_Summary_Stats.Rda")
+save(All_Summary_Stats, file = "Rdata_Files/All_Summary_Stats.Rda")
 
 
 All_Summary_Stats
 
+
+```
+
+```{r}
 table_data <- Completed_df %>% 
   group_by(Method, `Limit fraction`, Std, Slope, `Random Effects`) %>% 
   mutate(count=1:n()) %>% 
@@ -610,42 +624,45 @@ library(NADA)
 
 PB_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Fladen <- cenros(PB_Fladen[['PB']], PB_Fladen[['cens']], forwardT="log", reverseT = "exp")
+PB_ros_Fladen <- cenros(log(abs(PB_Fladen[['PB']])), PB_Fladen[['cens']], forwardT= NULL , reverseT = NULL)
 
 PB_Fladen_Plot <- plot(PB_ros_Fladen)
 
 
 PB_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Harufjarden <- cenros(PB_Harufjarden[['PB']], PB_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+PB_ros_Harufjarden <- cenros(log(abs(PB_Harufjarden[['PB']])), PB_Harufjarden[['cens']], forwardT= NULL, reverseT = NULL)
 
 PB_Harufjarden_Plot <- plot(PB_ros_Harufjarden)
 
 
-PB_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
+PB_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0) %>% arrange(PB)
+PB_Landsort[5:7,2] = TRUE
 
-PB_ros_Landsort <- cenros(PB_Landsort[['PB']], PB_Landsort[['cens']], forwardT="log", reverseT = NULL)
+```
 
-PB_Landsort_Plot <- plot(PB_ros_Landsort)
+```{r}
+PB_ros_Landsort <- cenros(log(abs(PB_Landsort[['PB']])), PB_Landsort[['cens']], forwardT= NULL, reverseT = NULL)
 
+plot(PB_ros_Landsort)
 
 PB_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Utlangan <- cenros(PB_Utlangan[['PB']], PB_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+PB_ros_Utlangan <- cenros(log(abs(PB_Utlangan[['PB']])), PB_Utlangan[['cens']], forwardT= NULL, reverseT = NULL)
+metals
 
-PB_Utlangan_Plot <- plot(PB_ros_Utlangan)
 
 
 PB_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Vaderoarna <- cenros(PB_Vaderoarna[['PB']], PB_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+PB_ros_Vaderoarna <- cenros(log(abs(PB_Vaderoarna[['PB']])), PB_Vaderoarna[['cens']], forwardT= NULL, reverseT = NULL)
 
 PB_Vaderoarna_Plot <- plot(PB_ros_Vaderoarna)
 
 
 PB_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0)
 
-PB_ros_Angkarsklubb <- cenros(PB_Angkarsklubb[['PB']], PB_Angkarsklubb[['cens']], forwardT="log", reverseT = NULL)
+PB_ros_Angkarsklubb <- cenros(log(abs(PB_Angkarsklubb[['PB']])), PB_Angkarsklubb[['cens']], forwardT = NULL, reverseT = NULL)
 
 PB_Angkarsklubb_Plot <- plot(PB_ros_Angkarsklubb)
 
@@ -673,25 +690,43 @@ mtext("Title for Two Plots", outer = TRUE, cex = 1.5)
 
 
 NI_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Fladen <- cenros(NI_Fladen[['NI']], NI_Fladen[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Fladen <- cenros(log(abs(NI_Fladen[['NI']])), NI_Fladen[['cens']], forwardT= NULL , reverseT = NULL)
+
+NI_Fladen_Plot <- plot(NI_ros_Fladen)
+
 
 NI_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Harufjarden <- cenros(NI_Harufjarden[['NI']], NI_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Harufjarden <- cenros(log(abs(NI_Harufjarden[['NI']])), NI_Harufjarden[['cens']], forwardT= NULL, reverseT = NULL)
+
+NI_Harufjarden_Plot <- plot(NI_ros_Harufjarden)
+
 
 NI_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Landsort <- cenros(NI_Landsort[['NI']], NI_Landsort[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Landsort <- cenros(log(abs(NI_Landsort[['NI']])), NI_Landsort[['cens']], forwardT= NULL, reverseT = NULL)
 
 
 NI_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Utlangan <- cenros(NI_Utlangan[['NI']], NI_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Utlangan <- cenros(log(abs(NI_Utlangan[['NI']])), NI_Utlangan[['cens']], forwardT= NULL, reverseT = NULL)
+
+
 
 
 NI_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Vaderoarna <- cenros(NI_Vaderoarna[['NI']], NI_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Vaderoarna <- cenros(log(abs(NI_Vaderoarna[['NI']])), NI_Vaderoarna[['cens']], forwardT= NULL, reverseT = NULL)
+
+NI_Vaderoarna_Plot <- plot(NI_ros_Vaderoarna)
 
 
 NI_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(NI) %>% mutate(cens = NI < 0)
-NI_ros_Angkarsklubb <- cenros(NI_Angkarsklubb[['NI']], NI_Angkarsklubb[['cens']], forwardT="log", reverseT = NULL)
+
+NI_ros_Angkarsklubb <- cenros(log(abs(NI_Angkarsklubb[['NI']])), NI_Angkarsklubb[['cens']], forwardT = NULL, reverseT = NULL)
+
+NI_Angkarsklubb_Plot <- plot(NI_ros_Angkarsklubb)
 
 
 
@@ -709,29 +744,46 @@ dev.off()
 
 
 CR_Fladen <- List_each_LOC[[1]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-CR_ros_Fladen <- cenros(CR_Fladen[['CR']], CR_Fladen[['cens']], forwardT="log", reverseT = NULL)
+
+CR_ros_Fladen <- cenros(log(abs(CR_Fladen[['CR']])), CR_Fladen[['cens']], forwardT= NULL , reverseT = NULL)
+
+CR_Fladen_Plot <- plot(CR_ros_Fladen)
+
 
 CR_Harufjarden <- List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-CR_ros_Harufjarden <- cenros(CR_Harufjarden[['CR']], CR_Harufjarden[['cens']], forwardT="log", reverseT = NULL)
+
+CR_ros_Harufjarden <- cenros(log(abs(CR_Harufjarden[['CR']])), CR_Harufjarden[['cens']], forwardT= NULL, reverseT = NULL)
+
+CR_Harufjarden_Plot <- plot(CR_ros_Harufjarden)
+
 
 CR_Landsort <- List_each_LOC[[3]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-CR_ros_Landsort <- cenros(CR_Landsort[['CR']], CR_Landsort[['cens']], forwardT="log", reverseT = NULL)
+
+CR_ros_Landsort <- cenros(log(abs(CR_Landsort[['CR']])), CR_Landsort[['cens']], forwardT= NULL, reverseT = NULL)
 
 
 CR_Utlangan <- List_each_LOC[[4]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-CR_ros_Utlangan <- cenros(CR_Utlangan[['CR']], CR_Utlangan[['cens']], forwardT="log", reverseT = NULL)
+
+CR_ros_Utlangan <- cenros(log(abs(CR_Utlangan[['CR']])), CR_Utlangan[['cens']], forwardT= NULL, reverseT = NULL)
+
+
 
 
 CR_Vaderoarna<- List_each_LOC[[5]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-CR_ros_Vaderoarna <- cenros(CR_Vaderoarna[['CR']], CR_Vaderoarna[['cens']], forwardT="log", reverseT = NULL)
+
+CR_ros_Vaderoarna <- cenros(log(abs(CR_Vaderoarna[['CR']])), CR_Vaderoarna[['cens']], forwardT= NULL, reverseT = NULL)
+
+CR_Vaderoarna_Plot <- plot(CR_ros_Vaderoarna)
 
 
 CR_Angkarsklubb<- List_each_LOC[[6]] %>% filter(SPECIES == "Herring") %>% select(CR) %>% mutate(cens = CR < 0)
-  CR_ros_Angkarsklubb <- cenros(CR_Angkarsklubb[['CR']], CR_Angkarsklubb[['cens']], reverseT=NULL)
 
-  plot(cenros(CR_Angkarsklubb[['CR']], CR_Angkarsklubb[['cens']], reverseT=NULL))
-  
-  
+CR_ros_Angkarsklubb <- cenros(log(abs(CR_Angkarsklubb[['CR']])), CR_Angkarsklubb[['cens']], forwardT = NULL, reverseT = NULL)
+
+CR_Angkarsklubb_Plot <- plot(CR_ros_Angkarsklubb)
+
+
+
 List_each_LOC[[1]] %>% 
   filter(SPECIES == "Herring") %>% 
   select(YEAR, PB) %>% 
@@ -816,6 +868,79 @@ metals_many_obs_herring %>%
 
 
 as.data.frame(std_matrix_all)
+
+
+plot(PB_ros_Landsort)
+
+
+PB_Landsort
+List_each_LOC[[2]] %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB < 0) %>% mutate(PB = log(abs(PB)))
+
+
+PB_Fladen
+
+PB_Landsort %>% mutate(PB = log(abs(PB)))
+
+
+
+qqnorm(PB_ros_Landsort$)
+
+PB_Landsort %>% mutate(PB = log(abs(PB)))
+
+
+qqnorm(log(abs(PB_Landsort$PB)))
+qqline(log(abs(PB_Landsort$PB)))
+
+PB_Landsort %>% mutate(PB = log(abs(PB)))
+
+
+CR_Fladen %>% mutate(CR = log(abs(CR)))
+
+metals %>% select(YEAR) %>% unique()
+
+
+metals %>% 
+  filter(LOC == "Ängskärsklubb") %>% 
+  drop_na(PB) %>% 
+  mutate(PB = abs(PB)) %>% 
+  summarise(mean(PB))
+
+metals
+
+metals %>% select(LOC) %>% unique()
+
+
+asd <- metals %>% filter(LOC == "Fladen") %>% filter(SPECIES == "Herring") %>%
+  filter(YEAR == 2009) %>% select(PB)
+
+censoror <- asd$PB < 0
+
+cenmle(abs(asd$PB), censoror, dist = "lognormal")
+
+
+metals %>% filter(LOC == "Harufjärden") %>% filter(SPECIES == "Herring") %>% 
+  group_by(YEAR) %>% drop_na(NI) %>% 
+  mutate(NI = (abs(NI))) %>% 
+  summarise(sd = sd(NI))
+
+
+rlnorm(11, 0.00001, 0.0000447)
+
+
+metals %>% filter(LOC == "Landsort") %>% filter(SPECIES == "Herring") %>% group_by(YEAR) %>% mutate(PB = (abs(PB))) %>% summarise(sd = sd(PB)) 
+
+
+qqnorm(log(predictors))
+qqline(log(predictors))
+k=1
+while(k<13){
+  asd <- metals %>% filter(LOC == "Harufjärden") %>% drop_na(NI) %>%  filter(SPECIES == "Herring") %>%
+    filter(YEAR == 2006+k) %>% select(PB)
+  censoror <- asd$PB < 0
+  stats <- cenmle((abs(asd$PB)), censoror, dist = "lognormal")
+  print(sd(stats))
+  k=k+1
+}
 ```
 
 
@@ -871,12 +996,41 @@ bias_coverage
 
 
 
-
 All_Summary_Stats_2 <- bias_coverage %>% 
   inner_join(Variances, by = c('Limit fraction', 'Slope', 'Std', 'Random Effects', 'Method')) %>% 
-  mutate(MSE = bias + Variance)
+  mutate(MSE = bias + Variance) %>% 
+  mutate("Standard Error" = with_standard_error_2$`Standard Error`)
 
 save(All_Summary_Stats_2, file = "Rdata_Files/All_Summary_Stats_2.Rda")
+
+
+with_standard_error_2 <- Completed_df_2 %>% 
+  filter(Method != "True") %>% 
+  mutate(diff = (Beta-Slope)^2) %>% 
+  group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
+  summarise("Standard Error" = sd(diff)/10) %>% 
+  ungroup 
+```
+
+
+
+```{r}
+Haru <- metals %>% filter(LOC == "Harufjärden") %>% filter(SPECIES == "Herring") %>% arrange(desc(NI)) %>% slice(-1) %>% drop_na(NI)
+
+
+      yL <- log(abs(Haru$NI))
+    cens <-Haru$NI < 0
+    X <- cbind(rep_len(1,length(Haru$YEAR)), Haru$YEAR)
+    Z <- matrix(rep_len(1,length(Haru$YEAR)), ncol=1)
+    cluster <- as.numeric(factor(Haru$YEAR))
+    fitted <- lmec(yL, cens, X, Z, cluster, maxstep = 20, method = "ML")
+    
+    
+    
+  metals %>% filter(LOC=="Harufjärden") %>% filter(SPECIES == "Herring") %>% select(PB) %>% mutate(cens = PB<0) %>% mutate(logPB = log(abs(PB))) %>% arrange(desc(PB))
+  
+  
+
 ```
 
 
