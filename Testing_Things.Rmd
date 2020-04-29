@@ -257,12 +257,13 @@ example_graph <- example_of_one_simulation %>%
   theme(plot.caption=element_text(hjust = 0.2), legend.position = c(0.9, 0.2), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase
+  labs(x='X', y = 'Log(Y)', caption= "Figure 2: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase
 holding both error terms at a high variance level.") + 
-  geom_text(aes(x = 6, y = 1.1), label = "LOQ", size = 3, show.legend = FALSE, family = "serif")
+  geom_text(aes(x = 6, y = 1.1), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
+  labs(x = 'Years', y = 'Log(Concentration)')
   
 
-save(example_graph, file = "example_graph.Rda")
+save(example_graph, file = "Rdata_Files/example_graph.Rda")
 
 
 cor(kovariat, log(predictors))
@@ -310,10 +311,6 @@ Variances <- Completed_df %>%
   filter(Method != "True") %>% 
   group_by(`Limit fraction`, Slope, Std, `Random Effects`, Method) %>% 
   summarise(Variance = sd(Beta)^2)
-
-bias_coverage
-
-
 
 
 All_Summary_Stats <- bias_coverage %>% 
@@ -1035,4 +1032,55 @@ Haru <- metals %>% filter(LOC == "Harufjärden") %>% filter(SPECIES == "Herring"
 
 
 
+```{r}
+load("Simulations/slope1.01_res0.05_randomLOW_NEG.Rda")
 
+
+library(tidyverse)
+
+
+df_1.01_0.05_LOW_neg
+betas_neg_0.05_LOW <- df_1.01_0.05_LOW_neg %>% filter(Method != "True") %>% mutate(Slope_Perc = "-1%")
+
+tobit_betas_individual_low_neg <- betas_neg_0.05_LOW %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05)
+
+
+museum_betas_individual_low_neg <- betas_neg_0.05_LOW %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method)) %>% 
+  filter(Std == 0.05)
+
+betas_spread_individual_low_neg <- tobit_betas_individual_low_neg %>% 
+  mutate(Museum_Beta = museum_betas_individual_low_neg$Beta)
+
+
+  facet_grid( ~ `Limit fraction`) +
+  geom_point(alpha = 0.35) + 
+   geom_hline(data = data.frame(Slope_Perc="-1%", y=-log(1.01)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_Perc="-1%", x=-log(1.01)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 3: Plotting the estimated slopes for the Museum model
+  and Tobit model against eachother having the variance of individual specimens set to medium.
+  The vertical and horizontal lines correspond to the true value of the slope.")
+
+
+
+df_1.01_0.05_LOW_neg %>% group_by(`Limit fraction`, Method) %>% mutate(bias = (Beta-Slope)^2) %>% summarise(bias = mean(bias))
+
+
+as.data.frame(dataset_censored) %>% mutate(cens = dataset_censored<0) %>% summarise(mean=mean(cens))
+
+```
+
+
+```{r}
+df_1.1_0.5_LOW_neg <- df_1.1_0.5_LOW %>% filter(Method != "True") %>% na.omit() %>% filter(Slope < 0)
+
+save(df_1.1_0.5_LOW_neg, file = "df_1.1_0.5_LOW_neg.Rda")
+
+load("df_1.1_0.5_LOW_neg.Rda")
+
+df_1.1_0.5_LOW_neg %>% mutate(bias = (Beta-Slope)^2) %>%  group_by(Method) %>% summarise(bias = mean(bias))
+```

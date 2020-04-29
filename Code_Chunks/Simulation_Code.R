@@ -1,4 +1,4 @@
-1#--------------------------------------Code for Simulation-----------------------------------------------------
+#--------------------------------------Code for Simulation-----------------------------------------------------
 #@author: Anton Holm
 # This is a simulation used for my Bachelor's Thesis in Mathematical Statistics at Stockholm University
 # Spring, 2020

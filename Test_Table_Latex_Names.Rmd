@@ -1,0 +1,24 @@
+---
+title: "latex_in_tables"
+author: "Anton Holm"
+date: '2020-04-26'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+load("Rdata_Files/substitution_df_application.Rda")
+colnames(for_thesis_CR_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
+
+
+kable(for_thesis_CR_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for lead concentrations in herring (Log-Scale)") %>% 
+column_spec(1, bold=T)
+```

@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(kableExtra)
+
 ```
 
 ```{r, echo = FALSE}
@@ -31,9 +32,12 @@ Summary_LOQ30_Slope1.01 <- Full_Summary_Stats %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4)) %>% 
+  mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
 
-Table_LOQ30_Slope1.01 <- kable(Summary_LOQ30_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 1\\% yearly increase.") %>%
+colnames(Summary_LOQ30_Slope1.01) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
+
+Table_LOQ30_Slope1.01 <- kable(Summary_LOQ30_Slope1.01, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 1\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
 collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
 
@@ -53,10 +57,13 @@ Summary_LOQ30_Slope1.05 <- Full_Summary_Stats %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+  mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
+
+colnames(Summary_LOQ30_Slope1.05) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
 
 
-Table_LOQ30_Slope1.05 <- kable(Summary_LOQ30_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 5\\% yearly increase.") %>%
+Table_LOQ30_Slope1.05 <- kable(Summary_LOQ30_Slope1.05, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 5\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
 collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
               
@@ -78,10 +85,14 @@ Summary_LOQ60_Slope1.01 <- Full_Summary_Stats %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+  mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
+
+colnames(Summary_LOQ60_Slope1.01) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
 
 
-Table_LOQ60_Slope1.01 <- kable(Summary_LOQ60_Slope1.01, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 1\\% yearly increase.") %>%
+
+Table_LOQ60_Slope1.01 <- kable(Summary_LOQ60_Slope1.01,escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 1\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
 collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
               
@@ -103,10 +114,13 @@ Summary_LOQ60_Slope1.05 <- Full_Summary_Stats %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))
+    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+  mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
+
+colnames(Summary_LOQ60_Slope1.05) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
 
 
-Table_LOQ60_Slope1.05 <- kable(Summary_LOQ60_Slope1.05, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 5\\% yearly increase.") %>%
+Table_LOQ60_Slope1.05 <- kable(Summary_LOQ60_Slope1.05,escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 5\\% yearly increase.") %>%
 column_spec(1, bold=T) %>%
 collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
               

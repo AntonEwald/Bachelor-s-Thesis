@@ -1,0 +1,146 @@
+---
+title: "Test_stand_error"
+author: "Anton Holm"
+date: '2020-04-29'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+#5% increase
+
+mix_df <- mixcens_stats %>% 
+  as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3) %>% 
+  mutate(Method = "Mixcens") %>% 
+  mutate(Beta_Hat = as.numeric(as.character(Beta_Hat))) %>% 
+  mutate(Standard_Error = as.numeric(as.character(Standard_Error))) %>% 
+  mutate(Censored = as.numeric(as.character(Censored)))
+
+lmmc_df <- lmmc_stats %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "lmec")
+
+subs_df <- subs_stats %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "Substitution")
+
+
+
+
+
+all_models_1.05 <- mix_df %>% 
+  full_join(lmmc_df) %>% 
+  full_join(subs_df) %>% 
+  mutate(Slope = log(1.05)) %>% 
+  mutate(bias_squared = (Slope-Beta_Hat)^2)
+
+all_models_1.05[62,1] = mean(all_models_1.05[52:72,1], na.rm = TRUE)
+all_models_1.05[62,2] <- mean(all_models_1.05[52:72,2], na.rm = TRUE)
+all_models_1.05[96,1] = mean(all_models_1.05[86:106,1], na.rm = TRUE)
+all_models_1.05[96,2] <- mean(all_models_1.05[86:106,2], na.rm = TRUE)
+
+
+save(all_models_1.05, file = "all_models_1.05.Rda")
+
+
+load("all_models_1.05.Rda")
+all_models_1.05 <- all_models_1.05 %>% mutate(bias_squared = (Beta_Hat-Slope)^2) %>% 
+  mutate(Method = ifelse(Method == "LMMC", "lmec", Method))
+
+
+SE_plot <- all_models_1.05 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 7a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+  
+
+
+Bias_plot <- all_models_1.05 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 7b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+
+ggsave(plot = grid.arrange(plot = SE_plot, Bias_plot, ncol = 1), file = "bias_se_censoring_plot_1.05.pdf")
+
+
+    
+```
+
+```{r}
+mix_df_101 <- mixcens_stats_1.01 %>% 
+  as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3) %>% 
+  mutate(Method = "Mixcens") %>% 
+  mutate(Beta_Hat = as.numeric(as.character(Beta_Hat))) %>% 
+  mutate(Standard_Error = as.numeric(as.character(Standard_Error))) %>% 
+  mutate(Censored = as.numeric(as.character(Censored)))
+
+lmmc_df_101 <- lmmc_stats_1.01 %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "LMMC")
+
+subs_df_101 <- subs_stats_1.01 %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "Substitution")
+
+
+all_models_1.01 <- mix_df_101 %>% 
+  full_join(lmmc_df_101) %>% 
+  full_join(subs_df_101) %>% 
+  mutate(Slope = log(1.01)) %>% 
+  mutate(bias_squared = (Slope-Beta_Hat)^2)
+
+
+
+
+save(all_models_1.01, file = "all_models_1.01.Rda")
+
+
+load("all_models_1.01.Rda")
+
+all_models_1.01 <- all_models_1.01  %>% 
+  mutate(Method = ifelse(Method == "LMMC", "lmec", Method))
+
+SE_plot_101 <- all_models_1.01 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 6a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+  
+
+
+Bias_plot_101 <- all_models_1.01 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 6b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_101, Bias_plot_101, ncol = 1), file = "bias_se_censoring_plot_1.01.pdf")
+```

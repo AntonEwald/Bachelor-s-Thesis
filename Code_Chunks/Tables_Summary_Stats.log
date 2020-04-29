@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  22 APR 2020 19:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  28 APR 2020 12:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -763,22 +763,28 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 250.
 Here is how much of TeX's memory you used:
  11979 strings out of 482530
  173096 string characters out of 5949330
- 442456 words of memory out of 5000000
+ 445456 words of memory out of 5000000
  27385 multiletter control sequences out of 15000+600000
  561279 words of font info for 47 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 34i,11n,37p,254b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.e
-nc}<c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmb
-x10.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/l
-m/lmr10.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publ
-ic/lm/lmr17.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/
-public/lm/lmri12.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
-ype1/public/lm/lmtt10.pfb>
-Output written on Tables_Summary_Stats.pdf (3 pages, 114831 bytes).
+ 34i,12n,37p,254b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
+nc}{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
+hsy.enc}{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
+m-mathit.enc}{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips
+/lm/lm-ec.enc}<c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
+blic/lm/lmbx10.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
+e1/public/lm/lmmi10.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/font
+s/type1/public/lm/lmr10.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/
+fonts/type1/public/lm/lmr17.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-d
+ist/fonts/type1/public/lm/lmr7.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texm
+f-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/anton/AppData/Roaming/TinyTeX
+/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/anton/AppData/Roaming/Ti
+nyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Tables_Summary_Stats.pdf (3 pages, 136137 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  8 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,26 @@
+---
+title: "Size_Plot_test"
+author: "Anton Holm"
+date: '2020-04-26'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+```
+
+
+```{r}
+knitr::include_graphics("Code_Chunks/Beta_Low_Variance.pdf")
+```
+
+```{r}
+knitr::include_graphics("Code_Chunks/Beta_Medium_Variance.pdf")
+```
+
+```{r}
+knitr::include_graphics("Code_Chunks/Beta_High_Variance.pdf")
+```

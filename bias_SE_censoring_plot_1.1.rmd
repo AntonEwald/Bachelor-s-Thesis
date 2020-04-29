@@ -1,0 +1,72 @@
+---
+title: "STF_BIAS_10"
+author: "Anton Holm"
+date: '2020-04-29'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+mix_df_110 <- mixcens_stats_1.1 %>% 
+  as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3) %>% 
+  mutate(Method = "Mixcens") %>% 
+  mutate(Beta_Hat = as.numeric(as.character(Beta_Hat))) %>% 
+  mutate(Standard_Error = as.numeric(as.character(Standard_Error))) %>% 
+  mutate(Censored = as.numeric(as.character(Censored)))
+
+lmmc_df_110 <- lmmc_stats_1.1 %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "LMMC")
+
+subs_df_110 <- subs_stats_1.1 %>% 
+    as.data.frame() %>% 
+  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
+  mutate(Method = "Substitution")
+
+
+all_models_1.10 <- mix_df_110 %>% 
+  full_join(lmmc_df_110) %>% 
+  full_join(subs_df_110) %>% 
+  mutate(Slope = log(1.1)) %>% 
+  mutate(bias_squared = (Slope-Beta_Hat)^2)
+
+
+
+
+save(all_models_1.10, file = "all_models_1.10.Rda")
+
+
+load("all_models_1.10.Rda")
+
+all_models_1.10 <- all_models_1.10 %>% 
+  mutate(Method = ifelse(Method == "LMMC", "lmec", Method))
+
+SE_plot_110 <- all_models_1.10 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 8a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+  
+
+
+Bias_plot_110 <- all_models_1.10 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 8b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_110, Bias_plot_110, ncol = 1), file = "bias_se_censoring_plot_1.1.pdf")
+```

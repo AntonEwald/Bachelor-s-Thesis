@@ -1,0 +1,47 @@
+---
+title: "Beta_high_slope"
+author: "Anton Holm"
+date: '2020-04-28'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+load("df_1.1_0.5_LOW_neg.Rda")
+
+df_1.1_0.5_LOW_neg
+
+#80% cens, 10% increase.. Sim for chromium CR
+
+betas <- df_1.1_0.5_LOW_neg %>%  mutate(Slope_Perc = "10% yearly decrease") %>% 
+  mutate(`Limit fraction` = "80% Censoring")
+
+
+tobit_betas_individual_high <- betas %>% 
+  filter(Method == "Tobit") %>% 
+  select(-(Method))
+
+
+museum_betas_individual_high <- betas %>% 
+  filter(Method == "Museum") %>% 
+  select(-(Method))
+
+betas_spread_individual_high <- tobit_betas_individual_high %>% 
+  mutate(Museum_Beta = museum_betas_individual_high$Beta)
+
+
+Plot_High_Individual_Variance <- betas_spread_individual_high %>% ggplot(aes(x=Beta, y=Museum_Beta)) +
+  geom_point(alpha = 0.7) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+ 
+   geom_hline(data = data.frame(Slope_Perc="10% yearly decrease", y=log(0.9)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_Perc="10% yearly decrease", x=log(0.9)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 5: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens
+set to high. The vertical and horizontal lines correspond to the true value of the slope.",
+  x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
+```
