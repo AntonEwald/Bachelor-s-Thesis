@@ -92,6 +92,10 @@ df_PB_Herring
 df_NI_Herring
 df_CR_Herring
 
+df_PB_Herring <- df_PB_Herring %>% mutate(`Std of Location` = (`Std of Location`)^2)
+df_NI_Herring <- df_NI_Herring %>% mutate(`Std of Location` = (`Std of Location`)^2)
+df_CR_Herring <- df_CR_Herring %>% mutate(`Std of Location` = (`Std of Location`)^2)
+
 ```
 
 
@@ -221,21 +225,27 @@ for_thesis_CR_df <- full_CR_df %>%
 
 save(for_thesis_PB_df, for_thesis_NI_df, for_thesis_CR_df, file = "../Rdata_Files/substitution_df_application.Rda")
 
+load("../Rdata_Files/substitution_df_application.Rda")
 
-thesis_CR_Table <- kable(for_thesis_CR_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for chromium concentrations in herring (Log-Scale)") %>% 
-column_spec(1, bold=T)
+thesis_CR_Table <- kable(for_thesis_CR_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for chromium concentrations in herring (Estimated slope on Log-Scale)") %>% 
+column_spec(1, bold=T) %>% footnote(general = "Due to high proportion of censoring the standard deviations are unreliable.", general_title = "*", footnote_as_chunk = TRUE, title_format = c("italic")) %>% 
+  kable_styling(full_width=F) %>% 
+  kable_styling(latex_options="scale_down")
 
-thesis_NI_Table <- kable(for_thesis_NI_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for nickel concentrations in herring (Log-Scale)") %>% 
-column_spec(1, bold=T)
+thesis_NI_Table <- kable(for_thesis_NI_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for nickel concentrations in herring (Estimated slope on Log-Scale)") %>% 
+column_spec(1, bold=T) %>% 
+  kable_styling(latex_options="scale_down")
 
-thesis_PB_Table <- kable(for_thesis_PB_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for lead concentrations in herring (Log-Scale)") %>% 
-column_spec(1, bold=T)
+thesis_PB_Table <- kable(for_thesis_PB_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for lead concentrations in herring (Estimated slope on Log-Scale)") %>% 
+column_spec(1, bold=T) %>% 
+  kable_styling(latex_options="scale_down")
 
-colnames(for_thesis_CR_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
+colnames(for_thesis_CR_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location $^*$")
 
 colnames(for_thesis_NI_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
 
 colnames(for_thesis_PB_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
 
 save(thesis_CR_Table, thesis_NI_Table, thesis_PB_Table, file = "../Rdata_Files/tables_application.Rda")
+
 ```

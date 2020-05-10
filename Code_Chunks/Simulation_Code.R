@@ -48,7 +48,7 @@ while(k<simulations+1){ #Simulations for different LOQ
     random_effects <- c(year1, year2, year3, year4, year5, year6, year7, year8, year9, year10, year11)
     n <- length(epsilon_errors) #Number of error terms noted as n
     LOQ <- sort(epsilon_errors*random_effects)[LOQ_fraction*n] #Decides the LOQ for the specific repitition
-    predictors <- exp(kovariat*slope[2]) * epsilon_errors*random_effects #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
+    predictors <- exp(kovariat*slope[1]) * epsilon_errors*random_effects #Intercept = 0, Slope = selected value of slope vector,  this builds our model to simulate from
     dataset_censored <- ifelse(predictors<LOQ, -LOQ, predictors) #Censores values under LOQ
     
     #Tar fram tobitmodellen

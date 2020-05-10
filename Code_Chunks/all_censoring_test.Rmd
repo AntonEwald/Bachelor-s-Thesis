@@ -13,23 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #5% increase
 
-mix_df <- mixcens_stats %>% 
-  as.data.frame() %>% 
-  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3) %>% 
-  mutate(Method = "Mixcens") %>% 
-  mutate(Beta_Hat = as.numeric(as.character(Beta_Hat))) %>% 
-  mutate(Standard_Error = as.numeric(as.character(Standard_Error))) %>% 
-  mutate(Censored = as.numeric(as.character(Censored)))
-
-lmmc_df <- lmmc_stats %>% 
-    as.data.frame() %>% 
-  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
-  mutate(Method = "lmec")
-
-subs_df <- subs_stats %>% 
-    as.data.frame() %>% 
-  rename("Beta_Hat" = V1, 'Standard_Error' = V2, "Censored" = V3)%>% 
-  mutate(Method = "Substitution")
 
 
 
@@ -62,7 +45,7 @@ SE_plot <- all_models_1.05 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
-  labs(x = "Censored", y = "Standard Error", caption = "Figure 7a: Standard error of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 4a: Standard error of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.05).")
   
 
@@ -74,7 +57,7 @@ Bias_plot <- all_models_1.05 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
-  labs(x = "Censored", y = "Squared Bias", caption = "Figure 7b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 4b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.05).")
 
 ggsave(plot = grid.arrange(plot = SE_plot, Bias_plot, ncol = 1), file = "bias_se_censoring_plot_1.05.pdf")
@@ -127,7 +110,7 @@ SE_plot_101 <- all_models_1.01 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
-  labs(x = "Censored", y = "Standard Error", caption = "Figure 6a: Standard error of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.01).")
   
 
@@ -139,8 +122,245 @@ Bias_plot_101 <- all_models_1.01 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
-  labs(x = "Censored", y = "Squared Bias", caption = "Figure 6b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 3b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.01).")
 
 ggsave(plot = grid.arrange(plot = SE_plot_101, Bias_plot_101, ncol = 1), file = "bias_se_censoring_plot_1.01.pdf")
+
+
+Bias_plot_110 <- Bias_plot_110 +
+  labs(caption ="Figure 5b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+
+SE_plot_110 <- SE_plot_110 +
+  labs(caption ="Figure 5a: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+  
+ggsave(plot = grid.arrange(Bias_plot_110, SE_plot_110, ncol = 1), file = "bias_se_censoring_plot_1.1.pdf")
 ```
+
+```{r}
+#Low variance
+cens_df_1.05_low <- cens_df_1.05_low %>% mutate(Method = "Mixcens") %>% mutate(Method = replace(Method, 101:200, "lmec")) %>%
+  mutate(Method = replace(Method, 201:300, "Substitution")) %>% mutate(slope = log(1.05)) %>% mutate(bias_squared = (slope-Beta_Hat)^2)
+
+cens_df_1.01_low <- cens_df_1.01_low %>% mutate(Method = "Mixcens") %>% mutate(Method = replace(Method, 101:200, "lmec")) %>%
+  mutate(Method = replace(Method, 201:300, "Substitution")) %>% mutate(slope = log(1.01)) %>% mutate(bias_squared = (slope-Beta_Hat)^2)
+
+cens_df_1.1_low <- cens_df_1.1_low %>% mutate(slope = log(1.1)) %>% mutate(bias_squared = (slope-Beta_Hat)^2)
+
+save(cens_df_1.01_low, file = "cens_df_1.01_low.Rda")
+
+
+load("cens_df_1.01_low.Rda")
+load("cens_df_1.05_low.Rda")
+load("cens_df_1.1_low.Rda")
+
+SE_plot_101_low <- cens_df_1.01_low %>% 
+  ggplot(aes(x = Censoring, y = Sd, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+  
+
+
+Bias_plot_101_low <- cens_df_1.01_low %>% 
+  ggplot(aes(x = Censoring, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 3b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_101_low, Bias_plot_101_low, ncol = 1), file = "bias_se_censoring_plot_1.01_low.pdf")
+
+
+
+
+#1.05 slope
+
+SE_plot_105_low <- cens_df_1.05_low %>% 
+  ggplot(aes(x = Censoring, y = Sd, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+  
+
+
+Bias_plot_105_low <- cens_df_1.05_low %>% 
+  ggplot(aes(x = Censoring, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 3b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_105_low, Bias_plot_105_low, ncol = 1), file = "bias_se_censoring_plot_1.05_low.pdf")
+
+
+
+
+
+# slope 1.1
+
+SE_plot_110_low <- na.omit(cens_df_1.1_low) %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+  
+
+
+Bias_plot_110_low <- cens_df_1.1_low %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 3b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_110_low, Bias_plot_110_low, ncol = 1), file = "bias_se_censoring_plot_1.1_low.pdf")
+```
+
+
+
+
+
+
+
+
+
+```{r}
+#Both variances with facet_grid
+
+cens_df_1.1_low <- cens_df_1.1_low %>% mutate(Variance = "Individual noise at 0.05") %>% filter(Method != "Mixcens")
+
+all_models_1.10 <- all_models_1.10 %>% mutate(Variance = "Individual noise at 0.5") %>% mutate(Method = ifelse(Method == "LMMC", "lmec", Method))
+
+full_cens_1.1 <- full_join(cens_df_1.1_low, all_models_1.10)
+
+
+SE_plot_110_both <- full_cens_1.1 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 5a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+
+
+Bias_plot_110_both <- full_cens_1.1 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +
+  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 5b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.1).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_110_both, Bias_plot_110_both, ncol = 1), file = "bias_se_censoring_plot_1.1_both.pdf")
+
+
+
+
+
+
+cens_df_1.01_low_2 <- cens_df_1.01_low %>% mutate(Variance = "Individual noise at 0.05") %>% 
+  rename(Standard_Error = Sd, Censored = Censoring, Slope = slope) %>% filter(Method != "Mixcens")
+
+all_models_1.01_2 <- all_models_1.01 %>% mutate(Variance = "Individual noise at 0.5")
+
+full_cens_1.01 <- full_join(cens_df_1.01_low_2, all_models_1.01_2)
+
+
+
+
+SE_plot_101_both <- full_cens_1.01 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +
+  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+
+
+Bias_plot_101_both <- full_cens_1.01 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +  geom_line(size = 1)+ 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 3b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.01).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_101_both, Bias_plot_101_both, ncol = 1), file = "bias_se_censoring_plot_1.01_both.pdf")
+
+
+
+
+
+
+
+#Slope 1.05
+
+cens_df_1.05_low_2 <- cens_df_1.05_low %>% mutate(Variance = "Individual noise at 0.05") %>% 
+  rename(Standard_Error = Sd, Censored = Censoring, Slope = slope) %>% filter(Method != "Mixcens")
+
+all_models_1.05_2 <- all_models_1.05 %>% mutate(Variance = "Individual noise at 0.5")
+
+full_cens_1.05 <- full_join(cens_df_1.05_low_2, all_models_1.05_2)
+
+
+
+SE_plot_105_both <- full_cens_1.05 %>% 
+  ggplot(aes(x = Censored, y = Standard_Error, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +  geom_line(size = 1) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
+  labs(x = "Censored", y = "Standard Error", caption = "Figure 4a: Standard error of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+
+
+Bias_plot_105_both <- full_cens_1.05 %>% 
+  ggplot(aes(x = Censored, y = bias_squared, col = Method, linetype = Method)) + 
+  facet_wrap(~ Variance, scales = "free_y") +  geom_line(size = 1)+ 
+  scale_y_continuous(breaks = scales::pretty_breaks(7), limits = c(0, NA)) +
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+
+  labs(x = "Censored", y = "Squared Bias", caption = "Figure 4b: Squared Bias of the estimated regression slope as a function of censoring proportion. 
+The true value of the slope being log(1.05).")
+
+ggsave(plot = grid.arrange(plot = SE_plot_105_both, Bias_plot_105_both, ncol = 1), file = "bias_se_censoring_plot_1.05_both.pdf")
+```
+

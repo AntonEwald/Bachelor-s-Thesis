@@ -96,6 +96,7 @@ All_Summary_Stats_neg <- bias_coverage_neg %>%
 
 save(All_Summary_Stats_neg, file = "Rdata_Files/All_Summary_Stats_neg.Rda")
 
+load("Rdata_Files/All_Summary_Stats_neg.Rda")
 ```
 
 
@@ -116,14 +117,15 @@ Summary_LOQ30_Slope1.01_neg <- Full_Summary_Stats_neg %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+    mutate("Standard Error" = round(sqrt(Variance/(100))*2*abs(bias), digits = 4))%>% 
   mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
 
-colnames(Summary_LOQ30_Slope1.01_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
+colnames(Summary_LOQ30_Slope1.01_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(\\hat{\\beta}-\\beta)^2$)")
 
 Table_LOQ30_Slope1.01_neg <- kable(Summary_LOQ30_Slope1.01_neg, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 1\\% yearly decrease") %>%
 column_spec(1, bold=T) %>%
-collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
+  kable_styling(latex_options="scale_down")
 
 save(Table_LOQ30_Slope1.01_neg, file = "Table_LOQ30_Slope1.01_neg.Rda")
 
@@ -141,14 +143,15 @@ Summary_LOQ30_Slope1.05_neg <- Full_Summary_Stats_neg %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+    mutate("Standard Error" = round(sqrt(Variance/(100))*2*abs(bias), digits = 4))%>% 
   mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
 
-colnames(Summary_LOQ30_Slope1.05_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
+colnames(Summary_LOQ30_Slope1.05_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(\\hat{\\beta}-\\beta)^2$)")
 
 Table_LOQ30_Slope1.05_neg <- kable(Summary_LOQ30_Slope1.05_neg, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 30\\% censored data and a 5\\% yearly decrease") %>%
 column_spec(1, bold=T) %>%
-collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
+  kable_styling(latex_options="scale_down")
               
 
 save(Table_LOQ30_Slope1.05_neg, file = "Table_LOQ30_Slope1.05_neg.Rda")
@@ -168,14 +171,15 @@ Summary_LOQ60_Slope1.01_neg <- Full_Summary_Stats_neg %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+    mutate("Standard Error" = round(sqrt(Variance/(100))*2*abs(bias), digits = 4))%>% 
   mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
 
-colnames(Summary_LOQ60_Slope1.01_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
+colnames(Summary_LOQ60_Slope1.01_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(\\hat{\\beta}-\\beta)^2$)")
 
 Table_LOQ60_Slope1.01_neg <- kable(Summary_LOQ60_Slope1.01_neg, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 1\\% yearly decrease") %>%
 column_spec(1, bold=T) %>%
-collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
+  kable_styling(latex_options="scale_down")
               
 
 save(Table_LOQ60_Slope1.01_neg, file = "Table_LOQ60_Slope1.01_neg.Rda")
@@ -195,14 +199,15 @@ Summary_LOQ60_Slope1.05_neg <- Full_Summary_Stats_neg %>%
   mutate(MSE = round(MSE, digits = 4)) %>% 
   select(-c(`Limit fraction`, Slope)) %>% 
   arrange(Std) %>% 
-    mutate("Standard Error" = round(sqrt(Variance)/10, digits = 4))%>% 
+    mutate("Standard Error" = round(sqrt(Variance/(100))*2*abs(bias), digits = 4))%>% 
   mutate(Method = ifelse(Method == "Tobit", "LMMC", "Substitution"))
 
 colnames(Summary_LOQ60_Slope1.05_neg) <- c("Individual Sd", "Random Effect", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($\\hat{\\beta}$)")
 
 Table_LOQ60_Slope1.05_neg <- kable(Summary_LOQ60_Slope1.05_neg, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 60\\% censored data and a 5\\% yearly decrease") %>%
 column_spec(1, bold=T) %>%
-collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle")
+collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
+  kable_styling(latex_options="scale_down")
               
 
 save(Table_LOQ60_Slope1.05_neg, file = "Table_LOQ60_Slope1.05_neg.Rda")
@@ -238,7 +243,7 @@ betas_spread_individual_high_neg <- tobit_betas_individual_high_neg %>%
 
 Plot_High_Individual_Variance_neg <- betas_spread_individual_high_neg %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`, shape = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.35) + 
+  geom_point(alpha = 0.5) + 
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
@@ -247,7 +252,7 @@ Plot_High_Individual_Variance_neg <- betas_spread_individual_high_neg %>% ggplot
    geom_vline(data = data.frame(Slope_Perc="1% yearly decrease", x=log(0.99)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly decrease", y=log(0.95)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly decrease", x=log(0.95)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 8: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
+  labs(caption = "Figure 14: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
 set to high. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 
@@ -274,7 +279,7 @@ betas_spread_individual_low_neg <- tobit_betas_individual_low_neg %>%
 
 Plot_Low_Individual_Variance_neg <- betas_spread_individual_low_neg %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`, shape = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.35) + 
+  geom_point(alpha = 0.5) + 
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0.8), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
@@ -283,7 +288,7 @@ Plot_Low_Individual_Variance_neg <- betas_spread_individual_low_neg %>% ggplot(a
    geom_vline(data = data.frame(Slope_Perc="1% yearly decrease", x=log(0.99)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly decrease", y=log(0.95)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly decrease", x=log(0.95)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 6: Plotting the estimated slopes  for the substitution method and the LMMC modelagainst eachother having the variance of individual specimens
+  labs(caption = "Figure 12: Plotting the estimated slopes for the substitution method and the LMMC modelagainst eachother having the variance of individual specimens
 set to low. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 
@@ -309,7 +314,7 @@ betas_spread_individual_medium_neg <- tobit_betas_individual_medium_neg %>%
 
 Plot_Medium_Individual_Variance_neg <- betas_spread_individual_medium_neg %>% ggplot(aes(x=Beta, y=Museum_Beta, col = `Random Effects`, shape = `Random Effects`)) +
   facet_grid(Slope_Perc ~ `Limit fraction`) +
-  geom_point(alpha = 0.35) + 
+  geom_point(alpha = 0.5) + 
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0.8), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
@@ -318,7 +323,7 @@ Plot_Medium_Individual_Variance_neg <- betas_spread_individual_medium_neg %>% gg
    geom_vline(data = data.frame(Slope_Perc="1% yearly decrease", x=log(0.99)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly decrease", y=log(0.95)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly decrease", x=log(0.95)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 7: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
+  labs(caption = "Figure 13: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
 set to medium. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 

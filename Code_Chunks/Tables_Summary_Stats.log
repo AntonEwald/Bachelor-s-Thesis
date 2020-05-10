@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.4.18)  28 APR 2020 12:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.5.2)  6 MAY 2020 12:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -720,6 +720,25 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 113
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+Overfull \hbox (2.07526pt too wide) in paragraph at lines 113--142
+ [][] 
+ []
+
+
+Overfull \hbox (2.07526pt too wide) in paragraph at lines 148--177
+ [][] 
+ []
+
+
+Overfull \hbox (2.07526pt too wide) in paragraph at lines 183--212
+ [][] 
+ []
+
+
+Overfull \hbox (2.07526pt too wide) in paragraph at lines 218--247
+ [][] 
+ []
+
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 250.
 [1
 
@@ -761,10 +780,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 250.
  ) 
 Here is how much of TeX's memory you used:
- 11979 strings out of 482530
- 173096 string characters out of 5949330
- 445456 words of memory out of 5000000
- 27385 multiletter control sequences out of 15000+600000
+ 11981 strings out of 482605
+ 173122 string characters out of 5950428
+ 442718 words of memory out of 5000000
+ 27315 multiletter control sequences out of 15000+600000
  561279 words of font info for 47 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  34i,12n,37p,254b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -781,7 +800,7 @@ ist/fonts/type1/public/lm/lmr7.pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texm
 f-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/anton/AppData/Roaming/TinyTeX
 /texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/anton/AppData/Roaming/Ti
 nyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Tables_Summary_Stats.pdf (3 pages, 136137 bytes).
+Output written on Tables_Summary_Stats.pdf (3 pages, 136286 bytes).
 PDF statistics:
  65 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream

@@ -257,8 +257,7 @@ example_graph <- example_of_one_simulation %>%
   theme(plot.caption=element_text(hjust = 0.2), legend.position = c(0.9, 0.2), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 2: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase
-holding both error terms at a high variance level.") + 
+  labs(x='X', y = 'Log(Y)', caption= "Figure 2: Simulated data with 60% censoring, large variations and slope representing 5% yearly increase.") + 
   geom_text(aes(x = 6, y = 1.1), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
   labs(x = 'Years', y = 'Log(Concentration)')
   
@@ -1083,4 +1082,69 @@ save(df_1.1_0.5_LOW_neg, file = "df_1.1_0.5_LOW_neg.Rda")
 load("df_1.1_0.5_LOW_neg.Rda")
 
 df_1.1_0.5_LOW_neg %>% mutate(bias = (Beta-Slope)^2) %>%  group_by(Method) %>% summarise(bias = mean(bias))
+
+
+
+hejhej <- Completed_df %>% mutate(bias_sq = (Beta-Slope)^2) %>% filter(`Random Effects` == "High", Std == 1.4, `Limit fraction` == 0.6, Slope > 0.01, Method == "Tobit")
+
+
+hejhej %>% ggplot(aes(x=bias_sq)) + geom_histogram()
+
+
+data <- metals %>% 
+  filter(LOC == "Utlängan") %>% 
+  filter(SPECIES == "Herring") %>%
+    select(YEAR, NI) %>% 
+  na.omit() %>% 
+    mutate(cens = NI < 0) %>% 
+    mutate(NI = abs(NI))  
+    stats <- cenmle(((data$NI)), data$cens, dist = "lognormal") 
+    
+    0.04
+    
+data %>% na.omit() %>% summarise(var = sd(log(NI))^2)
+
+df_cens_1.05
+
+
+
+load("df_cens_1.01.Rda")
+load("df_cens_1.05.Rda")
+load("df_cens_1.1.Rda")
+
+
+df_cens_1.01
+df_cens_1.05
+df_cens_1.1
+
+
+nick <- metals %>% filter(LOC == "Fladen") %>% 
+  filter(SPECIES == "Herring") %>% 
+  select(NI) %>% 
+  na.omit()
+
+cenmle(abs(nick$NI), nick$NI<0, dist = "lognormal")
+
+
+(0.0039)/(log(1.05))
+
+
+
+
+
+
+load("cens_df_1.01_low.Rda")
+load("cens_df_1.05_low.Rda")
+load("cens_df_1.1_low.Rda")
+
+
+
+load("df_80_1.05_0.05.Rda")
+load("df_80_1.1_0.05.Rda")
+load("df_80_1.05_0.5.Rda")
+load("df_80_1.1_0.5.Rda")
+
 ```
+
+
+

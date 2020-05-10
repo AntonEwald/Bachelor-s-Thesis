@@ -38,9 +38,9 @@ censored_plot <- data %>% ggplot(aes(x=Covariates, y = Censored_data, shape = ce
   theme(plot.caption=element_text(hjust = 0), legend.position = c(0.77, 0.15), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1a: Example of 1000 log-normal distributed
-observations censored at LOQ") + 
-  geom_text(aes(x = 3.5, y = 0), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
+  labs(x='X', y = 'Log(Y)', caption= "Figure 1a: Example of 1000 observations following a 
+log-normal distribution censored at the LOQ.") + 
+  geom_text(aes(x = 3.5, y = 0.05), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
   labs(x = 'X', y = 'Y')
 
 
@@ -54,13 +54,13 @@ uncensored_plot <- data %>% ggplot(aes(x=Covariates, y = true_value, shape = cen
   theme(plot.caption=element_text(hjust = 0), legend.position = c(0.77, 0.15), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1b: Example of the same 1000 log-normal
-distributed observations without censoring") + 
-  geom_text(aes(x = 4.5, y = 0), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
+  labs(x='X', y = 'Log(Y)', caption= "Figure 1b: Example of the same 1000 observations 
+without censoring.") + 
+  geom_text(aes(x = 4.5, y = 0.5), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
   labs(x = 'X', y = 'Y')
 
 grid.arrange(censored_plot, uncensored_plot, ncol = 2)
 
-ggsave(plot = grid.arrange(censored_plot, uncensored_plot, ncol = 2), file = "Example_Censored_Plot.pdf")
+ggsave(plot = grid.arrange(censored_plot, uncensored_plot, ncol = 2), dpi = 300, file = "Example_Censored_Plot.pdf")
 
 ```

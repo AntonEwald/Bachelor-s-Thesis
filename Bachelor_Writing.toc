@@ -1,0 +1,36 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Background}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Data}{5}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Censoring}{5}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Theory}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Linear Regression Models}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Linear mixed-effects model}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Maximum Likelihood Estimation}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Tobit Model}{8}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Linear Mixed-effects With Censored Response}{8}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}EM-Algorithm}{10}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Simulation}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Simulation Structure}{12}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Model Description}{12}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Scenario Design}{12}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}R Functions}{13}{subsubsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.2}Simulation Results}{14}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Function Comparison}{14}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Model Analysis}{19}{subsubsection.3.2.2}%
+\contentsline {section}{\numberline {4}Application}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Probability plots and distribution assumptions}{23}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Applying the LMMC model}{26}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Data and Methods}{27}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Analysis}{28}{subsubsection.4.2.2}%
+\contentsline {section}{\numberline {5}Discussion}{30}{section.5}%
+\contentsline {section}{\numberline {6}Appendix}{33}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Theory}{33}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Definitions}{33}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}Slutsky's Theorem}{33}{subsubsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.3}Delta Method}{34}{subsubsection.6.1.3}%
+\contentsline {subsubsection}{\numberline {6.1.4}MCSE for the squared bias}{34}{subsubsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.2}Tables and Figures}{35}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Estimation Plots for the Yearly Increase Simulation Study}{35}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Yearly Decrease Simulation Study}{37}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Focused Simulation Study for Chromium Data}{41}{subsubsection.6.2.3}%
+\contentsline {section}{\numberline {7}References}{42}{section.7}%

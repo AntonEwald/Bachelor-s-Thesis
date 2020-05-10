@@ -1,0 +1,112 @@
+---
+title: "CR_Stats"
+author: "Anton Holm"
+date: '2020-05-06'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(kableExtra)
+
+load("df_80_1.05_0.05.Rda")
+load("df_80_1.1_0.05.Rda")
+load("df_80_1.05_0.5.Rda")
+load("df_80_1.1_0.5.Rda")
+
+
+beta_1 <- split(df_80_1.05_0.5, df_80_1.05_0.5$Method)
+betas_lm <- beta_1[[1]] %>% mutate(Beta_Subs = beta_1[[2]]$Beta_Hat) %>% mutate(Sd_Subs = beta_1[[2]]$Standard_Error) %>% mutate(Slope = "5% Yearly Increase") %>% mutate(Noise = "Sd = 0.5 for Individual Noise")
+
+beta_2 <- split(df_80_1.05_0.05, df_80_1.05_0.05$Method)
+betas_ll <- beta_2[[1]] %>% mutate(Beta_Subs = beta_2[[2]]$Beta_Hat) %>% mutate(Sd_Subs = beta_2[[2]]$Standard_Error) %>% mutate(Slope = "5% Yearly Increase") %>% mutate(Noise = "Sd = 0.05 for Individual Noise")
+
+beta_3 <- split(df_80_1.1_0.05, df_80_1.1_0.05$Method)
+betas_ml <- beta_3[[1]] %>% mutate(Beta_Subs = beta_3[[2]]$Beta_Hat) %>% mutate(Sd_Subs = beta_3[[2]]$Standard_Error) %>% mutate(Slope = "10% Yearly Increase") %>% mutate(Noise = "Sd = 0.05 for Individual Noise")
+
+beta_4 <- split(df_80_1.1_0.5, df_80_1.1_0.5$Method)
+betas_mm <- beta_4[[1]] %>% mutate(Beta_Subs = beta_4[[2]]$Beta_Hat) %>% mutate(Sd_Subs = beta_4[[2]]$Standard_Error) %>% mutate(Slope = "10% Yearly Increase") %>% mutate(Noise = "Sd = 0.5 for Individual Noise")
+
+
+betas_80 <- full_join(betas_ll, betas_lm) %>% full_join(betas_ml) %>% full_join(betas_mm) %>% 
+  mutate(Slope_f = factor(Slope, levels = c("5% Yearly Increase","10% Yearly Increase")))
+
+
+
+
+
+Plot_Simulation_CR <- betas_80 %>% 
+  ggplot(aes(x=Beta_Hat, y=Beta_Subs)) +
+  facet_grid(Slope_f ~ Noise) +
+  geom_point(alpha = 0.5) + 
+  theme_minimal() +
+  theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
+    fill = NA, size =0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top")+ 
+   geom_hline(data = data.frame(Slope_f="5% Yearly Increase", y=log(1.05)), mapping=aes(yintercept=y)) +
+   geom_vline(data = data.frame(Slope_f="5% Yearly Increase", x=log(1.05)), mapping=aes(xintercept=x)) +
+  geom_hline(data = data.frame(Slope_f="10% Yearly Increase", y=log(1.1)), mapping=aes(yintercept=y))+
+   geom_vline(data = data.frame(Slope_f="10% Yearly Increase", x=log(1.1)), mapping=aes(xintercept=x)) +
+  labs(caption = "Figure 15: Plotting the estimated slopes for the substitution method and the LMMC model against eachother. The 
+vertical and horizontal lines correspond to the true value of the slope. The data have a censoring proportion of 80%.",
+  x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
+
+ggsave(Plot_Simulation_CR, filename = "Plot_Simulation_CR.pdf")
+
+
+
+
+df_CR_simu <- full_join(df_80_1.05_0.05, df_80_1.05_0.5) %>% 
+  full_join(df_80_1.1_0.05) %>% 
+  full_join(df_80_1.1_0.5)
+
+
+df_bias <- df_CR_simu %>% group_by(Method, Slope, Noise) %>% 
+  mutate(bias = (Slope-Beta_Hat)^2) %>% 
+  summarise(bias = mean(bias)) %>% 
+  ungroup
+
+df_var <- df_CR_simu %>% group_by(Method, Slope, Noise) %>% 
+  mutate(bias = (Slope-Beta_Hat)^2) %>% 
+  summarise(Variance = sd(Beta_Hat)^2)%>% 
+  ungroup
+
+df_coverage <- df_CR_simu %>% 
+  mutate(CI_Low = Beta_Hat - 1.96*Standard_Error) %>% 
+  mutate(CI_Upp = Beta_Hat +1.96*Standard_Error) %>% 
+  mutate(Coverage = ifelse(Slope >= CI_Low & Slope <= CI_Upp, 1, 0)) %>% 
+  group_by(Method, Slope, Noise) %>% 
+  summarise(Coverage = mean(Coverage))%>% 
+  ungroup
+
+CR_sim_df_full <- df_bias %>% 
+  mutate(Variance = df_var$Variance) %>% 
+  mutate(Coverage = df_coverage$Coverage) %>% 
+  mutate(MSE = Variance + bias) %>% 
+  mutate("Standard Error" = sqrt(Variance/(100))*2*abs(bias)) %>% 
+  arrange(desc(Slope), Noise)
+
+CR_sim_df_full[,-1] <- round(CR_sim_df_full[,-1], digits = 4)
+
+CR_sim_df_full <- CR_sim_df_full %>% select(Slope ,Noise, Method, bias,Coverage, Variance , MSE, `Standard Error`) %>% mutate(Slope = ifelse(Slope > 0.05, "5 \\% Yearly Increase", "10 \\% Yearly Increase")) %>% 
+  mutate(`Standard Error` = "0.0000")
+
+colnames(CR_sim_df_full) <- c("Slope", "Sd", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(\\hat{\\beta}-\\beta)^2$)")
+
+CR_sim_table_3 <- knitr::kable(CR_sim_df_full, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 80\\% censored data") %>%
+column_spec(1, bold=T) %>%
+kableExtra::collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
+  kable_styling(latex_options="scale_down")
+
+
+
+save(CR_sim_table_3, file = "CR_sim_table_3.Rda")
+
+CR_sim_table
+```
