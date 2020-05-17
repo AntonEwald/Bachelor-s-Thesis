@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.5.17)  17 MAY 2020 18:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.5.17)  17 MAY 2020 18:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -855,20 +855,20 @@ l.1645
 File: Code_Chunks/Beta_Low_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_Low_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_Low_Variance.pdf  used on input line 
-1878.
+1881.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [35]
 <Code_Chunks/Beta_Medium_Variance.pdf, id=504, 650.43pt x 505.89pt>
 File: Code_Chunks/Beta_Medium_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_Medium_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_Medium_Variance.pdf  used on input li
-ne 1880.
+ne 1883.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 <Code_Chunks/Beta_High_Variance.pdf, id=505, 650.43pt x 505.89pt>
 File: Code_Chunks/Beta_High_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_High_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_High_Variance.pdf  used on input line
- 1882.
+ 1885.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [36 <./Code_Chunks/Beta_Low_Variance.pdf> <./Code_Chunks/Beta_Medium_Variance.p
 df>] [37pdfTeX warning (ext4): destination with the same identifier (name{table
@@ -876,72 +876,72 @@ df>] [37pdfTeX warning (ext4): destination with the same identifier (name{table
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1964 
+l.1967 
         <./Code_Chunks/Beta_High_Variance.pdf>]
 <Beta_Low_Variance_neg.pdf, id=541, 650.43pt x 505.89pt>
 File: Beta_Low_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_Low_Variance_neg.pdf>
-Package pdftex.def Info: Beta_Low_Variance_neg.pdf  used on input line 2037.
+Package pdftex.def Info: Beta_Low_Variance_neg.pdf  used on input line 2040.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [38pdfTeX warning (ext4): destination with the same identifier (name{table.9}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2040 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{table.10}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2040 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{table.11}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2040 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   ]
 <Beta_Medium_Variance_neg.pdf, id=550, 650.43pt x 505.89pt>
 File: Beta_Medium_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_Medium_Variance_neg.pdf>
-Package pdftex.def Info: Beta_Medium_Variance_neg.pdf  used on input line 2039.
+Package pdftex.def Info: Beta_Medium_Variance_neg.pdf  used on input line 2042.
 
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 <Beta_High_Variance_neg.pdf, id=551, 650.43pt x 505.89pt>
 File: Beta_High_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_High_Variance_neg.pdf>
-Package pdftex.def Info: Beta_High_Variance_neg.pdf  used on input line 2041.
+Package pdftex.def Info: Beta_High_Variance_neg.pdf  used on input line 2044.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [39 <./Beta_Low_Variance_neg.pdf> <./Beta_Medium_Variance_neg.pdf>]
 <Plot_Simulation_CR.pdf, id=572, 505.89pt x 505.89pt>
 File: Plot_Simulation_CR.pdf Graphic file (type pdf)
 <use Plot_Simulation_CR.pdf>
-Package pdftex.def Info: Plot_Simulation_CR.pdf  used on input line 2079.
+Package pdftex.def Info: Plot_Simulation_CR.pdf  used on input line 2082.
 (pdftex.def)             Requested size: 309.3412pt x 309.3412pt.
 [40pdfTeX warning (ext4): destination with the same identifier (name{table.12})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2079 ...ewidth]{Plot_Simulation_CR} \end{center}
+l.2082 ...ewidth]{Plot_Simulation_CR} \end{center}
                                                    <./Beta_High_Variance_neg.pd
 f>] [41 <./Plot_Simulation_CR.pdf>] [42]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2179.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2182.
 [43]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2179.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2182.
 (./Bachelor_Writing.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2179.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2179.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2182.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2182.
 
 Package rerunfilecheck Info: File `Bachelor_Writing.out' has not changed.
 (rerunfilecheck)             Checksum: 76E7498A988D75F99A8C04CD4372CA31;5652.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2179.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2182.
  ) 
 Here is how much of TeX's memory you used:
  12253 strings out of 482399
@@ -974,7 +974,7 @@ Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb>
 <c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.
 pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on Bachelor_Writing.pdf (43 pages, 1039656 bytes).
+Output written on Bachelor_Writing.pdf (43 pages, 1039863 bytes).
 PDF statistics:
  720 PDF objects out of 1000 (max. 8388607)
  606 compressed objects within 7 object streams
