@@ -51,7 +51,7 @@ Plot_High_Individual_Variance <- betas_spread_individual_high %>% ggplot(aes(x=B
    geom_vline(data = data.frame(Slope_Perc="1% yearly increase", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly increase", y=log(1.05)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly increase", x=log(1.05)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 8: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens
+  labs(caption = "Figure 11: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens
 set to high. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 
@@ -87,7 +87,7 @@ Plot_Low_Individual_Variance <- betas_spread_individual_low %>% ggplot(aes(x=Bet
    geom_vline(data = data.frame(Slope_Perc="1% yearly increase", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly increase", y=log(1.05)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly increase", x=log(1.05)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 6: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
+  labs(caption = "Figure 9: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens 
 set to low. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 
@@ -123,7 +123,7 @@ Plot_Medium_Individual_Variance <- betas_spread_individual_medium %>%
    geom_vline(data = data.frame(Slope_Perc="1% yearly increase", x=log(1.01)), mapping=aes(xintercept=x)) +
   geom_hline(data = data.frame(Slope_Perc="5% yearly increase", y=log(1.05)), mapping=aes(yintercept=y))+
    geom_vline(data = data.frame(Slope_Perc="5% yearly increase", x=log(1.05)), mapping=aes(xintercept=x)) +
-  labs(caption = "Figure 7: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens
+  labs(caption = "Figure 10: Plotting the estimated slopes for the substitution method and the LMMC model against eachother having the variance of individual specimens
 set to medium. The vertical and horizontal lines correspond to the true value of the slope.",
   x = 'Estimates of the LMMC Model', y = 'Estimates from Substitution')
 

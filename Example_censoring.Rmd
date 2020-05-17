@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 set.seed(19931031)
 library(gridExtra)
+library(tidyverse)
+library(latex2exp)
 
 Slope <- log(1.3)
 Error_term <- rlnorm(1000, 0, 0.1)
@@ -32,14 +34,15 @@ censored_plot <- data %>% ggplot(aes(x=Covariates, y = Censored_data, shape = ce
   geom_point(alpha = 0.3) +
   scale_y_continuous(limits = c(-0.9, 1)) +
   geom_hline(yintercept = log(LOD), linetype = 'dashed') +
-  scale_shape_manual(values = c(16,1)) +
+  scale_shape_manual(values = c(16,2)) +
   xlim(-4, 4) +
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0), legend.position = c(0.77, 0.15), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1a: Example of 1000 observations following a 
-log-normal distribution censored at the LOQ.") + 
+  labs(x='X', y = 'Log(Y)', caption = 'Figure 1a: Example of 1000 observations following a 
+log-normal distribution. Censored observations are 
+replaced with the LOQ divided by the squareroot of 2') + 
   geom_text(aes(x = 3.5, y = 0.05), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
   labs(x = 'X', y = 'Y')
 
@@ -48,15 +51,16 @@ uncensored_plot <- data %>% ggplot(aes(x=Covariates, y = true_value, shape = cen
   geom_point(alpha = 0.3) +
   scale_y_continuous(limits = c(-0.9, 1)) +
   geom_hline(yintercept = log(LOD), linetype = 'dashed') +
-  scale_shape_manual(values = c(16,1)) +
+  scale_shape_manual(values = c(16,2)) +
   xlim(-4, 5) +
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0), legend.position = c(0.77, 0.15), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_blank()) +
-  labs(x='X', y = 'Log(Y)', caption= "Figure 1b: Example of the same 1000 observations 
-without censoring.") + 
-  geom_text(aes(x = 4.5, y = 0.5), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
+  labs(x='X', y = 'Log(Y)', caption= "Figure 1b: The same data of 1000 
+observations is plotted without censoring any of
+the observations.") + 
+  geom_text(aes(x = 4.5, y = 0.05), label = "LOQ", size = 3, show.legend = FALSE, family = "serif") +
   labs(x = 'X', y = 'Y')
 
 grid.arrange(censored_plot, uncensored_plot, ncol = 2)

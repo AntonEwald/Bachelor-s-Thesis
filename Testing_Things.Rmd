@@ -251,7 +251,7 @@ example_graph <- example_of_one_simulation %>%
   ggplot(aes(x=kovariat, y=log(predictors), shape = cens)) + 
   geom_point() +
   geom_hline(yintercept = log(1.723875), linetype = 'dashed') +
-  scale_shape_manual(values = c(16,1)) +
+  scale_shape_manual(values = c(16,2)) +
   xlim(-5, 6) +
   theme_minimal() +
   theme(plot.caption=element_text(hjust = 0.2), legend.position = c(0.9, 0.2), legend.background = element_rect(color = "black", 

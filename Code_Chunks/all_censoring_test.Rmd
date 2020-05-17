@@ -252,10 +252,13 @@ ggsave(plot = grid.arrange(plot = SE_plot_110_low, Bias_plot_110_low, ncol = 1),
 #Both variances with facet_grid
 
 cens_df_1.1_low <- cens_df_1.1_low %>% mutate(Variance = "Individual noise at 0.05") %>% filter(Method != "Mixcens")
+cens_df_1.1_low[101:200, 2] <- medel_1.1_0.05[,2]
 
+all_models_1.10[201:300,2] <- medel_1.1_0.5[,2]
 all_models_1.10 <- all_models_1.10 %>% mutate(Variance = "Individual noise at 0.5") %>% mutate(Method = ifelse(Method == "LMMC", "lmec", Method))
 
-full_cens_1.1 <- full_join(cens_df_1.1_low, all_models_1.10)
+
+full_cens_1.1 <- full_join(cens_df_1.1_low, all_models_1.10)%>% mutate(Standard_Error = Standard_Error^2)
 
 
 SE_plot_110_both <- full_cens_1.1 %>% 
@@ -266,7 +269,7 @@ SE_plot_110_both <- full_cens_1.1 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
-  labs(x = "Censored", y = "Standard Error", caption = "Figure 5a: Standard error of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Variance", caption = "Figure 5a: Standard error of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.1).")
 
 
@@ -291,9 +294,11 @@ ggsave(plot = grid.arrange(plot = SE_plot_110_both, Bias_plot_110_both, ncol = 1
 cens_df_1.01_low_2 <- cens_df_1.01_low %>% mutate(Variance = "Individual noise at 0.05") %>% 
   rename(Standard_Error = Sd, Censored = Censoring, Slope = slope) %>% filter(Method != "Mixcens")
 
+cens_df_1.01_low_2[101:200, 2] <- medel_1.01_0.05[,2]
+all_models_1.01[201:300,2] <- medel_1.01_0.5[,2]
 all_models_1.01_2 <- all_models_1.01 %>% mutate(Variance = "Individual noise at 0.5")
 
-full_cens_1.01 <- full_join(cens_df_1.01_low_2, all_models_1.01_2)
+full_cens_1.01 <- full_join(cens_df_1.01_low_2, all_models_1.01_2)%>% mutate(Standard_Error = Standard_Error^2)
 
 
 
@@ -306,7 +311,7 @@ SE_plot_101_both <- full_cens_1.01 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
-  labs(x = "Censored", y = "Standard Error", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Variance", caption = "Figure 3a: Standard error of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.01).")
 
 
@@ -333,9 +338,13 @@ ggsave(plot = grid.arrange(plot = SE_plot_101_both, Bias_plot_101_both, ncol = 1
 cens_df_1.05_low_2 <- cens_df_1.05_low %>% mutate(Variance = "Individual noise at 0.05") %>% 
   rename(Standard_Error = Sd, Censored = Censoring, Slope = slope) %>% filter(Method != "Mixcens")
 
+cens_df_1.05_low_2[101:200,2] <- medel_1.05_0.05[,2]
+
+all_models_1.05[201:300, 2] <- medel_1.05_0.5[,2]
+
 all_models_1.05_2 <- all_models_1.05 %>% mutate(Variance = "Individual noise at 0.5")
 
-full_cens_1.05 <- full_join(cens_df_1.05_low_2, all_models_1.05_2)
+full_cens_1.05 <- full_join(cens_df_1.05_low_2, all_models_1.05_2) %>% mutate(Standard_Error = Standard_Error^2)
 
 
 
@@ -346,7 +355,7 @@ SE_plot_105_both <- full_cens_1.05 %>%
   theme(plot.caption=element_text(hjust = 0), legend.background = element_rect(color = "black", 
     fill = NA, size =0.5, linetype = "solid"),
         panel.border = element_rect(colour = "black", fill=NA, size=0.5),legend.title = element_text(color = "black", size = 8), legend.position = "top") +
-  labs(x = "Censored", y = "Standard Error", caption = "Figure 4a: Standard error of the estimated regression slope as a function of censoring proportion. 
+  labs(x = "Censored", y = "Variance", caption = "Figure 4a: Standard error of the estimated regression slope as a function of censoring proportion. 
 The true value of the slope being log(1.05).")
 
 

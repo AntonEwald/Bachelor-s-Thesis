@@ -86,20 +86,21 @@ df_coverage <- df_CR_simu %>%
   ungroup
 
 CR_sim_df_full <- df_bias %>% 
-  mutate(Variance = df_var$Variance) %>% 
+  mutate(bias = round(1000*bias, digits = 4)) %>% 
+  mutate(Variance = 1000*df_var$Variance) %>% 
   mutate(Coverage = df_coverage$Coverage) %>% 
-  mutate(MSE = Variance + bias) %>% 
-  mutate("Standard Error" = sqrt(Variance/(100))*2*abs(bias)) %>% 
-  arrange(desc(Slope), Noise)
+  mutate(MSE = (Variance + bias)) %>% 
+  mutate("Standard Error" = 1000*sqrt(Variance/(100000))*2*abs(bias/1000)) %>% 
+  arrange(desc(Slope), Noise)%>% 
+  mutate(MCvar = round(1000*(((sqrt(Variance/1000))/sqrt(198))*2*(sqrt(Variance/1000))), digits = 4))
 
 CR_sim_df_full[,-1] <- round(CR_sim_df_full[,-1], digits = 4)
 
-CR_sim_df_full <- CR_sim_df_full %>% select(Slope ,Noise, Method, bias,Coverage, Variance , MSE, `Standard Error`) %>% mutate(Slope = ifelse(Slope > 0.05, "5 \\% Yearly Increase", "10 \\% Yearly Increase")) %>% 
-  mutate(`Standard Error` = "0.0000")
+CR_sim_df_full <- CR_sim_df_full %>% select(Slope ,Noise, Method, bias,Coverage, Variance , MSE, `Standard Error`, MCvar) %>% mutate(Slope = ifelse(Slope > 0.05, "5 \\% Yearly Increase", "10 \\% Yearly Increase"))
 
-colnames(CR_sim_df_full) <- c("Slope", "Sd", "Method", "$(\\hat{\\beta} - \\beta)^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(\\hat{\\beta}-\\beta)^2$)")
+colnames(CR_sim_df_full) <-c("Individual Sd", "Random Effect", "Method", "$(E[\\hat{\\beta} - \\beta])^2$", "Coverage", "Var($\\hat{\\beta}$)", "MSE", "Se($(E[\\hat{\\beta} - \\beta])^2$)", "Se($Var(\\hat{\\beta})$)")
 
-CR_sim_table_3 <- knitr::kable(CR_sim_df_full, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 80\\% censored data") %>%
+CR_sim_table_3 <- knitr::kable(CR_sim_df_full, escape = FALSE, format = "latex", booktabs = T, align = "l", caption = "Summary statistics of simulations at 80\\% censored data. Statistics except coverage is multiplied by 1000") %>%
 column_spec(1, bold=T) %>%
 kableExtra::collapse_rows(columns = 1:2, latex_hline = "major", valign = "middle") %>% 
   kable_styling(latex_options="scale_down")
