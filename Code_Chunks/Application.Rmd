@@ -205,7 +205,14 @@ for_thesis_PB_df <- full_PB_df %>%
   mutate(`Var(Beta)` = as.numeric(as.character(`Var(Beta)`))) %>% 
   mutate(`Var(Beta)` = sqrt(`Var(Beta)`)) %>% 
   rename("Tobit Beta Std" = `Var(Beta)`) %>% 
-  mutate_if(is.numeric, round, digits = 4) 
+  mutate_if(is.numeric, round, digits = 4)
+  
+for_thesis_PB_df_2 <- for_thesis_PB_df %>% 
+  mutate(Museum_Beta = round(medel_PB_df$V1, 4)) %>% 
+  mutate(Museum_Beta_STD = round(medel_PB_df$V2, 4)) %>% 
+  mutate(p_sub = round(2*pt(-abs(Museum_Beta/Museum_Beta_STD), df = 9),4)) %>% 
+  mutate(p_lmmc = round(2*pt(-abs(Beta/`Tobit Beta Std`), df = 129),4))
+  
 
 for_thesis_NI_df <- full_NI_df %>% 
   select(Location, Beta, `Var(Beta)`, Museum_Beta, Museum_Beta_STD, `%Censored`, `Std of Location`) %>% 
@@ -215,6 +222,12 @@ for_thesis_NI_df <- full_NI_df %>%
   mutate_if(is.numeric, round, digits = 4) %>% 
   rename("LMMC Estimate" = Beta)
 
+for_thesis_NI_df_2 <- for_thesis_NI_df %>% 
+  mutate(Museum_Beta = round(medel_NI_df$V1, 4)) %>% 
+  mutate(Museum_Beta_STD = round(medel_NI_df$V2, 4))%>% 
+  mutate(p_sub = round(2*pt(-abs(Museum_Beta/Museum_Beta_STD), df = 9),4)) %>% 
+  mutate(p_lmmc = round(2*pt(-abs(Beta/`Tobit Beta Std`), df = 129),4))
+
 for_thesis_CR_df <- full_CR_df %>% 
   select(Location, Beta, `Var(Beta)`, Museum_Beta, Museum_Beta_STD, `%Censored`, `Std of Location`) %>% 
   mutate(`Var(Beta)` = as.numeric(as.character(`Var(Beta)`))) %>% 
@@ -222,30 +235,103 @@ for_thesis_CR_df <- full_CR_df %>%
   rename("Tobit Beta Std" = `Var(Beta)`) %>% 
   mutate_if(is.numeric, round, digits = 4)
 
+for_thesis_CR_df_2 <- for_thesis_CR_df %>% 
+  mutate(Museum_Beta = round(medel_CR_df$V1,4)) %>% 
+  mutate(Museum_Beta_STD =round(medel_CR_df$V2,4))%>% 
+  mutate(p_sub = round(2*pt(-abs(Museum_Beta/Museum_Beta_STD), df = 9),4)) %>% 
+  mutate(p_lmmc = round(2*pt(-abs(Beta/`Tobit Beta Std`), df = 129),4))
 
-save(for_thesis_PB_df, for_thesis_NI_df, for_thesis_CR_df, file = "../Rdata_Files/substitution_df_application.Rda")
+save(for_thesis_PB_df_2, for_thesis_NI_df_2, for_thesis_CR_df_2, file = "../Rdata_Files/substitution_df_application_medelvarde.Rda")
 
 load("../Rdata_Files/substitution_df_application.Rda")
 
-thesis_CR_Table <- kable(for_thesis_CR_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for chromium concentrations in herring (Estimated slope on Log-Scale)") %>% 
+colnames(for_thesis_CR_df_2) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location $^*$", "$p_{_{Sub}}$", "$p_{_{LMMC}}$")
+
+colnames(for_thesis_NI_df_2) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location", "$p_{_{Sub}}$", "$p_{_{LMMC}}$")
+
+colnames(for_thesis_PB_df_2) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location", "$p_{_{Sub}}$", "$p_{_{LMMC}}$")
+
+thesis_CR_Table <- kable(for_thesis_CR_df_2, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for chromium concentrations in herring (Estimated slope on Log-Scale)") %>% 
 column_spec(1, bold=T) %>% footnote(general = "Due to high proportion of censoring the standard deviations are unreliable.", general_title = "*", footnote_as_chunk = TRUE, title_format = c("italic")) %>% 
   kable_styling(full_width=F) %>% 
   kable_styling(latex_options="scale_down")
 
-thesis_NI_Table <- kable(for_thesis_NI_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for nickel concentrations in herring (Estimated slope on Log-Scale)") %>% 
+thesis_NI_Table <- kable(for_thesis_NI_df_2, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for nickel concentrations in herring (Estimated slope on Log-Scale)") %>% 
 column_spec(1, bold=T) %>% 
   kable_styling(latex_options="scale_down")
 
-thesis_PB_Table <- kable(for_thesis_PB_df, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for lead concentrations in herring (Estimated slope on Log-Scale)") %>% 
+thesis_PB_Table <- kable(for_thesis_PB_df_2, booktabs=T, escape=F, format = "latex", align = "l", caption = "Results of application of both models on data for lead concentrations in herring (Estimated slope on Log-Scale)") %>% 
 column_spec(1, bold=T) %>% 
   kable_styling(latex_options="scale_down")
-
-colnames(for_thesis_CR_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location $^*$")
-
-colnames(for_thesis_NI_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
-
-colnames(for_thesis_PB_df) <- c("Location", "$\\hat{\\beta}_{LMMC}$", "sd($\\hat{\\beta}_{LMMC}$)", "$\\hat{\\beta}_{Sub}$", "sd($\\hat{\\beta}_{Sub}$)", "\\% Censored", "Sd of Location")
 
 save(thesis_CR_Table, thesis_NI_Table, thesis_PB_Table, file = "../Rdata_Files/tables_application.Rda")
 
+
+```
+
+
+
+```{r}
+data <- List_each_LOC[[6]]%>% 
+  filter(SPECIES == "Herring") %>% 
+  drop_na(PB)
+
+
+medel_chrom <- matrix(nrow = 6, ncol = 2)
+for(i in 1:length(List_each_LOC)){
+  data <- List_each_LOC[[i]]
+  medel <- data %>% 
+  filter(SPECIES == "Herring") %>% 
+  drop_na(PB) %>%
+  mutate(PB = ifelse(PB<0, log(abs(PB)/sqrt(2)), log(abs(PB)))) %>% 
+  group_by(YEAR) %>% 
+  summarise(PB = mean(PB))
+
+  summary <- summary(lm(medel$PB ~ medel$YEAR))
+  medel_chrom[i,1] <- summary$coefficients[2,1]
+  medel_chrom[i,2] <- summary$coefficients[2,2]
+}
+
+
+medel_PB_df <- medel_lead %>% as.data.frame()
+medel_NI_df <- medel_nickel %>% as.data.frame()
+medel_CR_df <- medel_chrom %>% as.data.frame()
+
+
+for_thesis_PB_df %>% mutate(Museum_Beta = medel_PB_df$V1)
+
+
+summary(lm(medel$CR~medel$YEAR))
+
+medel <- data %>% 
+  drop_na(CR) %>%
+  mutate(CR = log(abs(CR)))
+
+yl <- medel$CR
+    X <- cbind(rep_len(1,length(medel$YEAR)), medel$YEAR )
+cens <- (data$CR) < 0
+cluster <- as.numeric(factor(medel$YEAR))
+Z <- matrix(rep_len(1,length(medel$YEAR)), ncol=1)
+
+sum <- lmec(yl, cens, X, Z, cluster, maxstep = 20, method = "ML")
+
+summary(sum)
+
+
+
+
+2*pt(-0.029627654/0.02274325, df = 9)
+
+pt(abs(-1), df = 130)
+
+for_thesis_PB_df_2
+
+0.4732
+
+
+
+List_each_LOC[[6]] %>% select(YEAR) %>% unique() %>% count()
+
+
+List_each_LOC[[6]] %>% filter(SPECIES == "Herring")
 ```

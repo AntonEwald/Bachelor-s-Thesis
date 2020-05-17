@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.5.16)  16 MAY 2020 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.5.17)  17 MAY 2020 18:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Bachelor_Writing.tex
 (./Bachelor_Writing.tex
 LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-05-11> (c:/Users/anton/AppData/Roaming/TinyTeX/texmf
+L3 programming layer <2020-05-15> (c:/Users/anton/AppData/Roaming/TinyTeX/texmf
 -dist/tex/latex/base/article.cls
 Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
@@ -196,7 +196,7 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.
 sty
-Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.
 sty
@@ -249,7 +249,7 @@ Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.de
 f
-File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
@@ -262,19 +262,19 @@ s.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count192
-Package hyperref Info: Hyper figures OFF on input line 4547.
-Package hyperref Info: Link nesting OFF on input line 4552.
-Package hyperref Info: Hyper index ON on input line 4555.
-Package hyperref Info: Plain pages OFF on input line 4562.
-Package hyperref Info: Backreferencing OFF on input line 4567.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4800.
+Package hyperref Info: Bookmarks ON on input line 4717.
 \c@Hy@tempcnt=\count193
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5159.
+LaTeX Info: Redefining \url on input line 5076.
 \XeTeXLinkMargin=\dimen153
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.st
@@ -289,15 +289,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 \Fld@menulength=\count194
 \Field@Width=\dimen154
 \Fld@charsize=\dimen155
-Package hyperref Info: Hyper figures OFF on input line 6430.
-Package hyperref Info: Link nesting OFF on input line 6435.
-Package hyperref Info: Hyper index ON on input line 6438.
-Package hyperref Info: backreferencing OFF on input line 6445.
-Package hyperref Info: Link coloring OFF on input line 6450.
-Package hyperref Info: Link coloring with OCG OFF on input line 6455.
-Package hyperref Info: PDF/A mode OFF on input line 6460.
-LaTeX Info: Redefining \ref on input line 6500.
-LaTeX Info: Redefining \pageref on input line 6504.
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/atbegshi/atbegsh
 i.sty
@@ -311,7 +311,7 @@ Package hyperref Info: Driver (autodetected): hpdftex.
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.d
 ef
-File: hpdftex.def 2020/01/14 v7.00d Hyperref driver for pdfTeX
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/atveryend/atveryen
 d.sty
@@ -337,7 +337,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 Package hyperref Info: Option `unicode' set `true' on input line 28.
 
 (c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
@@ -751,7 +751,7 @@ File: Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (t
 ype pdf)
 <use Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.
-pdf  used on input line 825.
+pdf  used on input line 828.
 (pdftex.def)             Requested size: 386.67102pt x 267.69531pt.
 [15 <./Bachelor_Writing_files/figure-latex/unnamed-chunk-2-1.pdf>]
 <Code_Chunks/bias_se_censoring_plot_1.01_both.pdf, id=310, 505.89pt x 505.89pt>
@@ -759,7 +759,7 @@ pdf  used on input line 825.
 File: Code_Chunks/bias_se_censoring_plot_1.01_both.pdf Graphic file (type pdf)
 <use Code_Chunks/bias_se_censoring_plot_1.01_both.pdf>
 Package pdftex.def Info: Code_Chunks/bias_se_censoring_plot_1.01_both.pdf  used
- on input line 865.
+ on input line 868.
 (pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
 [16 <./Code_Chunks/bias_se_censoring_plot_1.01_both.pdf>]
 <Code_Chunks/bias_se_censoring_plot_1.05_both.pdf, id=320, 505.89pt x 505.89pt>
@@ -767,13 +767,13 @@ Package pdftex.def Info: Code_Chunks/bias_se_censoring_plot_1.01_both.pdf  used
 File: Code_Chunks/bias_se_censoring_plot_1.05_both.pdf Graphic file (type pdf)
 <use Code_Chunks/bias_se_censoring_plot_1.05_both.pdf>
 Package pdftex.def Info: Code_Chunks/bias_se_censoring_plot_1.05_both.pdf  used
- on input line 879.
+ on input line 882.
 (pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
 <Code_Chunks/bias_se_censoring_plot_1.1_both.pdf, id=321, 505.89pt x 505.89pt>
 File: Code_Chunks/bias_se_censoring_plot_1.1_both.pdf Graphic file (type pdf)
 <use Code_Chunks/bias_se_censoring_plot_1.1_both.pdf>
 Package pdftex.def Info: Code_Chunks/bias_se_censoring_plot_1.1_both.pdf  used 
-on input line 891.
+on input line 894.
 (pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
 [17 <./Code_Chunks/bias_se_censoring_plot_1.05_both.pdf>] [18 <./Code_Chunks/bi
 as_se_censoring_plot_1.1_both.pdf>] [19pdfTeX warning (ext4): destination with 
@@ -781,26 +781,26 @@ the same identifier (name{table.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1021 
+l.1024 
        ] [20pdfTeX warning (ext4): destination with the same identifier (name{t
 able.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1062 ...{\sum_{i=1}^{11}\sum_{j=1}^{12}x_i^2}}\]
+l.1065 ...{\sum_{i=1}^{11}\sum_{j=1}^{12}x_i^2}}\]
                                                   ] [21pdfTeX warning (ext4): d
 estination with the same identifier (name{table.3}) has been already used, dupl
 icate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1172 \end{table}
+l.1175 \end{table}
                   ] [22pdfTeX warning (ext4): destination with the same identif
 ier (name{table.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1222 
+l.1225 
        ] [23]
 
 pdfTeX warning: pdflatex.exe (file ./Code_Chunks/PB_ros_plots.pdf): PDF inclusi
@@ -808,27 +808,27 @@ on: found PDF version <1.7>, but at most version <1.5> allowed
 <Code_Chunks/PB_ros_plots.pdf, id=368, 505.89pt x 505.89pt>
 File: Code_Chunks/PB_ros_plots.pdf Graphic file (type pdf)
 <use Code_Chunks/PB_ros_plots.pdf>
-Package pdftex.def Info: Code_Chunks/PB_ros_plots.pdf  used on input line 1279.
-
-(pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
-
-
-pdfTeX warning: pdflatex.exe (file ./Code_Chunks/NI_ros_plots.pdf): PDF inclusi
-on: found PDF version <1.7>, but at most version <1.5> allowed
-<Code_Chunks/NI_ros_plots.pdf, id=369, 505.89pt x 505.89pt>
-File: Code_Chunks/NI_ros_plots.pdf Graphic file (type pdf)
-<use Code_Chunks/NI_ros_plots.pdf>
-Package pdftex.def Info: Code_Chunks/NI_ros_plots.pdf  used on input line 1293.
+Package pdftex.def Info: Code_Chunks/PB_ros_plots.pdf  used on input line 1282.
 
 (pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
 [24 <./Code_Chunks/PB_ros_plots.pdf>]
+
+pdfTeX warning: pdflatex.exe (file ./Code_Chunks/NI_ros_plots.pdf): PDF inclusi
+on: found PDF version <1.7>, but at most version <1.5> allowed
+<Code_Chunks/NI_ros_plots.pdf, id=391, 505.89pt x 505.89pt>
+File: Code_Chunks/NI_ros_plots.pdf Graphic file (type pdf)
+<use Code_Chunks/NI_ros_plots.pdf>
+Package pdftex.def Info: Code_Chunks/NI_ros_plots.pdf  used on input line 1296.
+
+(pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
+
 
 pdfTeX warning: pdflatex.exe (file ./Code_Chunks/CR_ros_plots.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
 <Code_Chunks/CR_ros_plots.pdf, id=392, 505.89pt x 505.89pt>
 File: Code_Chunks/CR_ros_plots.pdf Graphic file (type pdf)
 <use Code_Chunks/CR_ros_plots.pdf>
-Package pdftex.def Info: Code_Chunks/CR_ros_plots.pdf  used on input line 1305.
+Package pdftex.def Info: Code_Chunks/CR_ros_plots.pdf  used on input line 1308.
 
 (pdftex.def)             Requested size: 386.68037pt x 386.68037pt.
 [25 <./Code_Chunks/NI_ros_plots.pdf>] [26 <./Code_Chunks/CR_ros_plots.pdf>] [27
@@ -837,38 +837,38 @@ e{table.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1602 
+l.1593 
        pdfTeX warning (ext4): destination with the same identifier (name{table.
 6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1602 
-       pdfTeX warning (ext4): destination with the same identifier (name{table.
-7}) has been already used, duplicate ignored
+l.1593 
+       ] [31pdfTeX warning (ext4): destination with the same identifier (name{t
+able.7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1602 
-       ] [31] [32] [33] [34]
+l.1645 
+       ] [32] [33] [34]
 <Code_Chunks/Beta_Low_Variance.pdf, id=497, 650.43pt x 505.89pt>
 File: Code_Chunks/Beta_Low_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_Low_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_Low_Variance.pdf  used on input line 
-1862.
+1878.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [35]
 <Code_Chunks/Beta_Medium_Variance.pdf, id=504, 650.43pt x 505.89pt>
 File: Code_Chunks/Beta_Medium_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_Medium_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_Medium_Variance.pdf  used on input li
-ne 1864.
+ne 1880.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 <Code_Chunks/Beta_High_Variance.pdf, id=505, 650.43pt x 505.89pt>
 File: Code_Chunks/Beta_High_Variance.pdf Graphic file (type pdf)
 <use Code_Chunks/Beta_High_Variance.pdf>
 Package pdftex.def Info: Code_Chunks/Beta_High_Variance.pdf  used on input line
- 1866.
+ 1882.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [36 <./Code_Chunks/Beta_Low_Variance.pdf> <./Code_Chunks/Beta_Medium_Variance.p
 df>] [37pdfTeX warning (ext4): destination with the same identifier (name{table
@@ -876,81 +876,81 @@ df>] [37pdfTeX warning (ext4): destination with the same identifier (name{table
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1948 
+l.1964 
         <./Code_Chunks/Beta_High_Variance.pdf>]
 <Beta_Low_Variance_neg.pdf, id=541, 650.43pt x 505.89pt>
 File: Beta_Low_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_Low_Variance_neg.pdf>
-Package pdftex.def Info: Beta_Low_Variance_neg.pdf  used on input line 2021.
+Package pdftex.def Info: Beta_Low_Variance_neg.pdf  used on input line 2037.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [38pdfTeX warning (ext4): destination with the same identifier (name{table.9}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2021 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{table.10}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2021 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{table.11}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2021 ...dth]{Beta_Low_Variance_neg} \end{center}
+l.2037 ...dth]{Beta_Low_Variance_neg} \end{center}
                                                   ]
 <Beta_Medium_Variance_neg.pdf, id=550, 650.43pt x 505.89pt>
 File: Beta_Medium_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_Medium_Variance_neg.pdf>
-Package pdftex.def Info: Beta_Medium_Variance_neg.pdf  used on input line 2023.
+Package pdftex.def Info: Beta_Medium_Variance_neg.pdf  used on input line 2039.
 
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 <Beta_High_Variance_neg.pdf, id=551, 650.43pt x 505.89pt>
 File: Beta_High_Variance_neg.pdf Graphic file (type pdf)
 <use Beta_High_Variance_neg.pdf>
-Package pdftex.def Info: Beta_High_Variance_neg.pdf  used on input line 2025.
+Package pdftex.def Info: Beta_High_Variance_neg.pdf  used on input line 2041.
 (pdftex.def)             Requested size: 328.67793pt x 255.63838pt.
 [39 <./Beta_Low_Variance_neg.pdf> <./Beta_Medium_Variance_neg.pdf>]
 <Plot_Simulation_CR.pdf, id=572, 505.89pt x 505.89pt>
 File: Plot_Simulation_CR.pdf Graphic file (type pdf)
 <use Plot_Simulation_CR.pdf>
-Package pdftex.def Info: Plot_Simulation_CR.pdf  used on input line 2063.
+Package pdftex.def Info: Plot_Simulation_CR.pdf  used on input line 2079.
 (pdftex.def)             Requested size: 309.3412pt x 309.3412pt.
 [40pdfTeX warning (ext4): destination with the same identifier (name{table.12})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.2063 ...ewidth]{Plot_Simulation_CR} \end{center}
+l.2079 ...ewidth]{Plot_Simulation_CR} \end{center}
                                                    <./Beta_High_Variance_neg.pd
 f>] [41 <./Plot_Simulation_CR.pdf>] [42]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2167.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2179.
 [43]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2179.
 (./Bachelor_Writing.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2167.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2167.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2179.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2179.
 
 Package rerunfilecheck Info: File `Bachelor_Writing.out' has not changed.
-(rerunfilecheck)             Checksum: AB426AD925D1C099FB089D631A3421FE;5652.
+(rerunfilecheck)             Checksum: 76E7498A988D75F99A8C04CD4372CA31;5652.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2167.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2179.
  ) 
 Here is how much of TeX's memory you used:
- 12278 strings out of 482411
- 179507 string characters out of 5945734
- 447597 words of memory out of 5000000
- 27643 multiletter control sequences out of 15000+600000
+ 12253 strings out of 482399
+ 179271 string characters out of 5945355
+ 447800 words of memory out of 5000000
+ 27650 multiletter control sequences out of 15000+600000
  581735 words of font info for 53 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 34i,13n,37p,435b,404s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,13n,37p,435b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
 nc}{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
 hsy.enc}{c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
@@ -974,10 +974,10 @@ Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb>
 <c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.
 pfb><c:/Users/anton/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on Bachelor_Writing.pdf (43 pages, 1036431 bytes).
+Output written on Bachelor_Writing.pdf (43 pages, 1039656 bytes).
 PDF statistics:
- 742 PDF objects out of 1000 (max. 8388607)
- 628 compressed objects within 7 object streams
- 155 named destinations out of 1000 (max. 500000)
+ 720 PDF objects out of 1000 (max. 8388607)
+ 606 compressed objects within 7 object streams
+ 135 named destinations out of 1000 (max. 500000)
  364 words of extra memory for PDF output out of 10000 (max. 10000000)
 
